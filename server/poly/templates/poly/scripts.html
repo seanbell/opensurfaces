@@ -1,0 +1,15 @@
+{% load compress %}
+{% compress js %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.hotkeys.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/kinetic-v4.3.3.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/delaunay.js"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/util.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/geom.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/actions.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/active_timer.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/poly/actions.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/poly/controller_state.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/poly/controller_ui.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/poly/stage_ui.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/poly/polygon_ui.coffee"></script>
+{% endcompress %}

@@ -1,0 +1,25 @@
+{% extends "mturk/base_responsive.html" %}
+{% load humanize %}
+
+{% block content %}
+
+{% include "mturk/webgl_compatible_msg.html" %}
+
+<div class="page-header">
+	<h2>Drag the grid so that it lies flat against the surface.</h2>
+</div>
+
+<h2>Instructions</h2>
+{% include instructions %}
+
+{% comment %}
+<br/>
+<h2>These will be your shapes for the task:</h2>
+{% include "mturk/content_preview_grid.html" %}
+{% endcomment %}
+
+{% endblock content %}
+
+{% block scripts %}{{ block.super }}
+{% include "mturk/webgl_compatible_scripts.html" %}
+{% endblock %}

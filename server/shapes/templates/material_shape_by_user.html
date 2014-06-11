@@ -1,0 +1,11 @@
+{% extends "material_shape_base.html" %}
+
+{% block content %}
+<section id="sec-main">
+	{% if users %}
+		{% include page_template %}
+	{% else %}
+		No users are available.
+	{% endif %}
+</section>
+{% endblock content %}

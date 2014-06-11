@@ -1,0 +1,33 @@
+<script type="text/javascript" src="{{ STATIC_URL }}js/Detector.js"></script>
+<script type="text/javascript">
+$(function() {
+if (!Detector.webgl) {
+	$('#webgl-message').html(Detector.getWebGLErrorMessage());
+
+	if (!$.browser.webkit) {
+		$('#install-chrome').html("Please try installing the newest version of <a href='http://www.google.com/chrome'>Chrome</a>.");
+	}
+
+	$('#needs-webgl').show();
+
+	$.ajax({
+      type: 'POST',
+	  url: "{% url 'mturk-external-incompatible' hit.id %}",
+	  data: {},
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+	  success: function(data, status, jqxhr) {},
+	  error: function(){},
+	});
+} else {
+	$.ajax({
+      type: 'POST',
+	  url: "{% url 'mturk-external-compatible' hit.id %}",
+	  data: {},
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+	  success: function(data, status, jqxhr) {},
+	  error: function(){},
+	});
+}});
+</script>

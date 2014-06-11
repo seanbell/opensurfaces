@@ -1,0 +1,17 @@
+{% comment %}
+	General modal dialog for loading confirmation
+	Usage: call show_modal_loading("Loading...", 1000)
+		   to show a message after timeout milliseconds
+		   and hide_modal_loading() to cancel/hide
+{% endcomment %}
+
+<div class="modal hide" id="modal-loading" tabindex="-1" role="dialog" aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-header">
+		<h3 id="modal-loading-label"></h3>
+	</div>
+	<div class="modal-body">
+		<div class="progress progress-striped active">
+			<div class="bar" style="width: 100%;">Please Wait</div>
+		</div>
+	</div>
+</div>

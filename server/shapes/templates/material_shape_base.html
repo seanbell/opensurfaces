@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load compress %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Material Segmentations</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block subnav %}
+<div class="container">
+<div id="subnav">
+	<ul class="nav nav-pills">
+		<li {% ifequal subnav "by-vertices" %}class="active"{% endifequal %}>
+			<a href="{% url 'material-shape-by-vertices' %}">Vertices</a>
+		</li>
+		<li {% ifequal subnav "by-time" %}class="active"{% endifequal %}>
+			<a href="{% url 'material-shape-by-time' %}">Time</a>
+		</li>
+		<li {% ifequal subnav "by-quality" %}class="active"{% endifequal %}>
+			<a href="{% url 'material-shape-by-quality' %}">Segmentation Quality</a>
+		</li>
+		<li {% ifequal subnav "by-planarity" %}class="active"{% endifequal %}>
+			<a href="{% url 'material-shape-by-planarity' %}">Planarity</a>
+		</li>
+		{% if request.user.is_staff %}
+		<li {% ifequal subnav "curate-planarity" %}class="active"{% endifequal %}>
+			<a href="{% url 'material-shape-curate-planarity' %}">Curate Planarity</a>
+		</li>
+		{% endif %}
+		<li {% ifequal subnav "by-substance" %}class="active"{% endifequal %}>
+			<a href="{% url 'material-shape-by-substance' %}">Material Name</a>
+		</li>
+		<li {% ifequal subnav "by-name" %}class="active"{% endifequal %}>
+			<a href="{% url 'material-shape-by-name' %}">Object Name</a>
+		</li>
+		<li {% ifequal subnav "all" %}class="active"{% endifequal %}>
+			<a href="{% url 'material-shape-all' %}">All</a>
+		</li>
+		<li {% ifequal subnav "by-rejected" %}class="active"{% endifequal %}>
+			<a href="{% url 'material-shape-by-rejected' %}">Rejected</a>
+		</li>
+		<li {% ifequal subnav "by-synthetic" %}class="active"{% endifequal %}>
+			<a href="{% url 'material-shape-by-synthetic' %}">Synthetic</a>
+		</li>
+		{% comment %}
+		<li {% ifequal subnav "by-user" %}class="active"{% endifequal %}>
+			<a href="{% url 'material-shape-by-user' %}">User</a>
+		</li>
+		{% endcomment %}
+		{% comment %}
+		<li {% ifequal subnav "rectified" %}class="active"{% endifequal %}>
+			<a href="{% url 'material-shape-rectified' %}">Rectified</a>
+		</li>
+		{% endcomment %}
+		<li {% ifequal subnav "stats-all" %}class="active"{% endifequal %}>
+			<a href="{% url 'material-shape-stats-all' %}">Statistics</a>
+		</li>
+	</ul>
+</div>
+</div>
+<div id="subnav-after"></div>
+{% endblock %}
+
+{% block scripts %}{{ block.super }}
+{% include "entry_scripts.html" %}
+{% endblock %}

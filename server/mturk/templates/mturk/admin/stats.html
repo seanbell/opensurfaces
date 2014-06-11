@@ -1,0 +1,102 @@
+{% extends "base_sidenav.html" %}
+{% load compress %}
+
+{% block css %}{{ block.super }}
+{% include "d3_css.html" %}
+{% endblock %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>MTurk Statistics</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block sidenav %}
+<div class="well well-nav">
+	<ul class="nav nav-list">
+		<li class="nav-header">Experiments</li>
+		{% for c in categories %}
+		<li{% ifequal category_slug c.slug %} class="active"{% endifequal %}>
+			<a href="{% url 'mturk-admin-stats' c.slug %}">{{ c.slug }}</a>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="table" class="chart-row" style="min-height:700px">
+	{% include table_template %}
+</div>
+
+<div id="loading" class="chart-row" style="min-height:216px">
+{% comment %}
+	<div class="progress progress-striped active">
+		<div class="bar" style="width: 100%;">Loading...</div>
+	</div>
+{% endcomment %}
+</div>
+
+<div class="hidden" id="stats-csv" data-url="{{ stats_csv_url }}">
+
+	<div class="row chart-row">
+		<div class="span9">
+			<div id="time-s-chart">
+				<span class="chart-title">Time (s)</span>
+				<button type=button id="time-s-reset" class="reset btn" style="display:none;">reset</button>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row chart-row">
+		<div class="span9">
+			<div id="wage-chart">
+				<span class="chart-title">Effective Wage ($/hr)</span>
+				<button type=button id="wage-reset" class="reset btn" style="display:none;">reset</button>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row chart-row">
+		<div class="span9">
+			<div id="time-load-ms-chart">
+				<span class="chart-title">Load Time (ms)</span>
+				<button type=button id="time-load-ms-reset" class="reset btn" style="display:none;">reset</button>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="span9">
+			<p>(-2000 indicates that the load time was not measured)</p>
+		</div>
+	</div>
+
+	<div class="row" style="margin-top:20px">
+		<div class="span9">
+			<div id="data-count">
+				<code><span class="filter-count"></span></code> selected out of <code><span class="total-count"></span></code> assignments.
+				<button type=button id="reset-all" class="reset btn">reset all</button>
+			</div>
+		</div>
+	</div>
+
+</div>
+{% endblock content %}
+
+{% block scripts %}{{ block.super }}
+<script type="text/javascript">
+	window.category_slug = "{{ category_slug }}";
+	window.table_url = "{% url 'mturk-admin-stats-table' category_slug %}";
+</script>
+{% include "d3_scripts.html" %}
+{% compress js %}
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/mturk/admin/stats.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/async_table.coffee"></script>
+{% endcompress %}
+{% endblock %}

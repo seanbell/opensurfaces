@@ -1,0 +1,10 @@
+triangulate
+-----------
+
+Requirements: `CGAL >= 4.1, < 5`
+
+To build: `./build.sh`
+
+This takes the polygons provided by users and outputs a list of complex
+polygons that do not overlap.  Each polygon is represented as a bag of 2D
+triangles (filled area) and poly-lines (boundary).

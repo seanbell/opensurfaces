@@ -1,0 +1,68 @@
+<p><i>Added</i>: {{ entry.added }}</p>
+
+<p><i>Status</i>: <span class="label{% with entry.status_class_css as cls %}{% if cls %} label-{{ cls }}{% endif %}{% endwith %}">{{ entry.status_str }}</span></p>
+
+{% if entry.approve_message %}
+<p><i>Approve message</i>: "{{ entry.approve_message }}"</p>
+{% endif %}
+
+{% if entry.reject_message %}
+<p><i>Reject message</i>: "{{ entry.reject_message }}"</p>
+{% endif %}
+
+<p><i>Time</i>: {{ entry.time_s }} s</p>
+
+{% if entry.time_active_ms %}
+	<p><i>Active time</i>: {{ entry.time_active_s }} s ({{ entry.time_active_percent }}%)</p>
+{% endif %}
+
+{% if entry.time_load_ms %}
+	<p><i>Load time</i>: {{ entry.time_load_s|floatformat:"2" }} s</p>
+{% endif %}
+
+{% if entry.wage %}
+	<p><i>Effective wage</i>: ${{ entry.wage|floatformat:"2" }}/hr</p>
+{% endif %}
+
+{% if entry.bonus %}
+	<p><i>Bonus</i>: ${{ entry.bonus }}</p>
+{% endif %}
+
+{% if entry.bonus_message %}
+	<p><i>Bonus message</i>: "{{ entry.bonus_message }}"</p>
+{% endif %}
+
+<p><i>Reward</i>: ${{ entry.hit.hit_type.reward|floatformat:2 }}</p>
+
+{% if entry.has_feedback %}
+	<p><i>Feedback bonus given</i>: {{ entry.feedback_bonus_given }}</p>
+{% endif %}
+
+{% if entry.user_agent %}
+	{% with ua=entry.user_agent_parsed %}
+	<p><i>UA</i>: {{ ua.os.family }}, {% if ua.os.device %}{{ ua.os.device.family }},{% endif %} {{ ua.user_agent.family }} {{ ua.user_agent.major }}</p>
+	{% endwith %}
+{% endif %}
+
+{% if entry.screen_width %}
+	<p><i>Resolution</i>: {{ entry.screen_width }} x {{ entry.screen_height }}</p>
+{% endif %}
+
+<p><i>Sentinel accuracy</i>: {{ entry.test_accuracy_str }}</p>
+
+<p><i>Total sentinel accuracy</i>: {{ entry.experiment_worker.test_accuracy_str }}</p>
+
+<p><i>Worker ID</i>: <a href="?worker_id={{ entry.worker.mturk_worker_id }}">{{ entry.worker.mturk_worker_id }}</a></p>
+
+<p><i>Worker blocked</i>: {% if entry.worker.blocked %}<span class="label label-important">True</span>{% else %}False{% endif %}</p>
+
+{% if entry.worker.blocked_reason %}
+	<p><i>Block reason</i>: "{{ entry.worker.blocked_reason }}"</p>
+{% endif %}
+
+{% if entry.experiment_worker.blocked %}
+	<p><i>Experiment-worker blocked</i>: <span class="label label-important">True</span></p>
+	<p><i>Experiment-worker block reason</i>: "{{ entry.experiment_worker.blocked_reason }}"</p>
+{% endif %}
+
+<p><i>Assignment ID</i>: {{ entry.id }}</p>

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load compress %}
+{% load cache %}
+
+{% block content %}
+{% cache 600 photo-detail photo.id %}
+<div class="page-header">
+	<h1>Photo Detail</h1>
+</div>
+
+{# Pills navbar #}
+<div id="subnav" class="scrollspy-target" data-spinner="false">
+<ul class="nav nav-pills">
+	<li class="disabled"><a>Sections:</a></li>
+	{% for s in nav_sections %}
+	<li>
+		<a href="#section-{{ s.key }}">{{ s.name }}</a>
+	</li>
+	{% endfor %}
+</ul>
+</div>
+
+{# Photo sections: photo, shapes, vanishing points, etc #}
+{% for s in nav_sections %}
+<section id="section-{{ s.key }}">
+	{% include s.template with nav_section=s.key %}
+</section>
+{% endfor %}
+
+{% endcache %}
+{% endblock content %}
+
+{% block scripts %}{{ block.super }}
+{% include "photos/detail/vanishing_scripts.html" %}
+{% endblock %}

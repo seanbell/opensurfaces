@@ -1,0 +1,21 @@
+<svg version="1.2" class="fix-aspect intrnisic-display" data-id="{{ entry.id }}" data-aspect="{{ entry.aspect_ratio }}" viewBox="0 0 {{ entry.aspect_ratio }} 1" style="width:100%">
+	<image x="0" y="0" width="{{ entry.aspect_ratio }}" height="1" xlink:href="{% if large %}{{ entry.image_1024.url }}{% else %}{{ entry.image_512.url }}{% endif %}"/>
+	{% for t in density.comparisons %}
+		<a xlink:href="{% url 'intrinsic-comparison-detail' t.id %}">
+			{% if t.darker %}
+				<path class="int-vec int-comp-{{ t.darker}} nss" d="{{ t.svg_path }}" style="{{ t.svg_style }}" data-ratio="{{ t.synthetic_diff_intensity_ratio }}" />
+			{% else %}
+				<path class="int-unk nss" d="{{ t.svg_path }}" />
+			{% endif %}
+		</a>
+	{% endfor %}
+	{% for ip in density.points %}
+		{% if ip.opaque %}
+			<circle class="int-display0 nss" cx="{{ ip.x_aspect }}" cy="{{ ip.y }}" r="0.015" />
+			<circle class="int-display1 nss" cx="{{ ip.x_aspect }}" cy="{{ ip.y }}" r="0.015" />
+		{% else %}
+			<circle class="int-mot0 nss" cx="{{ ip.x_aspect }}" cy="{{ ip.y }}" r="0.015" />
+			<circle class="int-mot1 nss" cx="{{ ip.x_aspect }}" cy="{{ ip.y }}" r="0.015" />
+		{% endif %}
+	{% endfor %}
+</svg>

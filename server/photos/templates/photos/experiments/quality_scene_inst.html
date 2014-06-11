@@ -1,0 +1,31 @@
+{% extends "mturk/base_responsive.html" %}
+{% load humanize %}
+
+{% block content %}
+<section id="sec-main">
+
+<div class="page-header">
+	<h2>For this task, you will click on pictures that match their category label.</h2>
+</div>
+
+<h4>Occasionally there might be adult or disturbing content.  Please do not click on these images.</h4>
+
+<p>We are looking for unedited color photographs of various indoor scenes.</p>
+
+<p>To be more specific, please <i>exclude</i> (do not select) the following:</p>
+<ul>
+	<li>Rotated photos (overhead view is fine)</li>
+	<li>Black-and-white or sepia-tone photos</li>
+	<li>Photos with special effects or text on top</li>
+	<li>Very blurry photos</li>
+	<li>Rooms under construction</li>
+	<li>Toy models of a scene</li>
+	<li>Naked people or sexual poses</li>
+	<li>Pictures of mostly people, where you can't really see the scene.</li>
+</ul>
+
+<p>If you cannot tell, don't select the photo.  Please do not guess.</p>
+
+{% include instructions %}
+
+{% endblock content %}

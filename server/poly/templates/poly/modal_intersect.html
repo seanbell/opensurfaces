@@ -1,0 +1,32 @@
+{% load humanize %}
+
+<div class="modal hide fade" id="poly-modal-intersect" tabindex="-1" role="dialog"
+	aria-labelledby="modal-intersect-label" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true">&times;</button>
+		<h3 id="poly-modal-intersect-label">Not a valid polygon!</h3>
+	</div>
+	<div class="modal-body">
+		<p>Polygons must contain at least
+		<strong>{{ min_vertices|apnumber }}</strong>
+		points and cannot intersect themselves.  Try adding more points so
+		that the first and last point can connect.</p>
+
+		<div class="thumbnail span2">
+			<img src="{{ STATIC_URL }}img/poly/bad-close.jpg" alt=""/>
+			<p class="mt-caption">This polygon cannot close.</p>
+		</div>
+		<div class="thumbnail span2">
+			<img src="{{ STATIC_URL }}img/poly/bad-vertex.jpg" alt=""/>
+			<p class="mt-caption">This edge cannot be added.</p>
+		</div>
+		<div class="thumbnail span2">
+			<img src="{{ STATIC_URL }}img/poly/good-close.jpg" alt=""/>
+			<p class="mt-caption">This polygon can be closed.</p>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+	</div>
+</div>

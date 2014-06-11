@@ -1,0 +1,88 @@
+<div class="well">
+	<div class="row-fluid">
+		<div class="span6">
+			<a href="{{ photo.image_orig.url }}" role="button" class="btn btn-block" target="_blank"><i class="icon-resize-full"></i> <br/> Full resolution</a>
+		</div>
+		<div class="span6">
+			{% if photo.flickr_user %}
+			<a href="http://www.flickr.com/photos/{{ photo.flickr_user.username }}/{{ photo.flickr_id }}/" role="button" class="btn btn-block" target="_blank"><i class="icon-flickr"></i> <br/> View on Flickr</a>
+			{% endif %}
+		</div>
+	</div>
+
+	<hr/>
+
+	<p><b>Added:</b> {{ photo.added }}</p>
+
+	{% if photo.inappropriate %}
+		<p><b>Flagged as: </b> <span class="label label-important">Inappropriate</span></p>
+	{% endif %}
+	{% if photo.nonperspective %}
+		<p><b>Flagged as: </b> <span class="label label-important">Nonperspective</span></p>
+	{% endif %}
+	{% if photo.stylized %}
+		<p><b>Flagged as: </b> <span class="label label-important">Stylized</span></p>
+	{% endif %}
+	{% if photo.rotated %}
+		<p><b>Flagged as: </b> <span class="label label-important">Rotated</span></p>
+	{% endif %}
+
+	{% if not photo.flickr_user %}
+		<p><b>User:</b> {{ photo.user }}</p>
+	{% endif %}
+
+	{% if intrinsic_synthetic %}
+		<p><b>Scene artist:</b> {{ intrinsic_synthetic.scene_artist }}</p>
+	{% endif %}
+
+	{% if photo.fov %}
+		<p><b>FOV:</b> {{ photo.fov|floatformat:"3" }}&deg; (larger dimension)</p>
+	{% endif %}
+
+	{% if photo.focal_y %}
+		<p><b>Focal length:</b> {{ photo.focal_y|floatformat:"3" }} &times; height</p>
+	{% endif %}
+
+	<p>
+		<b>Scene: </b>
+		{% if photo.scene_category %}
+		<a href="{% url 'photo-by-category' photo.scene_category_id %}">{{ photo.scene_category.name }}</a>
+		{% else %}
+		Unknown
+		{% endif %}
+	</p>
+	<p>
+		<b>Scene correct: </b>
+		{% if photo.scene_category %}
+		{{ photo.scene_category_correct }}{% if photo.scene_category_correct_method == 'A' %} (set by Admin){% endif %}
+		{% else %}
+		N/A
+		{% endif %}
+	</p>
+	<p>
+		<b>Whitebalanced: </b>
+		{% if photo.whitebalanced != None %}
+		{{ photo.whitebalanced }}
+		{% else %}
+		Unknown
+		{% endif %}
+	</p>
+
+	<hr/>
+
+	{% for v in votes %}
+	{% include "votes_bar.html" with bar=v %}
+		<hr/>
+	{% endfor %}
+
+	{% if photo.flickr_user %}
+		<p><b>Flickr user: </b><a href="http://www.flickr.com/photos/{{ photo.flickr_user.username }}/">{{ photo.flickr_user.username }}</a></p>
+		<p><b>Flickr ID:</b> {{ photo.flickr_id }}</p>
+	{% endif %}
+
+	{% include "license_inline.html" with license=photo.license %}
+
+	{% if intrinsic_synthetic and intrinsic_synthetic.scene_url %}
+	<a href="{{ intrinsic_synthetic.scene_url }}" role="button" class="btn btn-block" target="_blank">View scene source</a>
+	{% endif %}
+</div>

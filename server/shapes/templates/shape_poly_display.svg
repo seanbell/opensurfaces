@@ -1,0 +1,17 @@
+{# Display a polygon, cropped to its padded bounding box (pbox) #}
+
+{% with entry.segments_svg_path as path_d %}
+<div class="hover-toggle">
+
+<svg class="show-on-mouseout fix-aspect" version="1.2" data-aspect="{{ entry.pbox_aspect_ratio }}" viewBox="0 0 {{ entry.pbox_aspect_ratio }} 1" style="width:100%">
+	<image x="0" y="0" width="{{ entry.pbox_aspect_ratio }}" height="1" xlink:href="{% if large %}{{ entry.image_pbox_1024.url }}{% else %}{{ entry.image_pbox_512.url }}{% endif %}"/>
+	<path class="poly-display-segments nss" transform="{{ entry.pbox_svg_transform }}" d="{{ path_d|safe }}"/>
+</svg>
+
+<svg class="show-on-mouseover" version="1.2" viewBox="0 0 {{ entry.photo.aspect_ratio }} 1" style="display:none">
+	<image x="0" y="0" width="{{ entry.photo.aspect_ratio }}" height="1" xlink:href="{% if large %}{{ entry.photo.image_1024.url }}{% else %}{{ entry.photo.image_512.url }}{% endif %}"/>
+	<path class="poly-display-segments nss" transform="scale({{ entry.photo.aspect_ratio }},1)" d="{{ path_d|safe }}"/>
+</svg>
+
+</div>
+{% endwith %}

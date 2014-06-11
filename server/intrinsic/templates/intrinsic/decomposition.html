@@ -1,0 +1,67 @@
+{% with algorithm=entry.algorithm %}
+<h4>Algorithm: {{ algorithm.slug }}</h4>
+
+<div class="row-fluid" style="margin-bottom:10px">
+	<div class="span4">
+		<div class="thumbnail">
+			<div class="overlay-wrapper">
+				<img src="{{ entry.reflectance_image.url }}" alt=""/>
+				<div class="overlay-container">
+					<p class="overlay-content">Reflectance</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<div class="overlay-wrapper">
+				<img src="{{ entry.reflectance_image.url }}" class="grayscale" alt=""/>
+				<div class="overlay-container">
+					<p class="overlay-content">Grayscale Reflectance</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<div class="overlay-wrapper">
+				<img src="{{ entry.shading_image.url }}" alt=""/>
+				<div class="overlay-container">
+					<p class="overlay-content">Shading</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% if algorithm.citation %}
+<div class="row-fluid">
+	<div class="span12">
+		<p>Citation:</p>
+		<div class="well">{{ algorithm.citation.citation_html|safe }}</div>
+	</div>
+</div>
+{% endif %}
+
+<div class="row-fluid">
+	<div class="span4">
+		<p>Parameters: {{ algorithm.parameters_pretty_html|safe }}</p>
+	</div>
+	<div class="span8">
+		<p>Result:
+			<ul>
+				<li>Weighted human disagreement rate (WHDR): {{ entry.mean_error_pretty }} (&delta;: {{ entry.error_comparison_thresh }})</li>
+				<li>WHDR for equal edges only: {{ entry.mean_eq_error|floatformat:4 }}</li>
+				<li>WHDR for inequalities only: {{ entry.mean_neq_error|floatformat:4 }}</li>
+				<li>Runtime: {{ entry.runtime|floatformat:1 }} s</li>
+			</ul>
+		</p>
+	</div>
+</div>
+
+<div class="row-fluid">
+	<div class="span12">
+		<span class="pull-right"><a href="{% url "intrinsic-decomposition-by-algorithm" algorithm.id %}">View all decompositions with these parameters.</a></span>
+	</div>
+</div>
+{% endwith %}

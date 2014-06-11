@@ -1,0 +1,24 @@
+{# Display an intrinsic image comparison #}
+
+{% with c=entry.comparison %}
+{% with photo=c.photo p1=c.point1 p2=c.point2 %}
+<svg version="1.2" class="fix-aspect" data-aspect="{{ c.view_box_aspect }}" viewBox="{{ c.view_box_svg }}" preserveAspectRatio="xMidYMin meet" style="width:100%">
+{% comment %}
+	<image x="0" y="0" width="{{ photo.aspect_ratio }}" height="1" xlink:href="{% if large %}{{ photo.image_1024.url }}{% else %}{{ photo.image_512.url }}{% endif %}"/>
+{% endcomment %}
+	<image x="0" y="0" width="{{ photo.aspect_ratio }}" height="1" xlink:href="{{ photo.image_2048.url }}"/>
+	{% if entry.darker == "1" %}
+		<circle class="int-display int-darker nss" cx="{{ p1.x_aspect }}" cy="{{ p1.y }}" r="0.01" />
+		<circle class="int-display int-lighter nss" cx="{{ p2.x_aspect }}" cy="{{ p2.y }}" r="0.01" />
+	{% elif entry.darker == "2" %}
+		<circle class="int-display int-lighter nss" cx="{{ p1.x_aspect }}" cy="{{ p1.y }}" r="0.01" />
+		<circle class="int-display int-darker nss" cx="{{ p2.x_aspect }}" cy="{{ p2.y }}" r="0.01" />
+	{% elif entry.darker == "E" %}
+		<circle class="int-display int-equal nss" cx="{{ p1.x_aspect }}" cy="{{ p1.y }}" r="0.01" />
+		<circle class="int-display int-equal nss" cx="{{ p2.x_aspect }}" cy="{{ p2.y }}" r="0.01" />
+	{% endif %}
+	<text class="int-text nss" x="{{ p1.x_aspect }}" y="{{ p1.y }}" transform="translate(0,0.005)">1</text>
+	<text class="int-text nss" x="{{ p2.x_aspect }}" y="{{ p2.y }}" transform="translate(0,0.005)">2</text>
+</svg>
+{% endwith %}
+{% endwith %}

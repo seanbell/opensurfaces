@@ -1,0 +1,42 @@
+{% extends "base_sidenav.html" %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Scheduled Objects</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block sidenav %}
+<div class="well well-nav">
+	<ul class="nav nav-list">
+		<li class="nav-header">Experiments</li>
+		{% for c in categories %}
+		<li{% ifequal category_slug c.slug %} class="active"{% endifequal %}>
+			<a href="{% url 'mturk-admin-pending-content' c.slug filter_key %}">{{ c.slug }} ({{ c.count }})</a>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="subnav">
+<ul class="nav nav-pills">
+	{% for f in filters %}
+	<li{% ifequal filter_key f.key %} class="active"{% endifequal %}>
+		<a href="{% url 'mturk-admin-pending-content' category_slug f.key %}">
+			{{ f.slug }} ({{ f.count }})
+		</a>
+	</li>
+	{% endfor %}
+</ul>
+</div>
+<div id="subnav-after"></div>
+{% include page_template %}
+{% endblock %}
+
+{% block scripts %}{{ block.super }}
+{% include "entry_scripts.html" %}
+{% endblock %}

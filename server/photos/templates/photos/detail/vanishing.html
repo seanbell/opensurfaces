@@ -1,0 +1,24 @@
+<h2 style="margin-top:30px">Vanishing points</h2>
+{% if photo.vanishing_lines %}
+<p>Each color corresponds to one vanishing point.  Hover over the points on the right to see the full lines.</p>
+<div class="row">
+	<div class="span9">
+		<div class="thumbnail">
+			{% include "photos/vanishing_display.svg" with entry=photo large="True" %}
+		</div>
+	</div>
+	<div class="span3">
+		<div class="well well-nav">
+			<ul id="vp-list" class="nav nav-list">
+				<li class="nav-header">Vanishing Points</li>
+				{% for idx, p in photo.vanishing_vectors_enumerate %}
+				<li data-idx="{{ idx }}"><a href="#">{{ idx }}: [{{ p.0|floatformat:"6" }}, {{ p.1|floatformat:"6" }}, {{ p.2|floatformat:"6" }}]</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+{% else %}
+<p>No vanishing points are available.</p>
+{% endif %}
+

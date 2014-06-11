@@ -1,0 +1,9 @@
+<div id="outdated-browser-alert" class="alert alert-error" style="margin-top:20px; display:none">
+	<p>You are using an outdated browser. Please <a class="btn" href="http://www.google.com/chrome/">upgrade your browser</a></p>
+</div>
+{% for message in messages %}
+    <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+{% endfor %}

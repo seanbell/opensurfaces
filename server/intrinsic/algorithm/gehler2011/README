@@ -1,0 +1,12 @@
+Recovering Intrinsic Images with a Global Sparsity Prior on Reflectance
+=======================================================================
+
+Change to the folder `src' and execute `main.m' with MATLAB to see an example
+run.
+
+Contanct Martin Kiefel <martin.kiefel@tuebingen.mpg.de> if you have any further
+questions.
+
+Our code is released under the BSD3 license for research purposes only.
+
+Version 1.2

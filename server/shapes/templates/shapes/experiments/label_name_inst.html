@@ -1,0 +1,22 @@
+{% extends "mturk/base_responsive.html" %}
+{% load humanize %}
+
+{% block content %}
+<section id="sec-main">
+
+<div class="page-header">
+	<h2>Select the common English <i>name</i> of an object in an image.</h2>
+</div>
+
+<div class="page-header">
+	<h1>Instructions</h1>
+</div>
+{% include instructions %}
+
+{% comment %}
+<br/>
+<h2>These will be your objects:</h2>
+{% include "mturk/content_preview_grid.html" %}
+{% endcomment %}
+
+{% endblock content %}

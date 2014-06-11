@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load compress %}
+
+{% block css %}{{ block.super }}
+<style>
+.score3 {
+	background-color: #0673b1; border: 1px solid #0673b1;
+	-webkit-box-shadow: 0px 0px 5px #0673b1;
+		-moz-box-shadow: 0px 0px 5px #0673b1;
+			box-shadow: 0px 0px 5px #0673b1;
+}
+.score2 {
+	background-color: #06b173; border: 1px solid #06b173;
+	-webkit-box-shadow: 0px 0px 5px #06b173;
+		-moz-box-shadow: 0px 0px 5px #06b173;
+			box-shadow: 0px 0px 5px #06b173;
+}
+.score1 {
+	background-color: #777777; border: 1px solid #777777;
+	-webkit-box-shadow: 0px 0px 5px #777777;
+		-moz-box-shadow: 0px 0px 5px #777777;
+			box-shadow: 0px 0px 5px #777777;
+}
+.score0 {
+}
+.score-1 {
+	opacity: 0.5;
+}
+.score-2 {
+	background-color: #c53333; border: 1px solid #c53333;
+	-webkit-box-shadow: 0px 0px 5px #c53333;
+		-moz-box-shadow: 0px 0px 5px #c53333;
+			box-shadow: 0px 0px 5px #c53333;
+	opacity: 0.5;
+}
+</style>
+{% endblock %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		{% comment %}<h1>BSDFs ({{ v }})</h1>{% endcomment %}
+		<h1>Reflectances</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block subnav %}
+<div class="container">
+<div id="subnav">
+	<ul class="nav nav-pills">
+		<li {% ifequal subnav "good" %}class="active"{% endifequal %}>
+			<a href="{% url 'bsdf-good' v %}">High quality</a>
+		</li>
+		<li {% ifequal subnav "bad" %}class="active"{% endifequal %}>
+			<a href="{% url 'bsdf-bad' v %}">Low quality</a>
+		</li>
+		<li {% ifequal subnav "failed" %}class="active"{% endifequal %}>
+			<a href="{% url 'bsdf-failed' v %}">Failed</a>
+		</li>
+		<li {% ifequal subnav "all" %}class="active"{% endifequal %}>
+			<a href="{% url 'bsdf-all' v %}">All</a>
+		</li>
+		{% comment %}
+		<li {% ifequal subnav "vote" %}class="active"{% endifequal %}>
+			<a href="{% url 'bsdf-wd-voted-none' %}">Needs Voting</a>
+		</li>
+		<li {% ifequal subnav "voted-yes" %}class="active"{% endifequal %}>
+			<a href="{% url 'bsdf-wd-voted-yes' %}">Voted Yes</a>
+		</li>
+		<li {% ifequal subnav "voted-no" %}class="active"{% endifequal %}>
+			<a href="{% url 'bsdf-wd-voted-no' %}">Voted No</a>
+		</li>
+		{% endcomment %}
+		{% comment %}
+		<li {% ifequal subnav "stats-all" %}class="active"{% endifequal %}>
+			<a href="{% url 'bsdf-stats-all' v %}">Statistics</a>
+		</li>
+		<li {% ifequal subnav "stats-across-users" %}class="active"{% endifequal %}>
+			<a href="{% url 'bsdf-stats-across-users' v %}">Statistics across users</a>
+		</li>
+		<li {% ifequal subnav "stats-across-shapes" %}class="active"{% endifequal %}>
+			<a href="{% url 'bsdf-stats-across-shapes' v %}">Statistics across shapes</a>
+		</li>
+		<li {% ifequal subnav "stats-by-shape" %}class="active"{% endifequal %}>
+			<a href="{% url 'bsdf-stats-by-shape' v %}">Statistics per shape</a>
+		</li>
+		{% endcomment %}
+	</ul>
+</div>
+</div>
+<div id="subnav-after"></div>
+{% endblock %}
+
+{% block scripts %}{{ block.super }}
+{% if enable_voting %}
+<script type="text/javascript">
+$(function () {
+	var set_score = function(t, s, post) {
+		t.removeClass('score' + t.attr('data-admin-score'));
+		t.attr('data-admin-score', s)
+		t.addClass('score' + s);
+		if (post) {
+			$.ajax({
+				type: 'POST',
+				url: "{% url 'bsdf-wd-vote' %}",
+				data: {'id': t.attr('data-id'), 'score': s},
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				success: function(data, status, jqxhr) {},
+				error: function(){ alert("Couldn't contact server.");},
+			});
+		}
+		if (s == 3) {
+			t.find('.score-display').text('Beautiful');
+		} else if (s == 2) {
+			t.find('.score-display').text('Gloss and color match');
+		} else if (s == 1) {
+			t.find('.score-display').text('Gloss matches');
+		} else if (s == 0) {
+			t.find('.score-display').text('________');
+		} else if (s == -1) {
+			t.find('.score-display').text('Bad');
+		} else if (s == -2) {
+			t.find('.score-display').text('Really bad');
+		}
+	}
+
+	var on_endless_update = function() {
+		$('.admin-score-thumbnail').each(function() {
+			var t = $(this);
+			t.removeClass('admin-score-thumbnail');
+
+			set_score(t, t.attr('data-admin-score'), false);
+
+			t.on('contextmenu', function() { return false; });
+
+			t.on('mousedown', function(e) {
+				var s = t.attr('data-admin-score');
+				if (s == 'None') {
+					s = 0;
+				} else {
+					s = Number(s);
+				}
+				if (e.which != 1) {
+					set_score(t, Math.max(-2, s - 1), true);
+				} else {
+					set_score(t, Math.min(3, s + 1), true);
+				}
+				return false;
+			});
+		});
+	};
+	$(document).on('endless-update', on_endless_update);
+	on_endless_update();
+});
+</script>
+{% endif %}
+
+{% include "entry_scripts.html" %}
+{% endblock %}

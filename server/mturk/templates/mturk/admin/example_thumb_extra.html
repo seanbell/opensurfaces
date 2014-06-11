@@ -1,0 +1,4 @@
+<div class="example-label cursor-pointer" data-id="{{ entry.id }}" data-good="{{ entry.good }}">
+	<span class="label label-success"{% if not entry.good %} style="display:none"{% endif %}>Positive Example</span>
+	<span class="label label-important"{% if entry.good %} style="display:none"{% endif %}>Negative Example</span>
+</div>

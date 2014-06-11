@@ -1,0 +1,116 @@
+{% load account_tags %}
+<div id='navbar-top' class='navbar navbar-fixed-top'>
+	<div class="navbar-inner">
+		<div class="container">
+			<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			{% if iiw %}
+				<a class="brand" href="{% url 'intrinsic-splash' %}">Intrinsic Images in the Wild</a>
+			{% else %}
+				<a class="brand" href="{% url 'home' %}">OpenSurfaces</a>
+			{% endif %}
+			<div class="nav-collapse collapse">
+				<ul class="nav">
+					<li class='dropdown{% ifequal nav "publications" %} active{% endifequal %}'>
+						<a href="#"><i class="icon-fixed-width icon-download-alt"></i> Publications <b class="caret"></b></a>
+
+						<ul class="dropdown-menu">
+							<li{% ifequal subnav "opensurfaces" %} class="active"{% endifequal %}>
+								<a href="{% url 'publications' 'opensurfaces' %}"><i class="icon-fixed-width icon-file"></i> OpenSurfaces [SIG13]</a>
+							</li>
+							<li{% ifequal subnav "intrinsic" %} class="active"{% endifequal %}>
+								<a href="{% url 'publications' 'intrinsic' %}"><i class="icon-fixed-width icon-file"></i> Intrinsic Images in the Wild [SIG14]</a>
+							</li>
+						</ul>
+					</li>
+
+					<li class='dropdown {% if "browse/" in nav %} active{% endif %}'>
+						<a href="#"><i class="icon-fixed-width icon-th"></i> Browse <b class="caret"></b></a>
+
+						<ul class="dropdown-menu">
+							<li class="nav-header">OpenSurfaces</li>
+							<li{% ifequal nav "browse/photo" %} class="active"{% endifequal %}>
+								<a href="{% url 'photo-by-category' %}"><i class="icon-fixed-width icon-picture"></i> Scenes</a>
+							</li>
+
+							<li{% ifequal nav "browse/substance" %} class="active"{% endifequal %}>
+								<a href="{% url 'substance-all' %}"><i class="icon-fixed-width icon-leaf"></i> Materials</a>
+							</li>
+
+							<li{% ifequal nav "browse/name" %} class="active"{% endifequal %}>
+								<a href="{% url 'name-all' %}"><i class="icon-fixed-width icon-plane"></i> Objects</a>
+							</li>
+
+							<li{% ifequal nav "browse/rectified-normal" %} class="active"{% endifequal %}>
+								<a href="{% url 'rectified-normal-best' %}"><i class="icon-fixed-width icon-road"></i> Textures</a>
+							</li>
+
+							<li{% ifequal nav "browse/bsdf-wd" %} class="active"{% endifequal %}>
+								<a href="{% url 'bsdf-good' "wd" %}"><i class="icon-fixed-width icon-tint"></i> Reflectances</a>
+							</li>
+
+							<li class="divider"></li>
+							<li class="nav-header">Intrinsic Images in the Wild</li>
+
+							<li{% ifequal nav "browse/intrinsic-photo-all" %} class="active"{% endifequal %}>
+								<a href="{% url 'intrinsic-photo-all' %}"><i class="icon-fixed-width icon-chevron-left"></i> Reflectance Judgements</a>
+							</li>
+							<li{% ifequal nav "browse/intrinsic-algorithm-all" %} class="active"{% endifequal %}>
+								<a href="{% url 'intrinsic-algorithm-all' %}"><i class="icon-fixed-width icon-sort-by-attributes-alt"></i> Intrinsic Image Evaluation</a>
+							</li>
+							<li{% ifequal nav "browse/intrinsic-decomposition" %} class="active"{% endifequal %}>
+								<a href="{% url 'intrinsic-decomposition-by-algorithm' 1141 %}"><i class="icon-fixed-width icon-copy"></i> Intrinsic Image Decompositions</a>
+							</li>
+						</ul>
+					</li>
+
+					{% if not iiw %}
+					<li{% ifequal nav "analytics" %} class="active"{% endifequal %}>
+						<a href="{% url 'analytics-material-shapes' %}"><i class="icon-fixed-width icon-bar-chart"></i> Statistics</a>
+					</li>
+					{% endif %}
+
+					<li{% ifequal nav "material-shape-search" %} class="active"{% endifequal %}>
+						<a href="{% url 'material-shape-search' %}"><i class="icon-fixed-width icon-search"></i> Search</a>
+					</li>
+
+					{% if user.is_staff %}
+					<li class='dropdown{% ifequal nav "mturk-admin" %} active{% endifequal %}'>
+						<a href="#"><i class="icon-fixed-width icon-group"></i> Mturk <b class="caret"></b></a>
+
+						<ul class="dropdown-menu">
+							<li{% ifequal subnav "experiments" %} class="active"{% endifequal %}>
+								<a href="{% url 'mturk-admin-experiments' %}"><i class="icon-fixed-width icon-home"></i> Experiments</a>
+							</li>
+							<li{% ifequal subnav "stats" %} class="active"{% endifequal %}>
+								<a href="{% url 'mturk-admin-stats' %}"><i class="icon-fixed-width icon-bar-chart"></i> Statistics</a>
+							</li>
+							<li{% ifequal subnav "submission" %} class="active"{% endifequal %}>
+								<a href="{% url 'mturk-admin-submission' %}"><i class="icon-fixed-width icon-inbox"></i> Submissions</a>
+							</li>
+							<li{% ifequal subnav "feedback" %} class="active"{% endifequal %}>
+								<a href="{% url 'mturk-admin-feedback' %}"><i class="icon-fixed-width icon-comment"></i> Feedback</a>
+							</li>
+							<li{% ifequal subnav "example" %} class="active"{% endifequal %}>
+								<a href="{% url 'mturk-admin-example' %}"><i class="icon-fixed-width icon-check"></i> Examples</a>
+							</li>
+							<li{% ifequal subnav "pending-content" %} class="active"{% endifequal %}>
+								<a href="{% url 'mturk-admin-pending-content' %}"><i class="icon-fixed-width icon-shopping-cart"></i> Scheduling</a>
+							</li>
+						</ul>
+					</li>
+					{% endif %}
+
+					{% block extra_navlinks %}{% endblock %}
+				</ul>
+
+				{% block navbar_right %}
+				{% include "account_navbar.html" %}
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+</div>

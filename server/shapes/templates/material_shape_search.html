@@ -1,0 +1,139 @@
+{% extends "base_sidenav.html" %}
+{% load cache %}
+{% load compress %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Search</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block sidenav %}
+{% cache 21600 material-shape-search-sidenav %}
+<div class="well">
+	<form id="search-form">
+		<fieldset>
+			<label>Material Name</label>
+			<select class="combobox" name="substance">
+				<option></option>
+				{% for c in substances.categories %}
+					<option value="{{ c.id }}">{{ c.name }}</option>
+				{% endfor %}
+				{% for c in substances.categories_fail %}
+					<option value="{{ c.id }}">{{ c.name }}</option>
+				{% endfor %}
+			</select>
+			<label class="control-label" style="margin-top: 10px">Object name</label>
+			<select class="combobox" name="name">
+				<option></option>
+				{% for c in names.categories %}
+					<option value="{{ c.id }}">{{ c.name }}</option>
+				{% endfor %}
+				{% for c in names.categories_fail %}
+					<option value="{{ c.id }}">{{ c.name }}</option>
+				{% endfor %}
+			</select>
+			<label class="control-label" style="margin-top: 10px">Scene Category</label>
+			<select class="combobox" name="photo__scene_category">
+				<option></option>
+				{% for c in scene_categories %}
+					<option value="{{ c.id }}">{{ c.name }}</option>
+				{% endfor %}
+			</select>
+			<hr/>
+			<label class="checkbox">
+				<input name="has_reflectance" class="trigger-change" type="checkbox"> Has reflectance</label>
+			</label>
+			<label class="checkbox">
+				<input name="has_texture" class="trigger-change" type="checkbox"> Has surface normal</label>
+			</label>
+			<hr/>
+			<label>Planar</label>
+			<div id="group-planar" class="btn-group trigger-click" data-toggle="buttons-radio" style="margin-bottom: 12px">
+				<button data-value="on"  type="button" class="btn">Yes</button>
+				<button data-value="off" type="button" class="btn">No</button>
+				<button data-value=""    type="button" class="btn active">Either</button>
+			</div>
+			<label>Whitebalanced</label>
+			<div id="group-whitebalanced" class="btn-group trigger-click" data-toggle="buttons-radio">
+				<button data-value="on"  type="button" class="btn">Yes</button>
+				<button data-value="off" type="button" class="btn">No</button>
+				<button data-value=""    type="button" class="btn active">Either</button>
+			</div>
+			<hr/>
+			<label>Gloss contrast</label>
+			<div id="slider-contrast" style="margin-bottom: 20px"></div>
+			<label>Gloss distinctness of image</label>
+			<div id="slider-doi"></div>
+			<hr/>
+			<label>Order by</label>
+			<label class="radio">
+				<input name="order_by" class="trigger-change" type="radio" value="num_vertices" checked="checked"> Vertex count</label>
+			</label>
+			<label class="radio">
+				<input name="order_by" class="trigger-change" type="radio" value="pixel_area"> Pixel area</label>
+			</label>
+			<label class="radio">
+				<input name="order_by" class="trigger-change" type="radio" value="time_active_ms"> Time spent</label>
+			</label>
+			<label class="radio">
+				<input name="order_by" class="trigger-change" type="radio" value="bsdf_wd__color_correct_score"> Color match score</label>
+			</label>
+			<label class="radio">
+				<input name="order_by" class="trigger-change" type="radio" value="bsdf_wd__gloss_correct_score"> Gloss match score</label>
+			</label>
+			{% comment %}
+				<hr/>
+				<button class="btn btn-primary" type="submit" id="btn-search">Search</button>
+			{% endcomment %}
+		</fieldset>
+	</form>
+</div>
+{% endcache %}
+{% endblock %}
+
+
+{% block content %}
+{% comment %}
+<div class="row-fluid" style="margin-bottom:10px">
+	<div class="page-header">
+		{% cache 300 count request.get_full_path %}
+		<p>Search result: {{ entries.count }} materials.</p>
+		{% endcache %}
+	</div>
+</div>
+{% endcomment %}
+<div class="row-fluid" style="margin-bottom:10px">
+	<div class="span2">
+		<p>Name</p>
+	</div>
+	<div class="span3">
+		<p>Segmentation</p>
+	</div>
+	<div class="span3">
+		<p>Context</p>
+	</div>
+	<div class="span2">
+		<p>Reflectance</p>
+	</div>
+	<div class="span2">
+		<p>Surface Normal</p>
+	</div>
+</div>
+<div id="results-loading" style="margin-bottom: 20px">
+	<i id="results-spinner" class="icon-spinner icon-spin loading-spinner icon-2x"></i>
+</div>
+<div id="results">
+{% comment %} {% include page_template %} {% endcomment %}
+</div>
+
+{% endblock %}
+
+{% block scripts %}{{ block.super }}
+{% include "entry_scripts.html" %}
+{% compress js %}
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/material_shape_search.coffee"></script>
+{% endcompress %}
+{% endblock %}

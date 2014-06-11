@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load compress %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>MTurk Submissions</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block subnav %}
+<div class="container">
+<div id="subnav">
+	<ul class="nav nav-pills">
+		<li class="dropdown" style="margin-right:30px">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#"><b class="caret"></b> Filter by experiment: {{ category.slug }} ({{ category.count }})</a>
+			<ul class="dropdown-menu">
+				{% for c in categories %}
+				<li{% ifequal category_slug c.slug %} class="active"{% endifequal %}>
+					<a href="{% url 'mturk-admin-submission' c.slug filter_key %}">{{ c.slug }} ({{ c.count }})</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</li>
+
+		{% for f in filters %}
+		<li{% ifequal filter_key f.key %} class="active"{% endifequal %}>
+			<a href="{% url 'mturk-admin-submission' category_slug f.key %}">{{ f.slug }} {% comment %}({{ f.count }}){% endcomment %}</a>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+</div>
+<div id="subnav-after"></div>
+{% endblock %}
+
+{% block content %}
+{% include page_template %}
+{% endblock %}
+
+{% block scripts %}{{ block.super }}
+<script type="text/javascript" src="{{ STATIC_URL }}js/json2.js"></script>
+{% compress js %}
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/mturk/admin/feedback.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/mturk/admin/submission.coffee"></script>
+{% endcompress %}
+
+{% include "entry_scripts.html" %}
+<script type="text/javascript">setTimeout(function() { $('a.endless_more').click()}, 10000);</script>
+{% endblock %}

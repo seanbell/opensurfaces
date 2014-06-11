@@ -1,0 +1,73 @@
+{% extends "mturk/experiments/filter_content_inst_content.html" %}
+
+{% block instructions_content_text %}
+<div class="row-fluid">
+	<div class="span12">
+		<p>For this task, &quot;rectified&quot; means:</p>
+		<ul>
+			<li>the blue arrow points away from the surface,</li>
+			<li>the green grid are parallel to edges in the surface, and</li>
+			<li>tile, brick, and wood patterns should be
+			<span style="color:#f00"><u>perfectly</u> aligned and the same size</span>
+			throughout the image on the right</li>
+		</ul>
+
+		<p>If a shape is <i>almost</i> rectified, don't select it.  You should
+		not see slanted lines or perspective effects in the image on the right.
+		If you cannot decide on the correct answer, click the button &quot;I
+		can't tell&quot; -- please don't guess.</p>
+
+		{% comment %}
+		<p>Note that many of the images will be wrong; you should expect to
+		only select a few items.</p>
+		{% endcomment %}
+
+		<p><span class="label label-success">Tip:</span> I find the fastest way
+		to do the task is to do the following: (1) make sure the blue arrow
+		points in the right direction, (2) make sure that patterns on the right
+		are the same size, (3) make sure the grid is parallel to other lines in
+		the image.  If any of these are violated, don't click on the image and
+		move on.</p>
+
+		<p><i>Please look at the examples to better understand what
+			&quot;rectified&quot; means.</i></p>
+
+		<div class="if-not-webkit well" style="display:none; margin-top: 40px">
+			<p><span class="label label-important">Important:</span> If you
+			cannot see a red outline around the shape on the left, please try
+			using <a href="http://google.com/chrome">Google Chrome</a> instead
+			of Firefox.</p>
+		</div>
+	</div>
+	{% comment %}
+	<div class="span6">
+		<div class="thumbnail">
+			<div class="row-fluid">
+				<div class="span12">
+					<h4>Example rectified shape</h4>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span6">
+					<p>On the left: the thumbtack pin should point away from
+					the surface.</p>
+				</div>
+				<div class="span6">
+					<p>On the right: the wood patterns are parallel.  It should
+					look like you are looking down towards the object.</p>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span6">
+					<img src="{{ STATIC_URL }}img/mturk/quality_rectify_ex1b.jpg" alt=""/>
+				</div>
+				<div class="span6">
+					<img src="{{ STATIC_URL }}img/mturk/quality_rectify_ex1a.jpg" alt=""/>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endcomment %}
+</div>
+
+{% endblock %}

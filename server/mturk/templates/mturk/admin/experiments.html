@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load compress %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>MTurk Experiments</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th></th>
+			<th>active</th>
+			<th>slug</th>
+			<th>variant</th>
+			<th>title</th>
+			<th>reward</th>
+			<th># contents</th>
+		</tr>
+	</thead>
+
+	{% for e in experiments %}
+	{% with e.new_hit_settings as s %}
+	<tr{% if not s.auto_add_hits %} class="muted"{% endif %}>
+		<td>
+			<a href="{% url 'mturk-admin-preview-task' e.id "inst" %}" role="button" class="btn" target="_blank">Inst</a>&nbsp;
+			<a href="{% url 'mturk-admin-preview-task' e.id "task" %}" role="button" class="btn" target="_blank">Task</a>
+			{% if e.has_tutorial %}
+			&nbsp;<a href="{% url 'mturk-admin-preview-task' e.id "tut" %}" role="button" class="btn" target="_blank">Tut</a>
+			{% endif %}
+		</td>
+		<td>{{ s.auto_add_hits }}</td>
+		<td>{{ e.slug }}</td>
+		<td>{{ e.variant }}</td>
+		<td>{{ s.title }}</td>
+		<td>${{ s.reward|floatformat:2 }}</td>
+		<td>{{ s.contents_per_hit }}</td>
+	</tr>
+	{% endwith %}
+	{% endfor %}
+</table>
+{% endblock %}

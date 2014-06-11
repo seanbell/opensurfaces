@@ -1,0 +1,10 @@
+<a href="{% url 'material-shape-detail' entry.id %}" class="thumbnail">
+	<div class="overlay-wrapper">
+		<img src="{{ entry.image_square_300.url }}" alt=""/>
+		{% if entry.num_votes %}
+		<div class="overlay-container" style="width:100%;background:none;">
+			<div class="progress thumb-votes tool" style="margin:0px" data-votes="{{ entry.num_material_votes }},{{ entry.num_bad_votes }}" ></div>
+		</div>
+		{% endif %}
+	</div>
+</a>

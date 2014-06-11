@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block css %}{{ block.super }}
+<style>body { overflow-y: scroll; }</style>
+{% endblock %}
+
+{% block container %}
+{% block content_tag %}
+<div id='content-container' class='container'>
+{% endblock %}
+{% block before_sidenav %}{% endblock %}
+<div class="row">
+	<div id="sidenav" class="span3">
+		{% block sidenav %}{% endblock %}
+	</div>
+	<div id="content" class="span9">
+		{% include "base_messages.html" %}
+		{% block content %}{% endblock %}
+	</div>
+</div>
+</div>
+{% endblock %}

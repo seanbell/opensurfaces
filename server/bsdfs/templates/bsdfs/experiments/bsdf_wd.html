@@ -1,0 +1,118 @@
+{% extends "mturk/base_fixed.html" %}
+{% load humanize %}
+{% load compress %}
+
+{% block css %}{{ block.super }}
+<style>
+	#mt-top-padding { height: 0px; }
+	#hdr-color { margin-bottom: 0px; }
+	body { padding-bottom: 0px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="mt-top">
+	<div id="mt-instructions">
+		<span>Instructions: Adjust the appearance of the blob material (center) to match the appearance of the target (top left).</span>
+		<span class="pull-right">
+			<a href="#modal-instructions" role="button" class="btn" data-toggle="modal">Instructions</a>&nbsp;
+			<button type="button" id='btn-give-up' class="btn">I give up</button>&nbsp;
+			<button type="button" id='btn-submit' class="btn btn-primary" disabled="disabled">Submit</button>
+		</span>
+	</div>
+</div>
+<div id="mt-top-padding"></div>
+
+<div id="mt-container" class="container">
+	<div class="row-fluid">
+		<div class="span8">
+			<div class="row-fluid">
+				<div class="span6">
+					<div class="col-header">
+						<h3>Target (<span id="current-idx">1</span> of {{ num_contents }} images)</h3>
+					</div>
+					<div id="shape-display"></div>
+					<div class="col-header">
+						<h3>Context</h3>
+					</div>
+				</div>
+				<div class="span6">
+					<div class="col-header"><h3>Blob</h3></div>
+					<iframe id="frame-appearance" name="frame-appearance"
+						height="300px" border="none"></iframe>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span12">
+					<div id="photo-target">
+						{% for entry in contents %}
+						<div class="photo-target" id="photo-target-{{ entry.id }}" style="display:none">
+							{% include "shape_poly_display.svg" %}
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="span4">
+			<div class="col-header">
+				<h3>Controls</h3>
+			</div>
+			<div class="well">
+				<h4 id="hdr-type">Reflection Type</h4>
+				<span id='btn-color' class="btn-group" data-toggle="buttons-radio">
+					<button id='btn-bsdf-type0' type="button" class="btn">Uncolored</button>
+					<button id='btn-bsdf-type1' type="button" class="btn">Colored</button>
+				</span>
+
+				<hr/>
+
+				<div id="controls-contrast">
+					<h4>Contrast</h4>
+					<div class="slider" id="slider-contrast"></div>
+				</div>
+
+				<h4>Distinctness of Image</h4>
+				<div class="slider" id="slider-doi"></div>
+
+				<hr/>
+
+				<h4 id="hdr-color">Color</h4>
+				<div style="width: 90%; min-height: 266px; margin: 0px auto;">
+					<div id="colorpicker" class="picker"></div>
+					<h4 style="text-align:center">Brightness</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block modals %}{{ block.super }}
+{% endblock modals %}
+
+{% block scripts %}{{ block.super }}
+
+{% include "mturk/loading_script.html" %}
+{% include "mturk/content_script.html" with array_js="material_shape_array.js" %}
+
+<script type="text/javascript">
+window.loading_start();
+$('#frame-appearance').attr('src', '{{ STATIC_URL }}/bsdf_wd-v1.2.html');
+</script>
+
+{# Note: Raphael breaks when compressed #}
+<script type="text/javascript" src="{{ STATIC_URL }}js/raphael-min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/kinetic-v4.5.4.min.js"></script>
+
+{% compress js %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/colorpicker-v2.js"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/util.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/modals.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/active_timer.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/mturk/submit.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/bsdfs/experiments/bsdf_wd.coffee"></script>
+{% endcompress %}
+
+{% include "shapes/experiments/shapes_preload_script.html" %}
+{% endblock %}

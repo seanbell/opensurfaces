@@ -1,0 +1,1 @@
+{"checks if two bboxes intersect":[15],"#intersects_bbox":[13],"#contains_bbox":[22],"checks if a bbox entirely contains another":[24],"checks if it contains a point":[7],"#extend_pt":[31],"recomputes a new box to contain points":[42],"AABB":[3],"#recompute_from_points":[40],"extends a bbox to contain a new point":[33],"#contains_pt":[5]}

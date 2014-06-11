@@ -1,0 +1,24 @@
+<p>
+{% if license %}
+	<b>License: </b>
+	{% if license.url %}
+		<a href="{{ license.url }}" target="_blank">{{ license.name }}</a>
+	{% else %}
+		{{ license.name }}
+	{% endif %}
+{% else %}
+	<b>License:</b> Unknown
+{% endif %}
+
+{% if photo.attribution_name %}
+	{% if photo.attribution_url %}
+		(Credit: <a href="{{ photo.attribution_url }}">{{ photo.attribution_name }}</a>)
+	{% else %}
+		(Credit: {{ photo.attribution_name }})
+	{% endif %}
+{% elif photo.attribution_url %}
+	(Credit: <a href="{{ photo.attribution_url }}">{{ photo.attribution_url }}</a>)
+{% elif photo.flickr_user.display_name %}
+	(Credit: <a href="https://www.flickr.com/people/{{ photo.flickr_user.username }}/">{{ photo.flickr_user.display_name }}</a>)
+{% endif %}
+</p>

@@ -1,0 +1,11 @@
+{% with entry.bsdf as bsdf %}
+<a href="{% url 'bsdf-detail' "wd" bsdf.id %}" class="thumbnail pop admin-score-thumbnail" rel="popover" data-placement="bottom" data-trigger="hover" data-html="true" data-content="{% include "bsdf_wd_table.html" with entry=bsdf %}" data-id="{{ bsdf.id }}">
+	<div class="overlay-wrapper">
+		{% include "image_square.svg" with url=bsdf.image_blob.url %}
+		{% include "shape_poly_display.svg" with entry=bsdf.shape %}
+		<div class="overlay-container">
+			<p class="overlay-content">{{ entry.get_thumb_overlay }}{% if entry.time_ms %} | {{ entry.time_s }} s{% endif %}</p>
+		</div>
+	</div>
+</a>
+{% endwith %}

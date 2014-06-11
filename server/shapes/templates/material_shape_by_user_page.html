@@ -1,0 +1,13 @@
+{% load endless %}
+
+{% paginate 1 users %}
+{% for user in users %}
+{% if user.num_material_shapes > 0 %}
+	<h4>User: {{ user.mturk_worker_id }}</h4>
+	<p>{{ user.num_material_shapes }} material shapes</p>
+
+	{% include "grid4.html" with entries=user.materialshape_set.all thumb_template="material_shape_thumb.html" %}
+	<hr/>
+{% endif %}
+{% endfor %}
+{% show_more %}

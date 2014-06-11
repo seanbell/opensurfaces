@@ -1,0 +1,12 @@
+{# Base template for binary tasks where users click on items arranged in a grid #}
+
+{% extends "mturk/base_responsive.html" %}
+{% load humanize %}
+{% load compress %}
+
+{% block content %}
+<div class="page-header">
+	<h2>{% block instructions_header %}{% endblock %}</h2>
+</div>
+{% include instructions %}
+{% endblock content %}

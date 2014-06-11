@@ -1,0 +1,19 @@
+{% comment %}
+	Give up on a task
+{% endcomment %}
+
+<div class="modal hide fade" id="modal-give-up" tabindex="-1" role="dialog" aria-labelledby="modal-give-up-label" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3 id="modal-give-up-label">Give up</h3>
+	</div>
+	<div class="modal-body">
+		<p id="modal-give-up-prompt">Why are you giving up?</p>
+		<div id="modal-give-up-suggested-reasons"></div>
+		<textarea class="field span6" id="modal-give-up-text" rows="6"></textarea>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Nevermind</button>
+		<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="modal-give-up-submit" disabled="disabled">I give up</button>
+	</div>
+</div>

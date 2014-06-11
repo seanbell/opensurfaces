@@ -1,0 +1,29 @@
+{% extends "base_sidenav.html" %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Material Samples</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block sidenav %}
+<div class="well well-nav">
+	<ul class="nav nav-list">
+		{% include "category_items.html" with categories=categories_all %}
+		<li class="nav-header">Material Names</li>
+		{% include "category_items.html" with categories=categories %}
+		<li class="nav-header">Failures</li>
+		{% include "category_items.html" with categories=categories_fail %}
+	</ul>
+</div>
+{% endblock %}
+
+{% block content %}
+{% include page_template %}
+{% endblock %}
+
+{% block scripts %}{{ block.super }}
+{% include "entry_scripts.html" %}
+{% endblock %}

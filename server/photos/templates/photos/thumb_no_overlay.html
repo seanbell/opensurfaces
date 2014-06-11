@@ -1,0 +1,4 @@
+<a href="{% url 'photo-detail' entry.id %}" class="thumbnail tool" rel="tooltip"
+	data-original-title="{{ entry.material_shapes.count }} material shapes">
+	<img src="{{ entry.image_square_300.url }}" alt=""/>
+</a>

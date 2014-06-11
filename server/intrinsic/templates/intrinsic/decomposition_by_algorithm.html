@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load cache %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Intrinsic Image Decompositions</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+	<p>This page lists the decompositions for all {{ num_photos }} photos, using this algorithm:</p>
+	<div class="well">
+		{% if algorithm.citation %}
+			{{ algorithm.citation.citation_html|safe }}
+		{% else %}
+			{{ algorithm.slug }}
+		{% endif %}
+	</div>
+
+	<p>and these parameters: {{ algorithm.parameters_pretty_html|safe }}</p>
+
+	<p><a class="btn" href="{% url "intrinsic-algorithm-all" %}">View all algorithms.</a></p>
+</div>
+
+<div id="subnav">
+	<ul class="nav nav-pills">
+		<li class="disabled"><a>Sort order:</a></li>
+		<li{% if order_by == "mean_error" %} class="active"{% endif %}><a href="{% url "intrinsic-decomposition-by-algorithm" algorithm.id "mean_error" %}">Error (WHDR) <i class="icon-sort-by-order"></i></a></li>
+		<li{% if order_by == "-mean_error" %} class="active"{% endif %}><a href="{% url "intrinsic-decomposition-by-algorithm" algorithm.id "-mean_error" %}">Error (WHDR) <i class="icon-sort-by-order-alt"></i></a></li>
+
+		<li{% if order_by == "runtime" %} class="active"{% endif %}><a href="{% url "intrinsic-decomposition-by-algorithm" algorithm.id "runtime" %}">Runtime <i class="icon-sort-by-order"></i></a></li>
+		<li{% if order_by == "-runtime" %} class="active"{% endif %}><a href="{% url "intrinsic-decomposition-by-algorithm" algorithm.id "-runtime" %}">Runtime <i class="icon-sort-by-order-alt"></i></a></li>
+
+		<li{% if order_by == "photo__num_intrinsic_comparisons" %} class="active"{% endif %}><a href="{% url "intrinsic-decomposition-by-algorithm" algorithm.id "photo__num_intrinsic_comparisons" %}">Num. judgements <i class="icon-sort-by-order"></i></a></li>
+		<li{% if order_by == "-photo__num_intrinsic_comparisons" %} class="active"{% endif %}><a href="{% url "intrinsic-decomposition-by-algorithm" algorithm.id "-photo__num_intrinsic_comparisons" %}">Num. judgements <i class="icon-sort-by-order-alt"></i></a></li>
+	</ul>
+</div>
+
+{% cache 300 content request.get_full_path %}
+{% include page_template %}
+{% endcache %}
+{% endblock %}

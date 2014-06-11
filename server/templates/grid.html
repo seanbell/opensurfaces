@@ -1,0 +1,15 @@
+{% if entries %}
+<div class="row-fluid">
+	<ul class="thumbnails">
+	{% for entry in entries %}
+		{% include "entry_li.html" %}
+		{% if forloop.counter|divisibleby:rowsize %}
+		</ul>
+		<ul class="thumbnails">
+		{% endif %}
+	{% endfor %}
+	</ul>
+</div>
+{% else %}
+    <p>No items are available.</p>
+{% endif %}

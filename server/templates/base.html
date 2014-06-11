@@ -1,0 +1,84 @@
+{% spaceless %}
+{% load compress %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+	<title>{% if iiw %}IIW - {% else %}OpenSurfaces - {% endif %}
+		{% block head_title %}
+			{% if iiw %}
+				Intrinsic Images in the Wild
+			{% else %}
+				A Richly Annotated Catalog of Surface Appearance
+			{% endif %}
+		{% endblock %}
+	</title>
+
+	{% if iiw %}
+		<meta name="description" content='{% if head_description %}{{ head_description }}{% else %}We introduce a large scale, public dataset for intrinsic image decompositions of indoor scenes (Intrinsic Images in the Wild) with crowdsourced annotations of pairwise comparisons of material properties. We develop a dense CRF-based algorithm for intrinsic image decomposition of these images that outperforms state-of-the-art algorithms.{% endif %}'/>
+	{% else %}
+		<meta name="description" content='{% if head_description %}{{ head_description }}{% else %}OpenSurfaces is a large database of annotated surfaces created from real-world consumer photographs. Our annotation framework draws on crowdsourcing to segment surfaces from photos, and then annotate them with rich surface properties, including material, texture and contextual information.{% endif %}'/>
+	{% endif %}
+
+	<meta name="author" content="{% if head_author %}{{ head_author }}{% else %}Cornell University{% endif %}"/>
+
+	{% if iiw %}
+		<link rel="icon" type="image/x-icon" href="{{ STATIC_URL }}favicon.ico"/>
+	{% else %}
+		<link rel="icon" type="image/x-icon" href="{{ STATIC_URL }}favicon.ico"/>
+	{% endif %}
+
+	{% compress css %}
+	<link href="{{ STATIC_URL }}css/jquery-ui-1.9.1.custom.min.css" rel="stylesheet" type="text/css"/>
+	<link href="{{ STATIC_URL }}less/base{% if iiw %}-iiw{% endif %}.less" rel="stylesheet" type="text/less"/>
+	{% block css_responsive %}
+	<link href="{{ STATIC_URL }}css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+	{% endblock %}
+	{% endcompress %}
+
+	{% block css %}
+	{% endblock %}
+</head>
+
+{% block body_tag %}
+<body data-spy="scroll" data-target=".scrollspy-target" data-offset="150">
+{% endblock %}
+
+{% block navbar %}
+{% include "base_navbar.html" %}
+{% endblock %}
+
+{% include "base_debug_overlay.html" %}
+
+{% block header %}{% endblock %}
+
+{% block subnav %}{% endblock %}
+
+{% block container %}
+{% block content_tag %}
+<div id='content-container' class='container'>
+{% endblock %}
+{% include "base_messages.html" %}
+{% block content %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include "base_footer.html" %}
+{% endblock %}
+
+{% include "base_scripts.html" %}
+{% block scripts %}{% endblock %}
+
+{% block modals %}
+{% include "modal_error.html" %}
+{% include "modal_loading.html" %}
+{% include "modal_form.html" %}
+{% endblock %}
+
+</body>
+</html>
+{% endspaceless %}

@@ -1,0 +1,15 @@
+{% load compress %}
+{% compress js %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.9.1.custom.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-2.2.1.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/json2.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/csrf.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-combobox.js"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/hacks.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/modals.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/login.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/scroll.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/ui_events.coffee"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/google-analytics.js"></script>
+{% endcompress %}

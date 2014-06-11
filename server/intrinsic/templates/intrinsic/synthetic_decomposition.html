@@ -1,0 +1,95 @@
+{% if entry %}
+<div class="row" style="margin-top:20px">
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ entry.diff_col_thumb.url }}" alt=""/>
+			<p class="caption">diffuse albedo</p>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ entry.diff_dir_thumb.url }}" alt=""/>
+			<p class="caption">diffuse direct illumination</p>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ entry.diff_ind_thumb.url }}" alt=""/>
+			<p class="caption">diffuse indirect illumination</p>
+		</div>
+	</div>
+</div>
+
+<div class="row" style="margin-top:20px">
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ entry.gloss_col_thumb.url }}" alt=""/>
+			<p class="caption">gloss albedo</p>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ entry.gloss_dir_thumb.url }}" alt=""/>
+			<p class="caption">gloss direct illumination</p>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ entry.gloss_ind_thumb.url }}" alt=""/>
+			<p class="caption">gloss indirect illumination</p>
+		</div>
+	</div>
+</div>
+
+<div class="row" style="margin-top:20px">
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ entry.trans_col_thumb.url }}" alt=""/>
+			<p class="caption">transparent albedo</p>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ entry.trans_dir_thumb.url }}" alt=""/>
+			<p class="caption">transparent direct illumination</p>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ entry.trans_ind_thumb.url }}" alt=""/>
+			<p class="caption">transparent indirect illumination</p>
+		</div>
+	</div>
+</div>
+
+<div class="row" style="margin-top:20px">
+	<div class="span6">
+		<div class="thumbnail">
+			<img src="{{ entry.env_thumb.url }}" alt=""/>
+			<p class="caption">environment</p>
+		</div>
+	</div>
+	<div class="span6">
+		<div class="thumbnail">
+			<img src="{{ entry.emit_thumb.url }}" alt=""/>
+			<p class="caption">emitter</p>
+		</div>
+	</div>
+</div>
+<div class="row" style="margin-top:20px">
+	<div class="span6">
+		<div class="thumbnail">
+			<img src="{{ entry.depth_thumb.url }}" alt=""/>
+			<p class="caption">depth</p>
+		</div>
+	</div>
+	<div class="span6">
+		<div class="thumbnail">
+			<img src="{{ entry.normal_thumb.url }}" alt="env"/>
+			<p class="caption">normal</p>
+		</div>
+	</div>
+</div>
+{% else %}
+<p>No synthetic decomposition available.</p>
+{% endif %}

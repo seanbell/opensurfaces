@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Admin Shell</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 30px">
+	<div class="alert alert-block alert-error fade in">
+		<h3 class="alert-heading">DANGER ZONE</h3>
+		<p>Commands that write to the database are permanent and modify live production data.</p>
+		<p>There are no safeguards or undo, only revert from the last backup.</p>
+	</div>
+	<p>Python sessions are separated into &quot;notebooks&quot; which persist on the server.  The same notebooks are shared across all admin users.</p>
+	<p>Password: <code>{{ ADMIN_SHELL_PASSWORD }}</code> (necessary since the shell is a separate process).</p>
+</div>
+<iframe id="shell" src="http://{{ SERVER_IP }}:{{ ADMIN_SHELL_PORT }}/" width="100%" height="600px"></iframe>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "mturk/experiments/filter_content.html" %}
+
+{% block instructions_summary %}
+Click on the blobs that have the same gloss as the shape highlighted in red.
+{% endblock %}
+
+{% block instructions_extra %}
+<p>Click on blobs whose gloss matches the shape highlighted in red.
+For this task, &quot;gloss&quot; refers to the blur and brightness of
+the reflection.  Ignore the color of the blob; only focus on gloss.</p>
+
+<p>Please do not select blobs that almost match -- <i>both</i> the blur and
+brightness of the highlight should match.</p>
+{% endblock %}
+
+{% block counter_name %}
+blobs(s) are selected with matching gloss.
+{% endblock %}

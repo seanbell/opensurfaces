@@ -1,0 +1,14 @@
+{% comment %}
+UNUSED
+
+{% load compress %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/kinetic-v4.1.2.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/three.min.js"></script>
+{% compress js %}
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/util.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/geom.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/normal_ui.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/poly/display_fill.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/content_type.coffee"></script>
+{% endcompress %}
+{% endcomment %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load compress %}
+
+{% block content %}
+<section id="sec-main">
+
+<div class="page-header">
+	<h1>Reflectance Detail</h1>
+</div>
+
+<div class="row">
+	<div class="span6">
+		<div class="row">
+			<div class="span3">
+				<h3>Blob</h3>
+				<div class="thumbnail">
+					<img src="{{ bsdf.image_blob.url }}" alt=""/>
+				</div>
+			</div>
+			<div class="span3">
+				<h3>Shape</h3>
+				{% include "material_shape_thumb.html" with entry=shape %}
+			</div>
+		</div>
+		<div class="row" style="margin-top:40px;">
+			<div class="span6">
+				{% include "bsdf_wd_table.html" with entry=bsdf %}
+			</div>
+		</div>
+	</div>
+	<div class="span6">
+		<h3>Photo</h3>
+		<a href="{% url 'photo-detail' bsdf.shape.photo.id %}" class="thumbnail">
+			{% include "shape_poly_display_photo.svg" with entry=shape %}
+		</a>
+
+		<hr/>
+		{% for v in votes %}
+		{% include "votes_bar.html" with bar=v %}
+		<hr/>
+		{% endfor %}
+	</div>
+</div>
+
+{% endblock %}

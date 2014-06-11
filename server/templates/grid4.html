@@ -1,0 +1,15 @@
+{% if entries %}
+<div class="row-fluid">
+	<ul class="thumbnails">
+	{% for entry in entries %}
+		{% include "entry_li.html" with span="span3" %}
+		{% if forloop.counter|divisibleby:"4" %}
+		</ul>
+		<ul class="thumbnails">
+		{% endif %}
+	{% endfor %}
+	</ul>
+</div>
+{% else %}
+    <p>No items are available.</p>
+{% endif %}

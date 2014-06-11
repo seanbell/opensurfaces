@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% load cache %}
+
+{% block header %}
+<div class="jumbotron masthead" id="overview">
+	<div class="container">
+		<h1><span>Intrinsic Images</span><br/><span class="jumbotron-muted">in the Wild</span></h1>
+		<p class="jumbotron-muted"><a href="http://seanbell.ca" target="_blank">Sean Bell</a>, <a href="http://www.cs.cornell.edu/~kb/" target="_blank">Kavita Bala</a>, <a href="http://www.cs.cornell.edu/~snavely/" target="_blank">Noah Snavely</a></p>
+		<p class="jumbotron-muted"><a href="http://rgb.cs.cornell.edu" target="_blank">Cornell University</a></p>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% cache 2592000 intrinisc-splash-content %}
+<div class="row-fluid" style="margin-top:10px">
+	<div class="span12">
+		<p class="lead">
+			<i>Intrinsic Images in the Wild</i> is a large scale, public dataset for intrinsic image decompositions of real-world scenes selected from the <a href="{% url "home" %}" target="_blank">OpenSurfaces</a> dataset.
+			Each image is annotated with crowdsourced pairwise comparisons of material properties.
+			We develop a dense CRF-based algorithm for intrinsic image decomposition and show that it outperforms several state-of-the-art algorithms.
+		</p>
+		<p class="lead">
+			&raquo;
+			<a href="{% url "publications" "intrinsic" %}">publication</a>,
+			<a href="{% url 'intrinsic-photo-all' %}">judgements</a>,
+			<a href="{% url 'intrinsic-algorithm-all' %}">evaluation</a>,
+			<a href="{% url 'intrinsic-decomposition-by-algorithm' 1141 %}">decompositions</a>
+		</p>
+	</div>
+</div>
+
+
+{% comment %}
+{% with d=decomposition0 %}
+<div class="row-fluid">
+
+<div class="span4">
+<div class="thumbnail">
+	<div class="overlay-wrapper">
+		<a href="{% url "photo-detail" d.photo_id %}#section-intrinsic_judgements">
+			{% for min_separation, density in d.photo.intrinsic_densities.iteritems %}
+				{% if forloop.first %}
+					{% include "photos/intrinsic_display.svg" with entry=d.photo %}
+				{% endif %}
+			{% endfor %}
+		</a>
+		<div class="overlay-container">
+			<p class="overlay-content">Human Judgements</p>
+		</div>
+	</div>
+	<p class="caption">We present a large public dataset for intrinsic image decompositions with crowdsourced annotations of pairwise comparisons of material properties.</p>
+</div>
+</div>
+
+<div class="span4">
+<div class="thumbnail">
+	<div class="overlay-wrapper">
+		<a href="{% url "photo-detail" d.photo_id %}#section-intrinsic_decompositions">
+			<img src="{{ d.reflectance_image.url }}" />
+		</a>
+		<div class="overlay-container">
+			<p class="overlay-content">Reflectance</p>
+		</div>
+	</div>
+	<p class="caption">We develop a dense CRF-based algorithm for intrinsic image decomposition of these images that outperforms several state-of-the-art algorithms.</p>
+</div>
+</div>
+
+<div class="span4">
+<div class="thumbnail">
+	<div class="overlay-wrapper">
+		<a href="{% url "photo-detail" d.photo_id %}#section-intrinsic_decompositions">
+			<img src="{{ d.shading_image.url }}" />
+		</a>
+		<div class="overlay-container">
+			<p class="overlay-content">Shading</p>
+		</div>
+	</div>
+	<p class="caption">Our intrinsic image decomposition incorporates long-range interactions in the reflectance layer while simultaneously maintaining local detail.</p>
+</div>
+</div>
+
+</div>
+{% endwith %}
+{% endcomment %}
+
+
+<div class="row-fluid" style="margin-top:10px">
+	{% for d in decompositions %}
+	<div class="span4">
+		<div class="thumbnail">
+
+{% comment %}
+<div class="overlay-wrapper">
+	<a href="{% url "photo-detail" d.photo_id %}">
+		<img src="{{ d.photo.image_512.url }}" />
+	</a>
+	<div class="overlay-container">
+		<p class="overlay-content">Image</p>
+	</div>
+</div>
+{% endcomment %}
+
+<div class="overlay-wrapper">
+	<a href="{% url "photo-detail" d.photo_id %}#section-intrinsic_judgements">
+		{% for min_separation, density in d.photo.intrinsic_densities.iteritems %}
+			{% if forloop.first %}
+				{% include "photos/intrinsic_display.svg" with entry=d.photo %}
+			{% endif %}
+		{% endfor %}
+	</a>
+	<div class="overlay-container">
+		<p class="overlay-content">Human Judgements</p>
+	</div>
+</div>
+
+<div class="overlay-wrapper" style="margin-top:4px">
+	<a href="{% url "photo-detail" d.photo_id %}#section-intrinsic_decompositions">
+		<img src="{{ d.reflectance_image.url }}" />
+	</a>
+	<div class="overlay-container">
+		<p class="overlay-content">Reflectance</p>
+	</div>
+</div>
+
+<div class="overlay-wrapper" style="margin-top:4px">
+	<a href="{% url "photo-detail" d.photo_id %}#section-intrinsic_decompositions">
+		<img src="{{ d.shading_image.url }}" />
+	</a>
+	<div class="overlay-container">
+		<p class="overlay-content">Shading</p>
+	</div>
+</div>
+
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+{% endcache %}
+{% endblock content %}

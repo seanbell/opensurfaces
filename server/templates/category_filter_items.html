@@ -1,0 +1,5 @@
+{% for c in categories %}
+<li {% ifequal category_id c.id %}class="active"{% endifequal %}>
+	<a href="{% url url_name c.id filter_key %}">{{ c.name }} ({{ c.count }})</a>
+</li>
+{% endfor %}

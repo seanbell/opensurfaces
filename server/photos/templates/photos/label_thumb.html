@@ -1,0 +1,15 @@
+{% with entry.photo as photo %}
+<a href="{% url 'photo-detail' photo.id %}" class="thumbnail" rel="tooltip">
+	<div class="overlay-wrapper">
+		<div class="hover-toggle">
+			<img class="show-on-mouseout" src="{{ photo.image_square_300.url }}" alt=""/>
+			<svg class="show-on-mouseover" style="display:none">
+				<image x="0" y="0" width="100%" height="100%" xlink:href="{{ photo.image_512.url }}"/>
+			</svg>
+		</div>
+		<div class="overlay-container">
+			<p class="overlay-content">{{ entry.get_thumb_overlay }} | {{ entry.time_s }} s</p>
+		</div>
+	</div>
+</a>
+{% endwith %}

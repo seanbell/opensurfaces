@@ -1,0 +1,18 @@
+{# Display rectified normal and its polygon inside a photo #}
+
+{% with entry.shape as shape %}
+{% with shape.photo as photo %}
+<svg version="1.2" class="fix-aspect" data-aspect="{{ photo.aspect_ratio }}" viewBox="0 0 {{ photo.aspect_ratio }} 1" style="width:100%">
+	<image x="0" y="0" width="{{ photo.aspect_ratio }}" height="1" xlink:href="{% if large %}{{ photo.image_1024.url }}{% else %}{{ photo.image_512.url }}{% endif %}"/>
+	<g transform="scale({{ photo.aspect_ratio }},1)">
+		<path class="poly-display-segments nss" d="{{ shape.segments_svg_path|safe }}"/>
+		<path class="normal-display-grid nss" d="{{ entry.grid_svg_path|safe }}"/>
+		{% comment %}
+			<path class="normal-display-disc nss" d="{{ entry.disc_svg_path|safe }}"/>
+			<path class="normal-display-axes nss" d="{{ entry.axes_svg_path|safe }}"/>
+		{% endcomment %}
+		<path class="normal-display-pin nss" d="{{ entry.pin_svg_path|safe }}"/>
+	</g>
+</svg>
+{% endwith %}
+{% endwith %}

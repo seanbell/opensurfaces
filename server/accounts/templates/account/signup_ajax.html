@@ -1,0 +1,20 @@
+{% spaceless %}
+{% load url from future %}
+{% load i18n %}
+{% load bootstrap_tags %}
+
+<form id="signup_form" method="post" action="{% url "account_signup" %}" autocapitalize="off" class="form-horizontal"{% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
+<fieldset>
+	{% csrf_token %}
+	{{ form|as_bootstrap }}
+	{% if redirect_field_value %}
+		<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+	{% endif %}
+</fieldset>
+<div class="progress progress-striped active" style="display:none; margin-top: 20px">
+	<div class="bar" style="width: 100%;">Please Wait</div>
+</div>
+</form>
+
+{% include "account/signup_footer.html" %}
+{% endspaceless %}

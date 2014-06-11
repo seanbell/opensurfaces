@@ -1,0 +1,77 @@
+{% extends "mturk/base_fixed.html" %}
+{% load humanize %}
+{% load compress %}
+
+{% block css %}{{ block.super }}
+<link href="{{ STATIC_URL }}css/intrinsic/mturk.css" rel="stylesheet" type="text/css"/>
+<style>
+	#mt-top-nohover {
+		padding: 0;
+	}
+	#mt-responses {
+		min-height: 31px;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="mt-top-nohover">
+	<div id="mt-responses">
+		<span style="margin-right: 20px">
+			<div class="btn-group">
+				<button type="button" id='btn-back' class="btn controls" disabled="disabled">Back</button>
+				<button type="button" id='btn-next' class="btn btn-primary controls" disabled="disabled">Next</button>
+			</div>&nbsp;
+			<button type="button" id='btn-submit' class="btn btn-primary controls" disabled="disabled" style="display:none">Start the task</button>
+		</span>
+		<span id="tut-buttons" style="display:none">
+			<span style="margin-left: 10px; margin-right: 10px">Answer:</span>
+			<div class="btn-group" data-toggle="buttons-radio">
+				<button type="button" id='btn-reflectance' class="btn btn-red response response-darker" disabled="disabled" data-darker="1">Point 1</button>&nbsp;
+				<button type="button" id='btn-shading' class="btn btn-blue response response-darker" disabled="disabled" data-darker="2">Point 2</button>&nbsp;
+				<button type="button" id='btn-neither' class="btn btn-info response response-darker" disabled="disabled" data-darker="E">About the same</button>
+			</div>
+			<span id="tut-confidence" style="display:none">
+				<span style="margin-left: 10px; margin-right: 10px">Confidence:</span>
+				<div class="btn-group">
+					<button type="button" id='btn-guessing' class="btn btn-info response response-confidence" disabled="disabled" data-confidence="0">Guessing</button>&nbsp;
+					<button type="button" id='btn-probably' class="btn btn-info response response-confidence" disabled="disabled" data-confidence="1">Probably</button>&nbsp;
+					<button type="button" id='btn-definitely' class="btn btn-info response response-confidence" disabled="disabled" data-confidence="2">Definitely</button>
+				</div>
+			</span>
+		</span>
+	</div>
+</div>
+<div id="mt-container"></div>
+<div id="mt-done" style="display:none; padding: 20px">
+	<h1>Done!</h1>
+	<p>Thank you for completing the tutorial.  Once you begin the task, you can click the &quot;Instructions&quot; button to see the instructions again.</p>
+	<p>Click &quot;Start the task&quot; to begin your task.</p>
+</div>
+{% endblock content %}
+
+{% block modals %}
+{% include "modal_instructions.html" %}
+{% include "modal_loading.html" %}
+{% include "modal_error.html" %}
+{% include "modal_areyousure.html" %}
+{% include "modal_feedback.html" %}
+{% endblock modals %}
+
+{% block scripts %}{{ block.super }}
+{% include "mturk/content_json_script.html" %}
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/d3.v3.min.js"></script>
+{% compress js %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/array_remove.js"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/util.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/modals.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/geom.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/active_timer.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/svg_photo_zoom_ui.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/mturk/submit.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/intrinsic/experiments/intrinsic_compare_ui.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/intrinsic/experiments/intrinsic_compare_tut.coffee"></script>
+{% endcompress %}
+
+{% endblock %}

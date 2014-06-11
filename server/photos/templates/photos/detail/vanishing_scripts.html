@@ -1,0 +1,20 @@
+<script>
+$(function() {
+	over = function() {
+		idx = $(this).attr('data-idx');
+		if (idx != null) {
+			$('.vl-display').hide();
+			$('#vlp-' + idx).show();
+			$('#vp-' + idx).show();
+		}
+		return false;
+	};
+	out = function() {
+		$('.vlp-display').hide();
+		$('.vl-display').show();
+	};
+	$('#vp-list > li').on('mouseover click', over).on('mouseout', out);
+	$('.vl-display').on('mouseover click', over).on('mouseout', out);
+});
+</script>
+

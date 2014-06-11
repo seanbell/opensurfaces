@@ -1,0 +1,6 @@
+{% load endless %}
+{% lazy_paginate entries_per_page entries %}
+{% for entry in entries %}
+{% include thumb_template %}
+{% endfor %}
+{% show_more %}

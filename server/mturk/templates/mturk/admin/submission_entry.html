@@ -1,0 +1,91 @@
+{% load cache %}
+
+{% cache 3600 mt-admin-submission-entry entry.id %}
+<div class="row">
+	<div class="span9">
+		<div class="tabbable">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#tab1-{{ entry.id }}" data-toggle="tab">Submission</a></li>
+
+				{% comment %}
+				<li><a href="#tab2-{{ entry.id }}" data-toggle="tab">Input objects</a></li>
+				{% endcomment %}
+
+				{% if entry.num_test_contents %}
+				<li><a href="#tab4-{{ entry.id }}" data-toggle="tab">Sentinels</a></li>
+				{% else %}
+				<li class="disabled"><a>(No sentinels)</a></li>
+				{% endif %}
+
+				{% if entry.has_feedback %}
+				<li><a href="#tab3-{{ entry.id }}" data-toggle="tab">Feedback</a></li>
+				{% else %}
+				<li class="disabled"><a>(No feedback)</a></li>
+				{% endif %}
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="tab1-{{ entry.id }}">
+					{% with entries_all=entry.submitted_contents.all %}
+						{% if entries_all %}
+							{% include "grid.html" with span="span4" rowsize="3" entries=entries_all %}
+						{% else %}
+							<p>This submission has either not been processed (i.e. waiting in the celery queue) or nothing was submitted.</p>
+						{% endif %}
+					{% endwith %}
+				</div>
+				{% comment %}
+				<div class="tab-pane" id="tab2-{{ entry.id }}">
+					{% include "grid.html" with span="span4" rowsize="3" entries=entry.hit.contents.all %}
+				</div>
+				{% endcomment %}
+				{% if entry.has_feedback %}
+				<div class="tab-pane" id="tab3-{{ entry.id }}">
+					<div class="feedback-json" style="display:none">{{ entry.feedback }}</div>
+				</div>
+				{% endif %}
+				{% if entry.num_test_contents %}
+				<div class="tab-pane" id="tab4-{{ entry.id }}">
+					{% include "grid.html" with span="span4" rowsize="3" thumb_template="mturk/admin/test_content_response.html" entries=entry.test_content_responses_prefetch.all %}
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	<div class="span3 submission-info">
+		{% if entry.hit.sandbox %}
+		<p><span class="label label-important">SANDBOX</span></p>
+		{% endif %}
+
+		<h4>{{ entry.hit.hit_type.title }}</h4>
+{% endcache %}
+		{% include "mturk/admin/assignment_entry_info.html" %}
+
+		<hr/>
+		<div class="admin-actions" data-assignment="{{ entry.id }}">
+			<textarea rows="3" class="span3 feedback-approve" type="text" placeholder="Thank you!"></textarea>
+			{% if entry.status == 'S' %}
+			<button class="btn btn-success action-review" data-action="approve">Approve</button>&nbsp;
+			<button class="btn btn-success action-auto-approve">Auto-approve Worker</button>
+
+			<button class="btn btn-danger action-show-reject" style="margin-top:20px">Reject / block</button>
+			<div class="admin-actions-reject" style="display:none; margin-top: 20px">
+				<textarea rows="3" class="span3 feedback-reject" type="text" placeholder="I'm sorry but you made too many mistakes on this task: {{ entry.hit.hit_type.title }}."></textarea>
+				<button class="btn btn-danger action-reivew" data-action="approve">Reject</button>&nbsp;
+				<button class="btn btn-danger action-block">Block Worker</button>
+			</div>
+
+			{% elif entry.status == 'R' %}
+			<button class="btn action-review" data-action="approve">Approve (un-reject)
+			{% endif %}
+		</div>
+
+		<hr/>
+		<p><a href="{% url 'mturk-admin-preview-task' entry.hit.hit_type.experiment_id "task" entry.hit_id %}" role="button" class="btn btn-block" target="_blank">View this task</a></p>
+		<p><a href="{% url 'mturk-admin-preview-task' entry.hit.hit_type.experiment_id "inst" entry.hit_id %}" role="button" class="btn btn-block" target="_blank">View instructions</a></p>
+		{% if entry.hit.hit_type.experiment.has_tutorial %}
+		<p><a href="{% url 'mturk-admin-preview-task' entry.hit.hit_type.experiment_id "tut" entry.hit_id %}" role="button" class="btn btn-block" target="_blank">View tutorial</a></p>
+		{% endif %}
+
+	</div>
+</div>
+<hr/>

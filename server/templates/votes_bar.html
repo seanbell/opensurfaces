@@ -1,0 +1,27 @@
+<p><b>{{ bar.name }} votes:</b></p>
+{% if bar.num_total %}
+	<div class="progress">
+		{% if bar.num_yes %}<div class="bar bar-success" style="width: {{ bar.perc_yes }}%">{{ bar.num_yes }}</div>{% endif %}
+		{% if bar.num_no %}<div class="bar bar-danger" style="width: {{ bar.perc_no }}%">{{ bar.num_no }}</div>{% endif %}
+	</div>
+	<p><b>{{ bar.name }} score:</b></p>
+	{% if bar.score %}
+		<div class="progress">
+			{% if bar.score_positive %}
+				{% if bar.score_yes %}<div class="bar bar-success" style="width: {{ bar.score_yes }}%">{{ bar.score|floatformat:3 }}</div>{% endif %}
+				{% if bar.score_no %}<div class="bar bar-danger" style="width: {{ bar.score_no }}%"></div>{% endif %}
+			{% else %}
+				{% if bar.score_yes %}<div class="bar bar-success" style="width: {{ bar.score_yes }}%"></div>{% endif %}
+				{% if bar.score_no %}<div class="bar bar-danger" style="width: {{ bar.score_no }}%">{{ bar.score|floatformat:3 }}</div>{% endif %}
+			{% endif %}
+		</div>
+	{% else %}
+		<div class="progress" style="text-align:center">
+			None
+		</div>
+	{% endif %}
+{% else %}
+<div class="progress" style="text-align:center">
+	None
+</div>
+{% endif %}

@@ -1,0 +1,14 @@
+{% load humanize %}
+<a class="thumbnail admin-score-thumbnail" data-admin-score="{{ entry.admin_score }}" href="{% url 'rectified-normal-detail' entry.id %}">
+	<div class="overlay-wrapper">
+		{% include "image_square.svg" with url=entry.image_rectified_square_512.url %}
+		{% include "rectified_normal_display.svg" %}
+		{% if not curate %}
+		<div class="overlay-container">
+			<p class="overlay-content">{{ entry.phi_degrees|floatformat:1 }} &deg; | {% if entry.automatic %}{{ entry.method_str }}{% else %}{{ entry.time_s }} s{% endif %}{% if entry.correct_score %} | {{ entry.correct_score|floatformat:"2" }}{% endif %}</p>
+			{% if entry.sandbox %}<p class="overlay-content">(SANDBOX)</p>{% endif %}
+			<p class="overlay-content"><span class="score-display"></span></p>
+		</div>
+		{% endif %}
+	</div>
+</a>

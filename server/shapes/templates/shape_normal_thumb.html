@@ -1,0 +1,9 @@
+<div class="thumbnail">
+	<div class="overlay-wrapper">
+		<div class="shape-normal" id="shape-normal-{{ entry.id }}" data-theta="{{ entry.normal_theta }}" data-phi="{{ entry.normal_phi }}" style="width:152px;height:152px"></div>
+		<div class="overlay-container">
+			<p class="overlay-content">{{ entry.time_s }} s</p>
+			{% if entry.mturk_assignment.hit.sandbox %}<p class="overlay-content">(SANDBOX)</p>{% endif %}
+		</div>
+	</div>
+</div>

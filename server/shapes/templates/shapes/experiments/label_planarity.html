@@ -1,0 +1,16 @@
+{% extends "mturk/experiments/filter_content.html" %}
+
+{% block instructions_summary %}
+Click on the objects that are planar.  Consider only the part outlined with a red shape.
+{% endblock %}
+
+{% block instructions_extra %}
+<p>Planar shapes can have some amount of variation, such as the pattern on a
+wood door, or the grooves between bricks.  However, two different planar
+surfaces (such as two walls in the same shape) do not count and should be
+rejected.</p>
+{% endblock %}
+
+{% block counter_name %}
+object(s) are labeled as planar.
+{% endblock %}

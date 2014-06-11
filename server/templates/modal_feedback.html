@@ -1,0 +1,33 @@
+<div class="modal hide fade" id="modal-feedback" tabindex="-1" role="dialog" aria-labelledby="modal-feedback-label" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3 id="modal-feedback-label">Feedback</h3>
+	</div>
+	<div class="modal-body">
+		<div id="modal-feedback-prompt"></div>
+		<form id='modal-feedback-form' class='form-horizontal'>
+			<div class="control-group">
+				<label class="control-label modal-feedback-label" for="feedback-thoughts" data-field="thoughts">What did you think of this task?</label>
+				<div class="controls">
+					<textarea id="modal-feedback-thoughts" rows="6"></textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label modal-feedback-label" for="feedback-understand" data-field="understand">What parts didn't you understand?</label>
+				<div class="controls">
+					<textarea id="modal-feedback-understand" rows="6"></textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label modal-feedback-label" for="feedback-other" data-field="other">Any other feedback, improvements, or suggestions?</label>
+				<div class="controls">
+					<textarea id="modal-feedback-other" rows="6"></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true" id="modal-feedback-cancel">Cancel</button>
+		<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="modal-feedback-submit">Submit</button>
+	</div>
+</div>

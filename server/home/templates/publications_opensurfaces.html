@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Publications</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<div class="span12">
+		<div class="well">
+			<div class="row-fluid">
+				<div class="span2">
+					<a href="{{ STATIC_URL }}siggraph2013/opensurfaces.pdf">
+						<div class="thumbnail">
+							<img src="{{ STATIC_URL }}img/thumb-0.png" alt=""/>
+						</div>
+					</a>
+				</div>
+				<div class="span10">
+						<h3>OpenSurfaces: A Richly Annotated Catalog of Surface Appearance</h3>
+						<p><a href="http://seanbell.ca" target="_blank">Sean Bell</a>, <a href="#">Paul Upchurch</a>, <a href="http://www.cs.cornell.edu/~snavely/" target="_blank">Noah Snavely</a>, <a href="http://www.cs.cornell.edu/~kb/" target="_blank">Kavita Bala</a>
+						<br/><a href="http://rgb.cs.cornell.edu" target="_blank">Cornell University</a></p>
+						<p><i>ACM Transactions on Graphics (SIGGRAPH 2013)</i></p>
+						<p>
+							<a class="btn" href="http://labelmaterial.s3.amazonaws.com/release/siggraph2013-opensurfaces.pdf">Paper (49MB PDF)</a>&nbsp;
+							<a class="btn" href="http://labelmaterial.s3.amazonaws.com/release/siggraph2013-supplemental.pdf">Supplemental (13MB PDF)</a>&nbsp;
+							<a class="btn" href="http://labelmaterial.s3.amazonaws.com/release/siggraph2013-talk-final.key.zip">Slides (273M Keynote '09)</a>&nbsp;
+						</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="span6">
+		<p><i>Abstract:</i></p>
+		<p>The appearance of surfaces in real-world scenes is determined by the
+		materials, textures, and context in which the surfaces appear. However,
+		the datasets we have for visualizing and modeling rich surface
+		appearance in context, in applications such as home remodeling, are
+		quite limited. To help address this need, we present OpenSurfaces, a
+		rich, labeled database consisting of thousands of examples of surfaces
+		segmented from consumer photographs of interiors, and annotated with
+		material parameters (reﬂectance, material names), texture information
+		(surface normals, rectiﬁed textures), and contextual information (scene
+		category, and object names).</p>
+
+		<p>Retrieving usable surface information from uncalibrated Internet
+		photo collections is challenging. We use human annotations and present
+		a new methodology for segmenting and annotating materials in Internet
+		photo collections suitable for crowdsourcing (e.g., through Amazon’s
+		Mechanical Turk). Because of the noise and variability inherent in
+		Internet photos and novice annotators, designing this annotation engine
+		was a key challenge; we present a multi-stage set of annotation tasks
+		with quality checks and validation. We demonstrate the use of this
+		database in proof-of-concept applications including surface retexturing
+		and material and image browsing, and discuss future uses. OpenSurfaces
+		is a public resource available at <a href="http://opensurfaces.cs.cornell.edu/">http://opensurfaces.cs.cornell.edu/</a>.</p>
+	</div>
+	<div class="span6">
+		<p><i>Video:</i></p>
+		<div class="thumbnail" style="height:315px">
+			<iframe src="http://player.vimeo.com/video/64893531?title=0&amp;byline=0&amp;portrait=0" width="100%" height="100%" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+		</div>
+	</div>
+</div>
+
+<div class="row" style="margin-top: 12px">
+	<div class="span12">
+		<p><i>BibTeX:</i></p>
+<pre>@article{bell13opensurfaces,
+	author = "Sean Bell and Paul Upchurch and Noah Snavely and Kavita Bala",
+	title = "Open{S}urfaces: A Richly Annotated Catalog of Surface Appearance",
+	journal = "ACM Trans. on Graphics (SIGGRAPH)",
+	volume = "32",
+	number = "4",
+	year = "2013",
+}</pre>
+	</div>
+</div>
+
+<hr/>
+<a id="download"></a>
+<div class="row">
+	<div class="span6">
+		<h3>Download the dataset</h3>
+		<p>See the included README file for instructions on how to download image data.</p>
+		<p><a class="btn" href="http://labelmaterial.s3.amazonaws.com/release/opensurfaces-release-0.zip"><i class="icon-download"></i> Release 0 (1.1G)</a></p>
+
+		<br/>
+		<h3>Download the segmentation user interface</h3>
+		<p>This repository contains the segmentation user interface from the
+		OpenSurfaces project, extracted as a lightweight tool. A dummy server backend
+		is included to run the demo.</p>
+		<p>
+			<a class="btn" href="https://github.com/seanbell/opensurfaces-segmentation-ui">Code on GitHub</a>&nbsp;
+			<a class="btn" href="http://seanbell.ca/opensurfaces-segmentation-ui/">Online Demo</a>
+		</p>
+	</div>
+	<div class="span6">
+		<a href="https://github.com/seanbell/opensurfaces-segmentation-ui" class="thumbnail">
+			<img src="/static/img/opensurfaces-segmentation-ui.png" />
+		</a>
+	</div>
+</div>
+
+<hr/>
+<a id="acks"></a>
+<h3>Acknowledgements</h3>
+<p>
+  This work was supported by the National Science Foundation (grants
+  IIS-1161645, NSF-1011919, and NSF-1149393) and the Intel Science and
+  Technology Center for Visual Computing.  We are grateful to Albert Liu and
+  Keven Matzen, and to Kevin for the paper video.  We also thank our MTurk
+  workers, and Patti Steinbacher in particular.  In the supplementary
+  material, we acknowledge the Flickr users who released their images under
+  Creative Commons licenses.  Finally, we thank the reviewers for their valuable comments.
+</p>
+<p>Computing resources for this project were provided by
+<a href="http://aws.amazon.com/education/">AWS for Education</a>.</p>
+
+<p>Header background pattern: courtesy of <a href="http://subtlepatterns.com/">Subtle Patterns</a>.</p>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% load humanize %}
+
+<div class="row-fluid">
+	<div class="span6">
+		<h2>Tutorial</h2>
+		<p>The first time you do the task, a tutorial will teach you how to do
+		the task.  You only have to do the tutorial once.</p>
+
+		<br/>
+		<h2>What to do</h2>
+		<p>We will show you a series of points in an image.  Your job is to
+		click on the points that are on a transparent surface or a mirror.
+		"Transparent" surfaces includes things like glass and clear plastic, as
+		well as semi-transparent things such as foggy glass and thin curtains.
+		If a point is in the sky, that counts as "transparent" as well.</p>
+
+		{% comment %}
+		<p>Each HIT has {{ num_contents }} point{{ num_contents|pluralize }}.
+		Don't worry; we will show you large groups of points at a time.</p>
+		{% endcomment %}
+	</div>
+	<div class="span6">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/intrinsic/experiments/intrinsic_classify2.png" alt=""/>
+			<p class="caption">Here, the worker has clicked on the orange
+			points because they are on a mirror.</p>
+		</div>
+	</div>
+</div>
+
+<br/>
+<h2>More examples</h2>
+<div class="row-fluid" style="margin-top:15px">
+	<div class="span6">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/intrinsic/experiments/intrinsic_classify15.png" alt=""/>
+			<p class="caption">Glossy surfaces do not count as "mirrors".</p>
+		</div>
+	</div>
+	<div class="span6">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/intrinsic/experiments/intrinsic_classify14.png" alt=""/>
+			<p class="caption">Watch out for points that are close to a window,
+			but not quite on the window.  Only the orange points are on
+			transparent surfaces.</p>
+		</div>
+	</div>
+</div>
+<div class="row-fluid" style="margin-top:15px">
+	<div class="span6">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/intrinsic/experiments/intrinsic_classify11.png" alt=""/>
+			<p class="caption">These thin curtains are semi-transparent and
+			should be selected.  Note that not all curtains are
+			transparent.</p>
+		</div>
+	</div>
+	<div class="span6">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/intrinsic/experiments/intrinsic_classify7.png" alt=""/>
+			<p class="caption">Only one point is on a transparent surface.</p>
+		</div>
+	</div>
+</div>
+<div class="row-fluid" style="margin-top:15px">
+	<div class="span3">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/intrinsic/experiments/intrinsic_classify8.png" alt=""/>
+		</div>
+	</div>
+	<div class="span3">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/intrinsic/experiments/intrinsic_classify9.png" alt=""/>
+		</div>
+	</div>
+	<div class="span3">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/intrinsic/experiments/intrinsic_classify4.png" alt=""/>
+		</div>
+	</div>
+	<div class="span3">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/intrinsic/experiments/intrinsic_classify13.png" alt=""/>
+			<p class="caption">Here, the left window is open.  If you can't
+			tell, it's better to select too many than too few.</p>
+		</div>
+	</div>
+</div>
+
+<br/>
+<h2>Controls</h2>
+To make the task easier, we added some features:
+<dl class="dl-horizontal">
+	<dt>Zoom</dt> <dd>To view more of the image, drag the image with your
+	mouse or scroll to zoom out.<br/>You can also click the two zoom buttons.</dd>
+	<dt>Redo</dt> <dd>Click "Back" if you make a mistake.</dd>
+	<dt>Reset</dt> <dd>If you want to start over, you can click the "Reset all
+	points" button.  This will turn unselect all points (in the current image
+	only).</dd>
+</dl>
+
+<br/>
+<h2>What if the photo has no transparent or mirror points?</h2>
+<p>Don't worry; many photos will have no points to click on.</p>
+
+<br/>
+<h2>Why are we doing this?</h2>
+
+<p>We are building a large database of objects and materials from images on the
+web.</p>
+
+<p>This is part of ongoing research at Cornell University.  Thank you for
+participating!</p>

@@ -1,0 +1,3 @@
+<svg version="1.2" class="fix-aspect" data-aspect="1" viewBox="0 0 1 1" style="width:100%">
+	<image x="0" y="0" width="1" height="1" xlink:href="{{ url }}"/>
+</svg>

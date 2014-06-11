@@ -1,0 +1,10 @@
+{% load compress %}
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/d3.v3.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/crossfilter.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/dc.min.js"></script>
+
+{% compress js %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/json2.js"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/stats.coffee"></script>
+{% endcompress %}

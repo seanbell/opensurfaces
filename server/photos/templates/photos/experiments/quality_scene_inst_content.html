@@ -1,0 +1,78 @@
+{% if examples_good or examples_bad %}
+<br/>
+<h2>Examples</h2>
+
+<div class="row-fluid">
+	{% if examples_good %}
+	<div class="span6">
+		<h3>Positive examples</h3>
+		<div class="row-fluid">
+		{% for c in examples_good %}
+		<div class="span6">
+			<div class="thumbnail item-selected" style="margin-top:10px">
+				<div class="overlay-wrapper">
+					{% include content_thumb_template with entry=c %}
+					<div class="overlay-container">
+						<p class="overlay-content">{{ c.scene_category.name }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% if forloop.counter|divisibleby:2 %}
+		</div>
+		<div class="row-fluid">
+		{% endif %}
+		{% endfor %}
+		</div>
+	</div>
+	{% endif %}
+	{% if examples_bad %}
+	<div class="span6">
+		<h3>Negative examples</h3>
+		<div class="row-fluid">
+		{% for c in examples_bad %}
+		<div class="span6">
+			<div class="thumbnail" style="margin-top:10px">
+				<div class="overlay-wrapper">
+					<div class="entry" {{ c.get_entry_attr|safe }}>
+						{% include content_thumb_template with entry=c %}
+					</div>
+					<div class="overlay-container">
+						<p class="overlay-content">not {{ c.scene_category.name }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% if forloop.counter|divisibleby:2 %}
+		</div>
+		<div class="row-fluid">
+		{% endif %}
+		{% endfor %}
+		</div>
+	</div>
+	{% endif %}
+</div>
+{% endif %}
+
+<br/>
+<h2>Frequently asked questions</h2>
+<h4>If the picture is primarily of people, not the specific room, do we still click on it?</h4>
+<p>As long as the people are in the room, select the photo.  If there are so
+many people that you cannot tell what room they are in, don't select the
+photo.</p>
+
+<h4>What it looks plausible, but I'm not certain?</h4>
+<p>Don't click the photo if you aren't certain.</p>
+
+<h4>Do we count industrial or restaurant kitchens?</h4>
+<p>Both types of kitchens count as &quot;kitchen&quot;.</p>
+
+<h4>Does it count as a kitchen if there are pots and pans but not the actual room?</h4>
+<p>No.  You should see some of the surrounding room that suggests that the pots are in a kitchen.</p>
+
+
+<br/>
+<h2>Why are we doing this?</h2>
+
+<p>We are trying to build a database of materials.  This experiment is part of
+ongoing research at Cornell University.  Thank you for participating!</p>

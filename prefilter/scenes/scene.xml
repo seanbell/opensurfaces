@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<scene version="0.4.0">
+	<integrator type="path" />
+
+	<sensor type="orthographic">
+		<transform name="toWorld">
+			<lookAt origin="0, 0, 2" target="0,0,0" up="0, 1, 0"/>
+		</transform>
+
+		<sampler type="ldsampler">
+			<integer name="sampleCount" value="16384"/>
+		</sampler>
+
+		<film type="hdrfilm">
+			<integer name="width" value="256"/>
+			<integer name="height" value="256"/>
+			<rfilter type="gaussian"/>
+			<boolean name="banner" value="false"/>
+		</film>
+	</sensor>
+
+	<bsdf type="diffuse" id="bsdf-diffuse-0">
+		<spectrum name="diffuseReflectance" value="1.0"/>
+	</bsdf>
+
+	<bsdf type="roughdiffuse" id="bsdf-roughdiffuse-0">
+		<spectrum name="diffuseReflectance" value="1.0"/>
+		<float name="alpha" value="$alpha" />
+	</bsdf>
+
+	<bsdf type="conductor" id="bsdf-conductor-0">
+		<string name="material" value="Al"/>
+		<float name="alpha" value="$alpha" />
+	</bsdf>
+
+	<bsdf type="roughconductor" id="bsdf-roughconductor-0">
+		<string name="material" value="Al"/>
+		<float name="alpha" value="$alpha" />
+	</bsdf>
+
+	<bsdf type="plastic" id="bsdf-plastic-0">
+		<spectrum name="diffuseReflectance" value="1.0"/>
+		<spectrum name="specularReflectance" value="0.0"/>
+		<string name="intIOR" value="polypropylene"/>
+		<string name="extIOR" value="air"/>
+	</bsdf>
+
+	<bsdf type="plastic" id="bsdf-plastic-1">
+		<spectrum name="diffuseReflectance" value="0.0"/>
+		<spectrum name="specularReflectance" value="1.0"/>
+		<string name="intIOR" value="polypropylene"/>
+		<string name="extIOR" value="air"/>
+	</bsdf>
+
+	<bsdf type="roughplastic" id="bsdf-roughplastic-0">
+		<spectrum name="diffuseReflectance" value="1.0"/>
+		<spectrum name="specularReflectance" value="0.0"/>
+		<string name="intIOR" value="polypropylene"/>
+		<string name="extIOR" value="air"/>
+		<float name="alpha" value="$alpha" />
+	</bsdf>
+
+	<bsdf type="roughplastic" id="bsdf-roughplastic-1">
+		<spectrum name="diffuseReflectance" value="0.0"/>
+		<spectrum name="specularReflectance" value="1.0"/>
+		<string name="intIOR" value="polypropylene"/>
+		<string name="extIOR" value="air"/>
+		<float name="alpha" value="$alpha" />
+	</bsdf>
+
+	<bsdf type="ward" id="bsdf-ward-0">
+		<string name="variant" value="balanced"/>
+		<spectrum name="diffuseReflectance" value="1.0"/>
+		<spectrum name="specularReflectance" value="0.0"/>
+		<float name="alpha" value="$alpha" />
+	</bsdf>
+
+	<bsdf type="ward" id="bsdf-ward-1">
+		<string name="variant" value="balanced"/>
+		<spectrum name="diffuseReflectance" value="0.0"/>
+		<spectrum name="specularReflectance" value="1.0"/>
+		<float name="alpha" value="$alpha" />
+	</bsdf>
+
+	<shape type="sphere">
+		<float name="radius" value="1" />
+		<ref id="bsdf-$bsdf-$component"/>
+	</shape>
+
+	<emitter type="envmap" id="Area_002-light">
+		<string name="filename" value="$envname.exr"/>
+		<float name="scale" value="0.5"/>
+		<transform name="toWorld">
+			<rotate y="1" angle="50"/>
+		</transform>
+	</emitter>
+</scene>

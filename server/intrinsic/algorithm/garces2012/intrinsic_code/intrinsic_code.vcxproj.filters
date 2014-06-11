@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Archivos de código fuente">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Archivos de encabezado">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Archivos de recursos">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="kmeans">
+      <UniqueIdentifier>{0cd7738c-9a96-41a9-9818-2c0a846a909b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\auxiliar.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="src\segmentacion.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\kmlocal\src\KCtree.cpp">
+      <Filter>kmeans</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\kmlocal\src\KCutil.cpp">
+      <Filter>kmeans</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\kmlocal\src\KM_ANN.cpp">
+      <Filter>kmeans</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\kmlocal\src\KMcenters.cpp">
+      <Filter>kmeans</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\kmlocal\src\KMdata.cpp">
+      <Filter>kmeans</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\kmlocal\src\KMeans.cpp">
+      <Filter>kmeans</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\kmlocal\src\KMfilterCenters.cpp">
+      <Filter>kmeans</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\kmlocal\src\KMlocal.cpp">
+      <Filter>kmeans</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\kmlocal\src\KMrand.cpp">
+      <Filter>kmeans</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\kmlocal\src\KMterm.cpp">
+      <Filter>kmeans</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\auxiliar.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\segmentacion.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\kmlocal\src\KCtree.h">
+      <Filter>kmeans</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\kmlocal\src\KCutil.h">
+      <Filter>kmeans</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\kmlocal\src\KM_ANN.h">
+      <Filter>kmeans</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\kmlocal\src\KMcenters.h">
+      <Filter>kmeans</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\kmlocal\src\KMdata.h">
+      <Filter>kmeans</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\kmlocal\src\KMeans.h">
+      <Filter>kmeans</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\kmlocal\src\KMfilterCenters.h">
+      <Filter>kmeans</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\kmlocal\src\KMlocal.h">
+      <Filter>kmeans</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\kmlocal\src\KMrand.h">
+      <Filter>kmeans</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\kmlocal\src\KMterm.h">
+      <Filter>kmeans</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\IML++\qmr.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\equation-system.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\equation.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\kmeans-segmentator.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\matrix.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\normalizator.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

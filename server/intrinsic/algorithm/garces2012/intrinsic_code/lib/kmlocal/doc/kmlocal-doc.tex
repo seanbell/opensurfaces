@@ -1,0 +1,865 @@
+%----------------------------------------------------------------------
+% File:				kmlocal-doc.tex
+% By:				David Mount
+% Last modified:	08/10/05
+% Description:		User manual for KMlocal
+%----------------------------------------------------------------------
+% Copyright (c) 2005 University of Maryland and David Mount.  All
+% Rights Reserved.
+%
+% Permission to use, copy, and distribute this software and its
+% documentation is hereby granted free of charge, provided that
+% (1) it is not a component of a commercial product, and
+% (2) this notice appears in all copies of the software and
+%     related documentation.
+%
+% The University of Maryland (U.M.) and the authors make no represen-
+% tations about the suitability or fitness of this software for any
+% purpose.  It is provided "as is" without express or implied warranty.
+%----------------------------------------------------------------------
+% History
+% -------
+% Version: 1.0  04/29/2002
+%		Initial release
+% Version: 1.1  04/08/2003
+%		Added EZ_Hybrid and dampening.
+% Version: 1.2  09/13/2003
+%		Created documention directory.  Added sample programs,
+%		kmlsample.cpp and kmlminimal.cpp.
+% Version: 1.7  08/10/2005
+%		Fixed errors in kms_run documentation.  Added capability for
+%		reporting final assignment to clusters and validation.
+%----------------------------------------------------------------------
+%  Typical page setup for a latex2e document.
+%  Uncomment the desired style from the following options.
+%-----------------------------------------------------------------------
+\documentclass[11pt]{article}		% plain manuscript (11pt)
+%-----------------------------------------------------------------------
+%  Margin sizes (for plain manuscript style and letter-sized paper)
+%
+%  Note that the top and left margins include a 1 inch automatic offset.
+%  For A4 paper, change the \textwidth and \textheight below.
+%-----------------------------------------------------------------------
+\setlength{\evensidemargin}{0in}	% 1 inch margin on left
+\setlength{\oddsidemargin}{0in}
+\setlength{\headsep}{0pt}		% no header line
+\setlength{\topmargin}{0in}		% 1 inch margin on top
+\setlength{\headheight}{0pt}
+\setlength{\textwidth}{6.5in}		% text size for letter paper
+\setlength{\textheight}{8.5in}
+%   \setlength{\textwidth}{6.25in}	% text size for A4 paper
+%   \setlength{\textheight}{9in}
+\setlength{\parskip}{3pt plus 1.5pt minus 1.5pt}	% paragraph skip
+%-----------------------------------------------------------------------
+%  Special math symbols 
+%       floor, ceiling, angled brackets
+%-----------------------------------------------------------------------
+\newcommand{\floor}[1]{\left\lfloor #1\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1\right\rceil}
+\newcommand{\ang}[1]{\langle #1\rangle}
+%-----------------------------------------------------------------------
+%  Tighter lists
+%-----------------------------------------------------------------------
+\newenvironment{enumerate*}%            % Tighter enumerated list
+  {\begin{enumerate}%
+    \setlength{\itemsep}{-0.5ex}%
+    \setlength{\parsep}{0pt}}%
+  {\end{enumerate}}
+\newenvironment{itemize*}%              % Tighter itemized list
+  {\begin{itemize}%
+    \setlength{\itemsep}{-0.5ex}%
+    \setlength{\parsep}{0pt}}%
+  {\end{itemize}}
+\newenvironment{description*}%          % Tighter decsription list
+  {\begin{description}%
+    \setlength{\itemsep}{-0.5ex}%
+    \setlength{\parsep}{0pt}}%
+  {\end{description}}
+%-----------------------------------------------------------------------
+%  Title
+%-----------------------------------------------------------------------
+\begin{document}
+
+\title{KMlocal: A Testbed for $k$-means Clustering Algorithms}
+\author{David M. Mount\thanks{Copyright (c) 2002--2005 University of
+	Maryland and David Mount. All Rights Reserved.  Partially
+	supported by the National Science Foundation under
+	grant CCR-0098151.} \\
+	Department of Computer Science and \\
+	Institute for Advanced Computer Studies \\
+	University of Maryland \\
+	College Park, Maryland 20742 \\
+        Email: mount@cs.umd.edu.}
+
+\date{Version: 1.7 \\
+	August 10, 2005}
+
+\maketitle
+
+\section{Introduction}
+
+This is a collection of programs for performing k-means clustering based
+on local search.  In $k$-means clustering we are given a set of $n$ data
+points in $d$-dimensional space and an integer $k$, and the problem is
+to determine a set of $k$ points, called centers, so as to minimize the
+mean squared distance from each data point to its nearest center, called
+the \emph{average distortion}.
+
+A popular algorithm for doing $k$-means clustering is called the
+\emph{$k$-means algorith}, or \emph{Lloyd's algorithm}. Lloyd's
+algorithm is based on the simple observation that the optimal placement
+of a center is at the centroid of the associated cluster.  Given any set
+of $k$ centers $Z$, for each center $z \in Z$, let $V(z)$ denote its
+\emph{neighborhood}, that is, the set of data points for which $z$ is the
+nearest neighbor.  Each stage of Lloyd's algorithm moves every center
+point $z$ to the centroid of $V(z)$ and then updates $V(z)$ by
+recomputing the distance from each point to its nearest center.  These
+steps are repeated until some convergence condition is met.
+
+However, Lloyd's algorithm can get stuck in locally minimal solutions
+that are far from the optimal.  For this reason it is common to consider
+heuristics based on \emph{local search}, in which centers are swapped in
+and out of an existing solution (typically at random).  Such a swap is
+accepted if it decreases the average distortion, and otherwise it is
+ignored.  It is also possible to combine these two approaches (Lloyd's
+algorithm and local search), producing a type of hybrid solution.  There
+are many variants on these themes.
+
+This program provides a number of different algorithms for doing $k$-means
+clustering based on these ideas and combinations.  Further information
+can be found in the following paper.
+
+\begin{quotation}
+T. Kanungo, D. M. Mount, N. Netanyahu, C. Piatko, R. Silverman, and A.
+Y. Wu, ``A Local Search Approximation Algorithm for k-Means Clustering''
+\emph{Proc. of the 18th ACM Symp. on Computational Geometry}, 2002,
+10--18.
+\end{quotation}
+
+It is also available from
+
+\centerline{\textsf{http://www.cs.umd.edu/\~{}mount/pubs.html}}
+
+\section{Compilation}
+
+Let us assume that you are in the kmlocal root directory, from which the
+subdirectories \textsf{src}, \textsf{bin}, and \textsf{test} branch off.
+To start, you can compile the kmltest program by entering (from the root
+directory) ``\textsf{make}''.  This is set up for the g++ compiler,
+version 2.7.2 or higher on Solaris.  It will probably generate a number
+of error messages if you try it from another compiler or platform.  The
+executable binary will be left in the file \textsf{bin/kmltest}.
+
+\section{Overview of the Algorithms} \label{algo.sec}
+
+There are three different procedures for performing k-means, which have
+been implemented here.  The main issue is how the neighbors are computed
+for each center.
+
+\begin{description}
+\item[Lloyd's:] Repeatedly applies Lloyd's algorithm with randomly
+	sampled starting points.
+\item[Swap:] A local search heuristic, which works by performing swaps
+	between existing centers and a set of candidate centers.
+\item[Hybrid:] A more complex hybrid of Lloyd's and Swap, which performs
+	some number of swaps followed by some number of iterations of
+	Lloyd's algorithm.  To avoid getting trapped in local minima,
+	an approach similar to simulated annealing is included as well.
+\item[EZ\_Hybrid:] A simple hybrid algorithm, which does one swap
+	followed by some number of iterations of Lloyd's.
+\end{description}
+
+All the algorithms are based around a generic local search structure.
+The generic algorithm begins by generating an initial solution curr and
+saving it in best.  These objects are local to the KMlocal structure.
+The value of curr reflects the current solution and best reflects the
+best solution seen so far.  The generic algorithm consists of some
+number of basic iterations, called stages.  Each stage involves the
+execution of one step of either the swap heuristic or Lloyd's algorithm.
+Each of the algorithms differ in how they apply these stages.
+
+Stages are grouped into runs.  Intuitively, a run involves a (small)
+number of stages in search of a better solution.  A run might end, say,
+because a better solution was found or a fixed number of stages have
+been performed without any improvement.  After a run is finished, we
+check to see whether we want to accept the solution.  Presumably this
+happens if the cost is lower, but it may happen even if the cost is
+inferior in other circumstances (e.g., as part of a simulated annealing
+approach).  Accepting a solution means copying the current solution to
+the saved solution.  In some cases, the acceptance may involve reseting
+the current solution to a random solution.
+
+There are some concepts that are important to run/phase transitions.
+One is the maximum number of stages.  Most algorithms provide some sort
+of parameter that limits the number of stages that the algorithm can
+spend in a particular run (before giving up).  The second is the
+relative distortion loss, or \emph{RDL}. (See also KMterm.h.) The RDL is
+defined:
+\[
+    \mbox{RDL} =  \frac{\mbox{initDistortion} - \mbox{currDistortion}}%
+                   {\mbox{initDistortion}}.
+\]
+Note that a positive value indicates that the distortion has decreased.
+The definition of ``initDistortion'' depends on the algorithm.  It may
+be the distortion of the previous stage (RDL = consecutive RDL), or it
+may be the distortion at the beginning of the run (RDL = accumulated
+RDL).
+
+\subsection{Lloyds}
+
+This is Lloyd's algorithm with random restarts The algorithm is broken
+into phases, and each phase is broken into runs.  Each phase starts by
+sampling center points at random.  Each run is provided two parameters,
+a maximum number of runs per stage (max\_run\_stage) and a minimum
+accumulated relative distortion loss (min\_accum\_rdl).  If the
+accumulated RDL for the run exceeds this value, then the run ends in
+success.  If the number of stages is exceeded before this happens, the
+run ends in failure.  The phase ends with the first failed run.
+
+\subsection{Swap}
+
+This algorithm iteratively changes centers by performing swaps.  Each
+run consists of a given number (max\_swaps) executions of the swap
+heuristic.
+
+\subsection{EZ\_Hybrid}
+
+This implements a simple hybrid algorithm (compared to the full hybrid).
+The algorithm performs only one swap, followed by some number of
+iterations of Lloyd's algorithm.  Lloyd's algorithm is repeated until
+the consecutive RDL falls below a given threshold.
+
+A stage constitutes one invocation of the Swap or Lloyd's algorithm.  A
+run consists of a single swap followed by a consecutive sequence of
+Lloyd's steps.  A graphical representation of one run is presented
+below.  The decision to make another pass through Lloyd's is based on
+whether the relative improvement since the last stage (consecutive
+relative distortion loss) is above a certain fixed threshold
+(min\_consec\_rdl).
+
+\subsection{Hybrid}
+
+This implements a more complex hybrid algorithm, which combines both of
+swapping and Lloyd's algorithm with a variant of simulated annealing.
+The algorithm's execution is broken into the following different
+processes: one swap, a consecutive sequence of Lloyd's steps, and an
+acceptance test.  If we pass the acceptance test, we take the resulting
+solution, and otherwise we restore the old solution.
+
+The decision to perform another Lloyd's step or go on to acceptance is
+based on whether the relative improvement since the last stage
+(consecutive relative distortion loss) is above a certain fixed
+threshold (min\_consec\_rdl).  If the resulting solution is better than
+the saved solution, then we accept it.  Otherwise, we use the simulated
+annealing decision choice (described below) to decide whether to accept
+it.  The choice to accept a poorer solution occurs with probability
+\[
+	\exp \left( \frac{\mbox{RDL}}{T} \right),
+\]
+where RDL is the relative distortion loss (relative to the saved
+solution), and T is the current temperature.  Note that if $\mbox{RDL} >
+0$ (improvement) then this quantity is $> 1$, and so we always accept.
+The temperature value $T$ is a decreasing function of the number of the
+number of stages.  It starts at some initial value $T_0$ and decreases
+slowly over time.  Rather than using the standard (slow) Boltzman
+annealing schedule, we use the following fast annealing schedule, every
+$L$ stages we set $T = T_F \cdot T$, where:
+\begin{description}
+\item[$L$ (temp\_run\_length):] is an integer parameter set by the
+	user.  (Presumably it depends on the number of centers and
+	the dimension of the space.)
+\item[$T_F$ (temp\_reduc\_factor):] is a real number of the form
+	$1-x$, for some small $x$.
+\end{description}
+
+The initial temperature $T_0$ is a tricky parameter to set.  The user
+supplies a parameter $p_0$ (init\_prob\_accept), the initial probability
+of accepting a random swap.  However, the probability of acceting a swap
+depends on the given RDL value.  To estimate this, for the first $L$
+runs we use $p_0$ as the probability.  Over these runs we compute the
+average rdl value.  Once the first $L$ runs have completed, we set $T_0$
+so that:
+\[
+	\exp \left( -\frac{\mbox{avgRDL}}{T_0} \right) = p_0.
+\]
+or equivalently
+\[
+	T_0 = -\frac{\mbox{avgRDL}}{\ln p_0}.
+\]
+
+\section{The Kmltest Driver Program}
+
+Kmltest is a driver for testing and evaluating various algorithms for
+the $k$-means problem, for point clustering in multi-dimensional spaces.
+It allows the user to generate or input data sets, to specify the number
+of centers and generate or input their initial positions, and then to
+run one of a number of $k$-means procedures.  The test program is run as
+follows:
+
+\begin{center}
+	\textsf{kmltest $<$ test\_input $>$ test\_output}
+\end{center}
+  
+where the \textsf{test\_input} file contains a list of directives as
+described below.  Directives consist of a directive name, followed by
+list of arguments (depending on the directive).  Arguments and
+directives are separated by white space (blank, tab, and newline).
+String arguments are not quoted, and consist of a string of nonwhite
+characters.  A character ``\textsf{\#}'' denotes a comment.  The
+following characters up to the end of line are ignored.  Comments may
+only be inserted between directives (not within the argument list of a
+directive).
+  
+\subsection{Basic operations}
+
+The test program can perform the following operations.  How these
+operations are performed depends on the options which are described
+later. 
+
+\newcommand{\BR}[1]{$\ang{\mbox{#1}}$}
+\newcommand{\SF}[1]{\textsf{#1}}
+  
+\subsubsection{Data Generation}
+\begin{description*}
+\item[\SF{read\_data\_pts \BR{file}}] ~
+
+	Create a set of data points whose coordinates are input from
+	file \BR{file}.  Prior to this, data\_size must be set.  At most
+	data\_size points will be read from the file.  The actual number
+	of points in the file may be less.
+
+\item[\SF{gen\_data\_pts}] ~
+
+	Create a set of data points whose coordinates are generated from
+	the current point distribution.
+\end{description*}
+  
+% \subsubsection{Initial Center Placement}
+% 
+% \textbf{WARNING:} Currently center points are passed to the procedures,
+% but they always ignored.  The current implementations generate center
+% points by sampling from the data points.  These commands are here for
+% future enhancements, which will allow the user to specify the initial
+% center points.
+% 
+% \begin{description*}
+% \item[\SF{read\_centers \BR{file}}] ~
+%   
+% 	(Unimplemented!) Create a set of center points whose coordinates
+% 	are input from file \BR{file}.
+% 
+% \item[\SF{gen\_centers}] ~
+% 
+% 	(Unimplemented!) Create a set of query points whose coordinates
+% 	are generated from the current point distribution.
+% 
+% \item[\SF{sample\_centers}] ~
+% 
+%   	(Unimplemented!) Sample centers from data points.
+% \end{description*}
+  
+\subsection{Running k-means}
+
+\begin{description*}
+\item[\SF{run\_kmeans \BR{method}}] ~
+
+  	Apply $k$-means clustering to the current point set and clusters.
+	The string specifies the desired version of $k$-means.  These
+	include:
+	\begin{description*}
+	\item[\SF{lloyd}] -- runs Lloyd's algorithm using the filtering
+		algorithm.
+	\item[\SF{swap}] -- runs the swap heuristic.
+	\item[\SF{hybrid}] -- runs Lloyd's algorithm and the swap
+		heuristic in alternating steps.
+	\item[\SF{EZ-hybrid}] -- a simpler version of hybrid. One swap
+		followed by some number of Lloyd's.
+	\end{description*}
+	See Section~\ref{algo.sec} for further details.
+\end{description*}
+
+\subsection{Miscellaneous}
+
+Note that in these commands, the string arguments may have no embedded
+blanks.
+
+\begin{description*}
+\item[\SF{title \BR{string}}] ~
+
+	A title printed to the output file.
+
+\item[\SF{print \BR{string}}] ~
+
+  	Outputs a string to console (cerr).
+
+\item[\SF{get\_distortion}] ~
+
+	Computes and prints distortion (the sum of squared distances for
+	the current centers).  Note that the $k$-means algorithms
+	compute and print the distortion for all stages but stage 0, if
+	the stats level is set to ``\SF{stage}.''
+\end{description*}
+  
+\subsection{Options}
+
+How the above operations are performed depends on a set of options.  If
+an option is not specified, a default value is used. An option retains
+its value until it is set again.  String inputs are not enclosed in
+quotes, and must contain no embedded white space.
+  
+\subsubsection{Options affecting nearest neighbor search}
+
+\begin{description*}
+\item[\SF{split\_rule \BR{type}}] ~
+
+  	Type of splitting rule to use in building the search tree.
+	Choices are:
+	\begin{description*}
+	\item[\SF{kd}] -- optimized kd-tree
+	\item[\SF{fair}] -- fair split
+	\item[\SF{midpt}] -- midpoint split
+	\item[\SF{sl\_midpt}] -- sliding midpt split
+	\item[\SF{sl\_fair}] -- sliding fair split
+	\item[\SF{suggest}] -- authors' choice for best
+	\end{description*}
+	The default is ``\SF{suggest}.''  See the file \SF{kd\_split.cc}
+	for more detailed information.  (Currently this is ignored!)
+  
+\item[\SF{bucket\_size \BR{int}}] ~
+
+  	Bucket size, that is, the maximum number of points stored in
+	each leaf node.
+\end{description*}
+  
+\subsubsection{Options affecting data and query point generation}
+
+\begin{description*}
+\item[\SF{kcenters \BR{int}}] ~
+
+  	Number of centers.  Default = 5.
+
+\item[\SF{dim \BR{int}}] ~
+
+  	Dimension of the space.
+
+\item[\SF{seed \BR{int}}] ~
+
+  	Seed for random number generation.
+
+\item[\SF{data\_size \BR{int}}] ~
+
+	Number of data points to generate for gen\_data\_pts points and
+	the maximum number of data points to be read for read\_data\_pts.
+	If this exceeds max\_data\_size, then max\_data\_size is incremented
+	to match this value.  Default = 100.
+
+\item[\SF{std\_dev \BR{float}}] ~
+
+	Standard deviation (used in gauss, and clustered distributions).
+	This is the ``small'' distribution for clus\_ellipsoids.  Default
+	= 1.
+
+\item[\SF{std\_dev\_lo \BR{float}}, \SF{std\_dev\_hi \BR{float}}] ~
+
+  	Low and high standard deviations (used in clus\_ellipsoids).
+	Default = 1.
+
+\item[\SF{corr\_coef \BR{float}}] ~
+
+  	Correlation coefficient (used in co-gauss and co\_lapace
+	distributions). Default = 0.05.
+
+\item[\SF{colors \BR{int}}] ~
+
+	Number of color classes (clusters) (used in the clustered
+	distributions).  Def. = 5.
+
+\item[\SF{new\_clust}] ~
+
+	Once generated, cluster centers are not normally regenerated.
+	This is so that both centers and data points can be generated
+	using the same set of clusters.  This option forces new cluster
+	centers to be generated with the next generation of either data
+	or center points.
+
+\item[\SF{max\_clus\_dim \BR{int}}] ~
+
+	Maximum dimension of clusters (used in clus\_orth\_flats and
+	clus\_ellipsoids).  Default = 1.
+
+\item[\SF{distribution \BR{string}}] ~
+
+  	Type of input distribution
+	\begin{description*}
+  	\item[\SF{uniform}]	-- uniform over cube $[-1,1]^d$.
+  	\item[\SF{gauss}]	-- Gaussian with mean 0
+  	\item[\SF{laplace}]	-- Laplacian, mean 0 and var 1
+  	\item[\SF{co\_gauss}]	-- correlated Gaussian
+  	\item[\SF{co\_laplace}]	-- correlated Laplacian
+  	\item[\SF{clus\_gauss}]	-- clustered Gaussian
+  	\item[\SF{clus\_orth\_flats}] -- clusters of orth flats
+  	\item[\SF{clus\_ellipsoids}] -- clusters of ellipsoids
+  	\item[\SF{multi\_clus}]  -- multi-sized clusters
+	\end{description*}
+  	See the file rand.cc for further information.
+
+\item[\SF{replacement \BR{string}}] ~
+
+  	Sampling option for sample\_centers.
+	\begin{description*}
+  	\item[\SF{on}]	-- sample with replacement
+  	\item[\SF{off}]	-- sample without replacement
+	\end{description*}
+
+\end{description*}
+  
+\subsubsection{Options affection general program behavior}
+
+\begin{description*}
+\item[\SF{stats \BR{string}}] ~
+
+  	Level of statistics output
+	\begin{description*}
+  	\item[\SF{silent}]	 = no output,
+  	\item[\SF{exec\_time}]	+= execution time only
+  	\item[\SF{summary}]	+= summary of complete $k$-means
+  	\item[\SF{stage}]	+= summary of each stage
+  	\item[\SF{trace}]	+= show everything as it happens.
+	\end{description*}
+
+\item[\SF{print\_points \BR{string}}] ~
+
+	Print the points after reading or generating them.  The
+	argument is either ``yes'' or ``no''.  Default = ``no''.
+
+\item[\SF{show\_assignments \BR{string}}] ~
+
+	After running the clustering algorithm, print the indices of the
+	center point to which each data point has been assigned along
+	with its distance to this center.  The argument is either
+	``yes'' or ``no''.  Default = ``no''.
+
+\item[\SF{dump \BR{file}}] ~
+
+  	Dump summary to <file> (for analysis by some other program).
+
+\item[\SF{validate \BR{string}}] ~
+
+	Validate experiment and compute average error.  Since validation
+	causes exact nearest neighbors to be computed by the brute force
+	method, this can take a long time.  Valid arguments are:
+	\begin{description*}
+	\item[\SF{yes}] (Not implemented!) turn validation on
+	\item[\SF{no}] turn validation off
+	\end{description*}
+
+\end{description*}
+
+\subsubsection{Options affecting termination} \label{term.sec}
+
+The way of controlling the program's termination is to specify the
+maximum number of stages.  (In theory, a better way would be to
+determine when the algorithm has converged, but this seems to be a very
+complex task to me.)  Each time the algorithm moves the center points
+and recomputes the distortion constitutes a stage.  The maximum number
+of stages is based on the number of data points $n$ (data\_size) and the
+number of centers $k$ (kcenters) and four coefficients, $(a,b,c,d)$,
+using the following formula:
+\[
+  	\textrm{MaxTotalStages} = a + (b \cdot k + c \cdot n)^d
+\]
+If the final result is 0, then the algorithm runs without terminating.
+
+\begin{description*}
+\item[\SF{max\_tot\_stage \BR{4 $\times$ float}}] ~
+
+	Maximum total stages for given as parameters.
+	Default: $\ang{0,0,0,0}$.
+\end{description*}
+
+\subsubsection{Options used in Lloyd's Algorithm and Hybrid Algorithms}
+
+\begin{description*}
+\item[\SF{damp\_factor \BR{float}}] ~
+
+	A dampening factor in the interval (0,1].  The value 1 is the
+	standard Lloyd's algorithm.  Otherwise, each point is only moved
+	by this fraction of the way from its current location to the
+	centroid.  Default: 1
+
+\item[\SF{min\_accum\_rdl \BR{float}}] ~
+
+	This is used in Lloyd's algorithm algorithm which perform
+	multiple swaps.  When performing p swaps, we actually may
+	perform fewer than p.  We stop performing swaps, whenever the
+	total distortion (from the start of the run) has decreased by at
+	least this amount.  Default: 0.10
+
+\item[\SF{max\_run\_stage \BR{int}}] ~
+
+	This is used in Lloyd's algorithm.  A run terminates after this
+	many stages.  Default: 100
+\end{description*}
+
+\subsubsection{Options specific to the Swap algorithm}
+
+\begin{description*}
+\item[\SF{max\_swaps \BR{int}}] ~
+
+	Maximum swaps at any given stage.  Default: 1
+\end{description*}
+
+\subsubsection{Options specific to the hybrid algorithms}
+
+\begin{description*}
+\item[\SF{min\_consec\_rdl \BR{float}}] ~
+
+	This is used in the hybrid algorithms.  If the RDL of two
+	consecutive runs is less than this value Lloyd's algorithm is
+	deemed to have converged, and the run ends.
+
+\end{description*}
+
+\subsubsection{Options specific to the (complex) hybrid algorithm}
+
+\begin{description*}
+
+\item[\SF{init\_prob\_accept \BR{float}}] ~
+
+	The initial probability of accepting a solution that does not
+	improve the distortion.
+
+\item[\SF{temp\_run\_length \BR{int}}] ~
+
+	The number of stages before changing the temperature.
+
+\item[\SF{temp\_reduc\_factor \BR{float}}] ~
+
+	The factor by which temperature is reduced at the end of a
+	temperature run.
+
+\end{description*}
+  
+  
+\subsection{Example}
+
+Option directives (such as ``dim,'' ``data\_size,'' ``seed'') that
+merely set option values are indented.  Operation directives
+(``gen\_data\_pts,'' ``run\_kmeans'') are not indented.
+
+{\small\begin{verbatim}
+title Experiment_1A                     # experiment title
+   stats summary                        # print summary information
+   print_assignments yes                # print final cluster assignments
+   dim 2                                # dimension 2
+  
+   data_size 5000                       # 5000 data points
+   colors 30                            # ...broken into 30 clusters
+   std_dev 0.025                        # ...each with std deviation 0.025
+   distribution clus_gauss              # clustered gaussian distribution
+   seed 1                               # random number seed
+gen_data_pts                            # generate the data points
+ 
+   kcenters 20                          # place k=20 center points
+   distribution uniform                 # ...uniformly distributed
+   seed 2
+gen_centers                             # generate initial center points
+  
+   lloyd_max_tot_stage 20 0 0 0         # terminate Lloyd's after 20 stages
+print Running-lloyd's
+run_kmeans lloyd                        # run using Lloyd's algorithm
+ 
+   seed 2                               # use same seed
+gen_centers                             # regenerate same center points
+   max_swaps 3                          # at most 3 swaps
+   swap_max_tot_stage 0 3 0 2           # at most 3*k^2 = 1200 stages
+   swap_max_run_stage 50 0 0 0          # at most 50 stages per run
+   swap_min_run_gain 0.02               # stop run if distortion drops 2%
+print Running-swap
+run_kmeans swap                         # run using swap heuristic
+\end{verbatim}}
+
+\section{Sample Program}
+
+Although KMlocal is not a library, it is possible to invoke the
+various algorithm directly from program.  The algorithm is designed
+around a collection of C++ objects.  The include the following:
+
+\begin{description}
+\item[KMdata: (KMdata.h)] This object stores the data points.  The
+	constructor is given the dimension and the number of points to
+	allocate.  If $P$ is an object of this type, then $P[i][d]$
+	refers to the $d$th coordinate of the $i$th point.
+
+	One the key elements to the efficiency of the algorithms
+	presented is the use of the filtering algorithm for computing
+	the nearest cluster center for each data point.  This requires
+	the construction of a data structure called a kc-tree.  This tree
+	is constructed by the method \texttt{P.buildKcTree()}, which
+	should be done prior to running any of the clustering
+	algorithms.
+\item[KMfilterCenters: (KMfilterCenters.h)] This object stores the
+	center points (in a manner that makes the use of the filtering
+	algorithm possible).  The constructor is passed two arguments,
+	the desired number of center points $k$, and the associated
+	data points.
+	
+	On completion of the execution of the clustering algorithm,
+	the centers are stored in this structure.  It supports a
+	method \texttt{print()}, which prints the centers to
+	the standard output, and method \texttt{getDist()}, which
+	returns the total distortion.
+
+\item[KMlocal: (KMlocal.h)] There are currently four different
+	clustering algorithms supported.  They are all designed around a
+	common local search template, called KMlocal.  This is a generic
+	template, and so cannot be invoked directly.  The following
+	derived objects can be invoked:
+	\begin{description*}
+	\item[KMlocalLloyds:] Repeated Lloyd's algorithm.
+	\item[KMlocalSwap:] The swap heuristic.
+	\item[KMlocalEZ\_Hybrid:] A simple hybrid, which simply
+		alternates Lloyd's algorithm and the swap algorithm.
+	\item[KMlocalHybrid:] A more complex hybrid algorithm, which
+		involves simulated annealing.
+	\end{description*}
+	These algorithms are described in Section~\ref{algo.sec}, above.
+
+	The constructor to each algorithm is passed two things, the
+	KMfilterCenter structure for the center points and the KMterm
+	structure (described below), which specifies the termination
+	conditions.  It supports the method \texttt{execute()}, which
+	initializes the center points to random positions, executes the
+	clustering algorithm, and returns with the center structure
+	modified to hold the final centers.
+\item[KMterm: (KMterm.h)] Each of the local search algorithms consists
+	of some number of incremental movements of the center points,
+	called \emph{stages}.  Stages are grouped into longer
+	organizational units called \emph{runs}, and runs are grouped
+	into longer units called \emph{phases}.  The meaning of the
+	transition from runs to phases depends on the individual
+	algorithm.  Intuitively, a run involves a search for a better
+	solution, through some local search operations.  If this search
+	results in a better solution, the run is said to be successful.
+	A phase consists of a series of consecutive successful runs.
+	When a run is unsuccessful, the phase ends.
+
+	The definition of when a run and a phase is complete depends on
+	a number of parameters.  These parameters are stored in the
+	KMterm object.  See the files KMterm.h and KMlocal.h for more
+	detailed explanation of their exact meaning.
+
+	One important parameter in the termination condition is the
+	maximum total stages.  All the current algorithms simply execute
+	until reaching this number of stages.  It is defined by a set of
+	four parameters $(a,b,c,d)$.  This was described earlier in 
+	Section~\ref{term.sec}.  These are the first four parameters
+	in the constructor for KMterm.
+\end{description}
+
+A minimal sample program is given below.  It generates a set of random
+data points (\emph{dataPoints}).  This is done using a function
+\emph{kmUniformPts}, which generates a set of uniformly distributed
+points in the cube $[-1,1]^d$, where $d$ is the dimension.  It then
+constructs a kc-tree for these points.  Next, it generates a center
+point structure (\emph{ctrs}).  It declares a local search algorithm
+(\emph{kmAlg}) with which to perform the clustering.  In this case it is
+the repeated Lloyd's algorithm, but the commented code indicates the
+possible choices for the other clustering algorithms.  It creates KMterm
+object, which (in addition to a number of cryptic options) requests that
+the algorithm be run for 100 stages (given by the first four parameters
+being $(100, 0, 0, 0)$).  It executes this algorithm, and prints the
+resulting distortion and center points. (This file can be found in
+\texttt{src/kmlminimal.cpp}. A more complete sample program can be found
+in \texttt{src/kmlsample.cpp}.)
+
+{\small\begin{verbatim}
+#include <cstdlib>                      // C standard includes
+#include <iostream>                     // C++ I/O
+#include <string>                       // C++ strings
+#include "KMlocal.h"                    // k-means algorithms
+
+using namespace std;                    // make std:: available
+
+// execution parameters (see KMterm.h and KMlocal.h)
+KMterm  term(100, 0, 0, 0,              // run for 100 stages
+             0.10, 0.10, 3,             // other typical parameter values 
+             0.50, 10, 0.95);
+
+int main()
+{
+    int         k       = 4;                    // number of centers
+    int         dim     = 2;                    // dimension
+    int         nPts    = 20;                   // number of data points
+
+    KMdata dataPts(dim, nPts);                  // allocate data storage
+    kmUniformPts(dataPts.getPts(), nPts, dim);  // generate random points
+    dataPts.buildKcTree();                      // build filtering structure
+    KMfilterCenters ctrs(k, dataPts);           // allocate centers
+                                                // run the algorithm
+    KMlocalLloyds       kmAlg(ctrs, term);      // repeated Lloyd's
+    // KMlocalSwap      kmAlg(ctrs, term);      // Swap heuristic
+    // KMlocalEZ_Hybrid kmAlg(ctrs, term);      // EZ-Hybrid heuristic
+    // KMlocalHybrid    kmAlg(ctrs, term);      // Hybrid heuristic
+    ctrs = kmAlg.execute();                     // execute
+                                                // print number of stages
+    cout << "Number of stages: " << kmAlg.getTotalStages() << "\n";
+                                                // print average distortion
+    cout << "Average distortion: " << ctrs.getDist(false)/nPts << "\n";
+    ctrs.print();                               // print final centers
+
+    return EXIT_SUCCESS;
+}
+\end{verbatim}}
+
+The output of the minimal sample program when run on a Sun 5 running
+Solaris 5.8 is shown below.
+{\small\begin{verbatim}
+Number of stages: 100
+Average distortion: 0.0806688
+       0        [ 0.538642 -0.747656 ] dist = 0.143903
+       1        [ 0.058456 -0.350953 ] dist = 0.0607307
+       2        [ 0.333405 0.368641 ] dist = 0.958262
+       3        [ -0.677253 -0.534964 ] dist = 0.450481
+\end{verbatim}}
+
+The data used as input to this minimal program is generated randomly,
+and so the final results depend on the system's random number generator.
+Different systems will likely produce different results.  For example,
+the same program when compiled on a PC under Microsoft Visual
+Studio.NET, produced the following very different output.
+{\small\begin{verbatim}
+Number of stages: 100
+Average distortion: 0.137674
+       0	[ 0.767327 0.301355 ] dist = 0.999582
+       1	[ -0.790716 0.392132 ] dist = 0.534576
+       2	[ -0.215044 -0.942462 ] dist = 0.369202
+       3	[ -0.200438 0.495125 ] dist = 0.850113
+\end{verbatim}}
+
+\section{How Do I Get Started Quickly?}
+
+If you have some data that you wish to cluster, I would suggest starting
+with the program \texttt{src/kmlsample.cpp} and modifying it for your
+purposes.  The parameters that you will have to change are the desired
+number of clusters (\texttt{k}), the dimension (\texttt{dim}), the
+maximum number of points (\texttt{maxPts}).  You should set the number
+of iteration stages  (\texttt{stages}) to a value that you feel is large
+enough to guarantee good convergence.  A value on the order of 100--500
+should be sufficient for most instances.  Larger values may be needed
+for higher dimensional or hard to cluster data sets.  You will also need
+to modify the section of the program that inputs the points.
+
+This program tries all four of the various clustering algorithm.  You
+should see which produces the smallest distortion for your data.  Based
+on our experience, the algorithm that has the best overall performance
+is KMlocalHybrid.  Finally, remove all the calls to the clustering
+algorithms, except for the final one you wish to use.
+
+If you are using a PC running Microsoft Windows, precompiled versions of
+\texttt{kmlminimal}, \texttt{kmlsample}, and \texttt{kmltest} can be
+found in the directory \texttt{KMLwin32/bin}.  The solution and project
+files can be found in \texttt{KMLwin32} as well, for compilation using
+Microsoft Visual Studio.NET (under Visual C++).
+
+\end{document}

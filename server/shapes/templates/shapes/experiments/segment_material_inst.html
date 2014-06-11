@@ -1,0 +1,53 @@
+{% extends "mturk/base_responsive.html" %}
+{% load humanize %}
+
+{% block content %}
+<section id="sec-main">
+
+{% comment %}
+<div class="alert alert-success">
+	<p>I increased the maximum zoom; I hope this makes things easier.</p>
+	<p>Cheers, Sean (aka "KB").</p>
+</div>
+{% endcomment %}
+
+<div class="row">
+	<div class="span6">
+		<div class="hero-unit">
+			<h2>Your task is to draw polygons around regions that have a single type of material or texture.</h2>
+			<p style="color:#f00"><span class="label label-important">Note:</span> the shape does not have to be a flat surface; please make the regions as large as possible.</p>
+			<p>Different polygons can contain different materials, but each polygon must contain only one substance or texture.</p>
+			<p>Each polygon must exactly follow the material boundary.  Please adjust your shapes before submitting.</p>
+			<p>Draw {{ min_shapes|apnumber }} polygon{{ min_shapes|pluralize }} to complete the task.</p>
+		</div>
+	</div>
+	<div class="span6">
+		<div class="thumbnail">
+			<img src="{{ content.image_1024.url }}" alt=""/>
+			<p class="caption">This will be your photograph.</p>
+		</div>
+	</div>
+</div>
+
+<div id="get-chrome" class="row" style="display:none">
+	<div class="span12">
+		<div class="well" style="text-align:center">
+			<h3>Note: this task works best with Google Chrome</h3>
+			<a href="http://www.google.com/chrome" class="btn btn-primary btn-large" target="_blank">Get Google Chrome</a>
+		</div>
+	</div>
+</div>
+
+<div class="page-header">
+	<h1>Instructions</h1>
+</div>
+{% include instructions %}
+{% endblock content %}
+
+{% block scripts %}
+<script>
+if ($.browser.chrome !== true) {
+	$('#get-chrome').show();
+}
+</script>
+{% endblock %}

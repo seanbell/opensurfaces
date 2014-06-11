@@ -1,0 +1,84 @@
+{% extends "mturk/base_fixed.html" %}
+{% load humanize %}
+{% load compress %}
+
+{% block css %}{{ block.super }}
+<style>
+	#mt-top-padding { height: 60px; }
+	#mt-instructions { padding: 5px; }
+	#mt-instructions > span { margin-top: 0px; }
+	body { padding: 0px; }
+	iframe { border: none; }
+	.vp-choice { text-align: center; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="mt-top">
+	<div id="mt-instructions">
+		<span>
+			<button id='btn-zoom-in' type="button" class="btn btn-zoom" disabled="disabled"><i class="icon-resize-full"></i> Zoom in</button>&nbsp;
+			<button id='btn-zoom-out' type="button" class="btn btn-zoom" disabled="disabled"><i class="icon-resize-small"></i> Zoom out</button>&nbsp;
+			<button id='btn-fine' type="button" class="btn btn-zoom" disabled="disabled" data-toggle="button"><i class="icon-eye-open"></i> Fine adjustment</button>
+		</span>
+
+		<span style="margin-left:200px">This is image <span id="image-count">1</span> of {{ num_contents }}.</span>
+
+		<span class="pull-right">
+			<a href="#modal-instructions" role="button" class="btn" data-toggle="modal">Instructions</a>&nbsp;
+			<button type="button" id='btn-submit' class="btn btn-primary" disabled="disabled">Submit</button>
+		</span>
+	</div>
+</div>
+<div id="mt-top-padding"></div>
+
+<div class="container">
+	<div class="row" id="mt-choices" style="padding-bottom:5px">
+		<div class="span1"><div class="vp-choice well" data-idx="1">1</div></div>
+		<div class="span1"><div class="vp-choice well" data-idx="2">2</div></div>
+		<div class="span1"><div class="vp-choice well" data-idx="3">3</div></div>
+		<div class="span1"><div class="vp-choice well" data-idx="4">4</div></div>
+		<div class="span1"><div class="vp-choice well" data-idx="5">5</div></div>
+		<div class="span1"><div class="vp-choice well" data-idx="6">6</div></div>
+		<div class="span1"><div class="vp-choice well" data-idx="7">7</div></div>
+		<div class="span1"><div class="vp-choice well" data-idx="8">8</div></div>
+		<div class="span1"><div class="vp-choice well" data-idx="9">9</div></div>
+	</div>
+	<div class="row">
+		<div class="span6">
+			<div id="mt-container"></div>
+		</div>
+		<div class="span6">
+			<iframe id="frame-rectify" name="frame-rectify"
+				width="450px" height="450px" border="none"></iframe>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block modals %}{{ block.super }}
+{% endblock modals %}
+
+{% block scripts %}{{ block.super }}
+
+{% include "mturk/loading_script.html" %}
+{% include "mturk/content_script.html" with array_js="material_shape_array.js" example_array_js="material_shape_array.js" %}
+
+<script type="text/javascript">
+window.rectify_src = '{{ STATIC_URL }}rectify.html';
+</script>
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/kinetic-v4.0.4.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/three.min.js"></script>
+
+{% compress js %}
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/util.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/modals.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/geom.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/active_timer.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/mturk/submit.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/normals/experiments/rectify_vp.coffee"></script>
+{% endcompress %}
+
+{% include "shapes/experiments/shapes_preload_script.html" %}
+{% endblock %}

@@ -1,0 +1,12 @@
+*.sqlite3
+.disable-*
+ipython-notebooks
+bsdf-sequence
+substance-grid-new
+substance-grid
+texture-grid
+image-labels
+*.tmp
+results_sweep_thresh.json
+results_sweep_thresh.pkl
+generated-*

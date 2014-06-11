@@ -1,0 +1,20 @@
+{% extends "mturk/experiments/filter_content_inst_content.html" %}
+
+{% block instructions_content_text %}
+<div class="row-fluid">
+	<div class="span6">
+		<p>Only consider the base color of the blobs.  Ignore the shininess or
+		glossiness from reflections.  If you cannot decide on the correct
+		answer, click the button &quot;I can't tell&quot; -- please don't guess.</p>
+	</div>
+	<div class="span6">
+		<div class="if-not-webkit well" style="display:none">
+			<p><span class="label label-important">Important:</span> If you
+			cannot see a red outline around the shape on the left, please try
+			using <a href="http://google.com/chrome">Google Chrome</a> instead
+			of Firefox.</p> <p>You should see red outlines like this:</p>
+			<p><img src="{{ STATIC_URL }}img/mturk/quality_bsdf_color_expected.png" alt=""/></p>
+		</div>
+	</div>
+</div>
+{% endblock %}

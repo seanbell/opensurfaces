@@ -1,0 +1,11 @@
+{% with entry.rectified_normal as rn %}
+<a class="thumbnail admin-score-thumbnail" href="{% url 'rectified-normal-detail' rn.id %}">
+	<div class="overlay-wrapper">
+		{% include "image_square.svg" with url=rn.image_rectified_square_512.url %}
+		{% include "rectified_normal_display.svg" with entry=rn %}
+		<div class="overlay-container">
+			<p class="overlay-content">{{ entry.get_thumb_overlay }}{% if entry.time_ms %} | {{ entry.time_s }} s{% endif %}</p>
+		</div>
+	</div>
+</a>
+{% endwith %}

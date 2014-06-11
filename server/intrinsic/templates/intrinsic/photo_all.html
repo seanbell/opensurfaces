@@ -1,0 +1,31 @@
+{% extends "base_sidenav.html" %}
+{% load cache %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Pairwise Reflectance Judgements</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block before_sidenav %}
+{% include "intrinsic/judgements_legend.html" %}
+{% endblock %}
+
+{% block sidenav %}
+<div class="well well-nav">
+	<ul class="nav nav-list">
+		{% include "category_filter_items.html" with categories=categories_all %}
+		<li class="nav-header">Scene</li>
+		{% include "category_filter_items.html" with categories=categories %}
+	</ul>
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% cache 21600 content request.get_full_path %}
+{% include page_template %}
+{% endcache %}
+{% endblock %}

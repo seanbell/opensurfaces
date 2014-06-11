@@ -1,0 +1,41 @@
+{% if examples_good or examples_bad %}
+<br/>
+<h2>Examples</h2>
+
+<div class="row-fluid">
+	{% if examples_good %}
+	<div class="span6">
+		<h3>Positive examples</h3>
+		{% for c in examples_good %}
+		<div class="thumbnail item-selected" style="margin-top:10px">
+			<div class="overlay-wrapper">
+				<div class="entry" {{ c.get_entry_attr|safe }}>
+					{% include content_thumb_template with entry=c %}
+				</div>
+				<div class="overlay-container">
+					<p class="overlay-content">{{ html_yes|safe }}</p>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+	{% if examples_bad %}
+	<div class="span6">
+		<h3>Negative examples</h3>
+		{% for c in examples_bad %}
+		<div class="thumbnail" style="margin-top:10px">
+			<div class="overlay-wrapper">
+				<div class="entry" {{ c.get_entry_attr|safe }}>
+					{% include content_thumb_template with entry=c %}
+				</div>
+				<div class="overlay-container">
+					<p class="overlay-content">{{ html_no|safe }}</p>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+</div>
+{% endif %}

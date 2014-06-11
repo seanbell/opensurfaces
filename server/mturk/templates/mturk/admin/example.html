@@ -1,0 +1,37 @@
+{% extends "base_sidenav.html" %}
+{% load compress %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Experiment Examples</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block sidenav %}
+<div class="well well-nav">
+	<ul class="nav nav-list">
+		<li class="nav-header">Experiments</li>
+		{% for c in categories %}
+		<li{% ifequal category_slug c.slug %} class="active"{% endifequal %}>
+			<a href="{% url 'mturk-admin-example' c.slug %}">{{ c.slug }} ({{ c.count }})</a>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<p>These items are displayed as examples in the instructions.</p>
+<p>Click on a label to toggle its status.</p>
+{% include page_template %}
+{% endblock %}
+
+{% block scripts %}{{ block.super }}
+{% include "entry_scripts.html" %}
+<script type="text/javascript">setTimeout(function() { $('a.endless_more').click()}, 10000);</script>
+{% compress js %}
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/mturk/admin/example.coffee"></script>
+{% endcompress %}
+{% endblock %}

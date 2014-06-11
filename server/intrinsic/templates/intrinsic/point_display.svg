@@ -1,0 +1,8 @@
+{# Display an intrinsic image point #}
+
+{% with photo=entry.point.photo %}
+<svg version="1.2" class="fix-aspect" data-aspect="1.0" viewBox="{{ entry.view_box_svg }}" preserveAspectRatio="xMidYMin meet" style="width:100%">
+	<image x="0" y="0" width="{{ photo.aspect_ratio }}" height="1" xlink:href="{{ photo.image_2048.url }}"/>
+	<circle class="int-display {% if entry.opaque %}int-opaque{% else %}int-not-opaque{% endif %} nss" cx="{{ entry.point.x_aspect }}" cy="{{ entry.point.y }}" r="0.01" />
+</svg>
+{% endwith %}

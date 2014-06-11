@@ -1,0 +1,67 @@
+/*body, html { padding: 0px; margin: 0px; [>overflow:hidden;<] }*/
+iframe { border: 1px solid #969696; }
+#mt-top {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 999;
+	width: 100%;
+	height: 20px;
+}
+#mt-top-padding {
+	height: 60px;
+}
+#mt-top-nohover {
+	padding: 0;
+}
+#modal-instructions {
+	width: 1000px;
+    margin-left: -500px;
+}
+#mt-feedback {
+	padding: 0px;
+	margin: 0px;
+	margin-left: 20px;
+}
+#mt-feedback > input {
+	margin-bottom: 0px;
+	margin-top: -2px;
+	vertical-align: middle;
+}
+#mt-instructions {
+	background-color: #EDA126;
+	font-weight: bold;
+	padding: 8px;
+	margin: 0px;
+}
+#mt-instructions > .btn {
+	margin: 0px;
+}
+#mt-instructions > span {
+	padding: 0px;
+	margin: 0px;
+	margin-top: -5px;
+}
+#mt-responses {
+	background-color: #EDA126;
+	font-weight: bold;
+	padding: 8px;
+	margin: 0px;
+}
+#mt-num-shapes {
+	text-decoration: underline;
+}
+.ui-controls-top {
+	background-color:#EEE;
+	padding: 5px;
+	margin: 0px;
+}
+.mt-caption {
+	text-align: center;
+}
+.item-selected {
+	background-color: #fff1c5; border: 1px solid #ff7000;
+	-webkit-box-shadow: 0px 0px 5px #ff7000;
+		-moz-box-shadow: 0px 0px 5px #ff7000;
+			box-shadow: 0px 0px 5px #ff7000;
+}

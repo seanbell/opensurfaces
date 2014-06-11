@@ -1,0 +1,100 @@
+{# Base template for label_substance and label_name #}
+
+{% extends "mturk/base_fixed.html" %}
+{% load humanize %}
+{% load compress %}
+
+{% block css %}{{ block.super }}
+<style>
+	#mt-top-padding { height: 45px; }
+	#mt-top-planar { padding: 2px 10px 2px 10px; }
+	body { padding: 0px; }
+	.nav-list > li > a { padding: 0px 15px; }
+	#mt-controls { padding-bottom: 5px; text-align: right; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="mt-top">
+	<div id="mt-instructions">
+		<span>Instructions: {% block instructions_summary %}{% endblock %} This is image <span id="image-count">1</span> of {{ num_contents }}.</span>
+		<span class="pull-right">
+			<a href="#modal-instructions" role="button" class="btn" data-toggle="modal">Instructions</a>&nbsp;
+			<button type="button" id='btn-back' class="btn btn-inverse" disabled="disabled">Go back</button>
+		</span>
+	</div>
+</div>
+<div id="mt-top-padding"></div>
+
+<div id="mt-container">
+	<div class="container">
+		<div class="row">
+			<div class="span9">
+				<div id="mt-controls">
+					<span class="btn-group">
+						<button id='btn-zoom-in' type="button" class="btn btn-zoom" disabled="disabled"><i class="icon-resize-full"></i> Zoom in</button>
+						<button id='btn-zoom-out' type="button" class="btn btn-zoom" disabled="disabled"><i class="icon-resize-small"></i> Zoom out</button>
+					</span>
+				</div>
+				<div id="mt-image"></div>
+			</div>
+			<div class="span3">
+				<div class="well" style="max-width: 340px; padding: 8px 0; margin-bottom: 0">
+					<ul class="nav nav-list" id="materials">
+						{% for c in categories %}
+						<li class="cat"><a href="#">{{ c }}</a></li>
+						{% endfor %}
+						<li class="divider"></li>
+						{% for f in failures %}
+						<li class="cat"><a href="#">{{ f }}</a></li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block modals %}
+{% include "modal_instructions.html" %}
+{% include "modal_loading.html" %}
+{% include "modal_error.html" %}
+{% include "modal_areyousure.html" %}
+{% include "modal_feedback.html" %}
+{% endblock modals %}
+
+{% block scripts %}{{ block.super }}
+
+{% include "mturk/content_script.html" with array_js="material_shape_array.js" example_array_js="material_shape_array.js" %}
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/kinetic-v4.5.4.min.js"></script>
+
+{% compress js %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/delaunay.js"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/util.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/modals.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/geom.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/active_timer.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/mturk/submit.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/shapes/experiments/categorize_shapes.coffee"></script>
+{% endcompress %}
+
+<script type="text/javascript">
+$(function () {
+	window.controller = new Controller({
+		container_id: 'mt-image',
+		width: $('#mt-image').width(),
+		height: $(window).height() - $('#mt-top-padding').height() - $('#mt-controls').height() - 16
+	});
+
+	for (var i = 0; i < window.mt_contents.length; i ++) {
+		var p = window.mt_contents[i].photo;
+		p.photo_obj = new Image()
+		p.photo_obj.src = p.url;
+	}
+});
+</script>
+
+{% include "shapes/experiments/shapes_preload_script.html" %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "endless_list.html" %}
+
+{% block scripts %}{{ block.super }}
+<script type="text/javascript">
+$(function() {
+	$('.container').on('click', '.entry', function() {
+		var t = this;
+		var data = {
+			model: $(this).attr('data-model'),
+			id: $(this).attr('data-id'),
+		};
+		$.ajax("{{ curate_post_url }}", {
+			type: 'POST',
+			data: data,
+			error: function() {
+				alert("Error curating " + JSON.stringify(data));
+			}, success: function(data) {
+				console.log(data);
+				if (data['selected'] == true) {
+					$(t).addClass('item-selected');
+				} else {
+					$(t).removeClass('item-selected');
+				}
+			}
+		});
+		return false;
+	});
+});
+</script>
+{% endblock %}

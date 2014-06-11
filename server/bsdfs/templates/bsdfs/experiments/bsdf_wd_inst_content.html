@@ -1,0 +1,85 @@
+{% load humanize %}
+
+<div class="row-fluid">
+	<span class="span8">
+		<p>Your task is to adjust controls to make a blob look like it is made out of
+		the same material as another shape.  When you are done, the blob and
+		the target shape should look similar.</p>
+
+		<p>You will be given the controls on the right to edit the blob.
+		Please try moving the sliders around to see what happens to the blob in
+		the middle.  If you have trouble finding the color, you can click on
+		the &quot;target&quot; image to set the color.</p>
+
+		<p>If you cannot complete the task (e.g. the target has more than one
+		material), click &quot;I give up&quot;.  Please give a reason for why you
+		cannot match the blob to the target.  If you give up, it will count as a
+		completed task.</p>
+
+		<p>Please scroll down for examples.</p>
+
+		<br/>
+		<h3>Description of the controls</h3>
+		<dl class="dl-horizontal" style="margin-left: 40px">
+			<dt>Reflection Type</dt> <dd>metals often have colored reflections; most other things have uncolored reflections</dd>
+			<dt>Distinctness of Image</dt> <dd>the sharpness/blurriness of the reflection</dd>
+			<dt>Contrast</dt> <dd>the difference between the bright and dark regions</dd>
+			<dt>Color</dt> <dd>the average color of the blob; you can also set this by clicking on the target image</dd>
+			<dt>Brightness</dt> <dd>whether the blob is bright or dark</dd>
+		</dl>
+
+		<p><span class="label label-important">Note:</span> <span
+			style="color:#f00"> Please note that the most important part to get
+		right is the &quot;Distinctness of Image&quot; and &quot;Contrast&quot;
+	controls.</span></p>
+	</span>
+	<span class="span4">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/bsdf_controls1.jpg"/>
+		</div>
+	</span>
+</div>
+
+<br/>
+<h3>Example &quot;Distinctness of Image&quot;</h3>
+<div class="row-fluid">
+	<div class="span8">
+		<div class="row-fluid">
+			<div class="span12">
+				<p>The red arrow points to the glossy reflection. <br/> Notice that the brightness and distinctness of image matches.</p>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span6">
+				<svg viewBox="0 0 1 1" style="width:100%;height:100%">
+					<image x="0" y="0" width="1" height="1" xlink:href="{{ STATIC_URL }}img/mturk/quality_bsdf_gloss_ex1b.jpg"/>
+					<path transform="translate(0.28,0.65) scale(0.001,0.001) translate(-50,0)"d="M 178,64 C 124,44 108,60 88,74 C 66,86 49,96 0,79 L 14,37 C 38,46 57,45 83,26 C 112,5 150,6 191,24 L 178,64 zM 173,0 L 225,50 L 160,76 L 173,0 z" style="fill:#ff0000" />
+				</svg>
+			</div>
+			<div class="span6">
+				<svg viewBox="0 0 1 1" style="width:100%;height:100%">
+					<image x="0" y="0" width="1" height="1" xlink:href="{{ STATIC_URL }}img/mturk/quality_bsdf_gloss_ex1a.png"/>
+					<path transform="translate(0.35,0.45) scale(0.001,0.001) translate(-50,0)" d="M 178,64 C 124,44 108,60 88,74 C 66,86 49,96 0,79 L 14,37 C 38,46 57,45 83,26 C 112,5 150,6 191,24 L 178,64 zM 173,0 L 225,50 L 160,76 L 173,0 z" style="fill:#ff0000" />
+				</svg>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% include "mturk/examples.html" %}
+
+<br/>
+<h2>What if the target is textured?</h2>
+
+<p>If the target has a texture, please try and find the closest match -- we
+understand that this is a subjective task.</p>
+
+<br/>
+<h2>Why are we doing this?</h2>
+
+<p>We are building a large database of objects and materials from images on the
+web, and we want to categorize them by metrics such as roughness and apparent
+contrast.  You will be giving us these metrics as you complete the task.</p>
+
+<p>This is part of ongoing research at Cornell University.  Thank you for
+participating!</p>

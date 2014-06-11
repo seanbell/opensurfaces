@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load compress %}
+
+{% block content %}
+<section id="sec-main">
+
+<div class="page-header">
+	<h1>Rectified Texture Detail</h1>
+</div>
+
+<div class="row">
+	<div class="span9">
+		<div class="thumbnail">
+			<img src="{{ entry.image_rectified_1024.url }}" alt=""/>
+		</div>
+		<div class="thumbnail" style="margin-top:10px">
+			{% include "rectified_normal_display.svg" with large="True" %}
+		</div>
+	</div>
+	<div class="span3">
+		<div class="well">
+			<a href="{{ entry.image_rectified.url }}" class="btn btn-block" role="button" target="_blank">Full Resolution</a>
+			<a href="{% url 'material-shape-detail' entry.shape_id %}" class="btn btn-block" role="button" target="_blank">View Shape</a>
+			<a href="{% url 'photo-detail' entry.shape.photo_id %}" class="btn btn-block" role="button" target="_blank">View Photo</a>
+			<hr/>
+
+			<p><b>User:</b> {{ entry.user }}
+			<p><b>Time:</b> {{ entry.time_s }} s</p>
+			<p><b>Method:</b> {{ entry.method_str }}</p>
+			<p><b>Used VPs:</b> {{ entry.automatic }}</p>
+			<p><b>Angle (z):</b> {{ entry.phi_degrees|floatformat:3 }}</p>
+			<p><b>Full Transform:</b> {{ entry.uvnb }}</p>
+
+			{% include "license_inline.html" with license=entry.shape.photo.license %}
+
+			{% for v in votes %}
+			<hr/>
+			{% include "votes_bar.html" with bar=v %}
+			{% endfor %}
+		</p>
+	</div>
+</div>
+{% endblock %}

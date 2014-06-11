@@ -1,0 +1,39 @@
+{% extends "base_sidenav.html" %}
+{% load cache %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Scenes</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block sidenav %}
+<div class="well well-nav">
+	<ul class="nav nav-list">
+		{% include "category_filter_items.html" with categories=categories_all %}
+		<li class="nav-header">Scene</li>
+		{% include "category_filter_items.html" with categories=categories %}
+	</ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="subnav">
+<ul class="nav nav-pills">
+	<li class="disabled"><a>Filter:</a></li>
+	{% for f in filters %}
+	{% if f.count > 0 %}
+	<li{% ifequal filter_key f.key %} class="active"{% endifequal %}>
+		<a href="{% url 'photo-by-category' category_id f.key %}">{{ f.name }} ({{ f.count }})</a>
+	</li>
+	{% endif %}
+	{% endfor %}
+</ul>
+</div>
+<div id="subnav-after"></div>
+{% cache 300 content request.get_full_path %}
+{% include page_template %}
+{% endcache %}
+{% endblock %}

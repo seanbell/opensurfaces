@@ -1,0 +1,10 @@
+<hr/>
+<h2 style="margin-top:30px">Intrinsic image decompositions</h2>
+{% if photo.in_iiw_dataset %}
+	<p>The input image is decomposed into a "reflectance" and "shading" layer.  Note that the reflectance layer is listed twice: color (left) and grayscale (center).  Decompositions are ordered by error and then runtime (best on top).  The parameters for each algorithm are the same for all photos; they are set to the values that produce lowest mean error (WHDR) for all photos.  See our <a href="{% url "publications" "intrinsic" %}" target="_blank">publication</a> for more details.</p>
+	{% with entries=photo.best_intrinsic_images_decompositions %}
+	{% include "grid.html" with span="span12" rowsize="1" thumb_template="intrinsic/decomposition.html" %}
+	{% endwith %}
+{% else %}
+	<p>This photo is not part of the <a href="{% url "publications" "intrinsic" %}" target="_blank">Intrinsic Images in the Wild</a> dataset.</p>
+{% endif %}

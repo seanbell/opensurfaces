@@ -1,0 +1,19 @@
+{% load humanize %}
+<div class="thumbnail admin-score-thumbnail" data-admin-score="{{ entry.admin_score }}" data-id="{{ entry.id }}">
+	<div class="overlay-wrapper">
+		<img src="{{ entry.image_blob.url }}" alt="" />
+		<div id="pd-{{ entry.id }}" class="pd"></div>
+		<img src="{{ entry.shape.photo.image_square_300.url }}" alt="" />
+		<div class="overlay-container">
+			{% comment %} <p class="overlay-content">{{ entry.edit_sum }} sum | {{ entry.edit_nnz }} nnz | {{ entry.time_s }} s</p> {% endcomment %}
+			{% if entry.mturk_assignment.hit.sandbox %}<p class="overlay-content">(SANDBOX)</p>{% endif %}
+			<p class="overlay-content"><span class="score-display"></span></p>
+		</div>
+	</div>
+</div>
+<div style="text-align:center; margin-top: 5px">
+	<a href="{% url 'bsdf-detail' "wd" entry.id %}" class="btn btn-primary" role="button" target="_blank">View BSDF</a>
+	&nbsp;
+	<a href="{% url 'material-shape-detail' entry.shape_id %}" class="btn btn-primary" role="button" target="_blank">View shape</a>
+</div>
+<script>if (window.s == null) window.s = {}; window.s[{{ entry.id}}] = {% include "material_shape_entry.js" with c=entry.shape %};</script>

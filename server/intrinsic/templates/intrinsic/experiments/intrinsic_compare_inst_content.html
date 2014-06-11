@@ -1,0 +1,85 @@
+{% load humanize %}
+
+<div class="row-fluid">
+	<div class="span6">
+		<h2>Tutorial</h2>
+		<p>The first time you do the task, a tutorial will teach you how to do the
+		task.  You only have to do the tutorial once.</p>
+
+		<br/>
+		<h2>What to do</h2>
+		<p>We will show you two points numbered "1" and "2".  Each point is on
+		a surface in a photograph.  Your job is to tell us which surface is
+		darker.  You should ignore lighting, highlights, reflections, shading
+		and focus on the natural surface color of the object.  To help keep
+		things straight, point 1 is always on the left, and point 2 is always
+		on the right.</p>
+
+		<p>Note that this is not just about which point in the image is darker
+		-- we can simply look up the image pixel colors if we wanted that.  The
+		point of this task is to get you to separate the effects of lighting
+		and surface color.</p>
+
+		<p>Each HIT has between {{ num_contents}} and {{ num_contents_predicted }} comparison{{ num_contents_predicted|pluralize }}.</p>
+	</div>
+	<div class="span6">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/intrinsic/experiments/example1.jpg" alt=""/>
+			<p class="caption">These two points have the same surface color even
+			though point 2 is more in shadow.
+			The answer is "About the same" and "Definitely" for confidence.</p>
+		</div>
+	</div>
+</div>
+
+<br/>
+<h2>Keyboard shortcuts</h2>
+<p>Next to each button there is a letter in parentheses.  You can press this
+key instead of clicking the button to go faster.  Note that you need to click
+on the task for the shortcuts to work.</p>
+
+<div class="row-fluid">
+	<div class="span12">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/intrinsic/experiments/shortcuts.png" alt=""/>
+		</div>
+	</div>
+</div>
+
+<br/>
+<h2>Controls</h2>
+To make the task easier, we added some features:
+<dl class="dl-horizontal">
+	<dt>Zoom</dt> <dd>To view more of the image, drag the image with your mouse
+	or press "Z" to zoom out.  You can also scroll to zoom.</dd>
+	<dt>Highlight</dt> <dd> You can click "Highlight points" to
+	have the points flash.</dd>
+	<dt>Redo</dt> <dd>Click "Back" if you make a mistake.</dd>
+</dl>
+
+{% comment %}
+<br/>
+<h2>Mirrors, windows, and reflective items</h2>
+<p>Sometimes you can see reflections inside a mirror.  For these surfaces, you
+should consider the mirror surface <i>itself</i>, not what you can see inside.
+Okay, so what is the natural surface color of a mirror?  Since it reflects all
+light perfectly, all non-mirrors are darker than mirrors.  Shiny items can be
+tricky, so if you can't figure out which should be lighter, make your best
+guess and then tell us that you are guessing.</p>
+{% endcomment %}
+
+<br/>
+<h2>Approving HITs</h2>
+<p>We will approve <i>every</i> submission, within seconds.  You deserve to be paid
+for your work.  However, we also will monitor your accuracy by comparing with
+known answers (we do not use "majority rules").  If your accuracy on these
+secret tests drops below a threshold at any time, we will simply disallow you
+from submitting (this is not a block, so your account is not flagged).</p>
+
+<br/>
+<h2>Why are we doing this?</h2>
+<p>We are building a large database of objects and materials from images on the
+web.</p>
+
+<p>This is part of ongoing research at Cornell University.  Thank you for
+participating!</p>

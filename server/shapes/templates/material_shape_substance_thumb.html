@@ -1,0 +1,10 @@
+<a href="{% url 'material-shape-detail' entry.id %}" class="thumbnail tool" rel="tooltip" data-original-title="{{ entry.num_vertices }} vertices">
+	<div class="overlay-wrapper">
+		<img src="{{ entry.image_square_300.url }}" alt=""/>
+		<div class="overlay-container">
+			{% for f in entry.substances.all %}
+			<p class="overlay-content">{{ f }}</p>
+			{% endfor %}
+		</div>
+	</div>
+</a>

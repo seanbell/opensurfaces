@@ -1,0 +1,34 @@
+{% extends "base_sidenav.html" %}
+{% load compress %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Worker Feedback</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block sidenav %}
+<div class="well well-nav">
+	<ul class="nav nav-list">
+		<li class="nav-header">Experiments</li>
+		{% for c in categories %}
+		<li{% ifequal category_slug c.slug %} class="active"{% endifequal %}>
+			<a href="{% url 'mturk-admin-feedback' c.slug %}">{{ c.slug }} ({{ c.count }})</a>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %}
+
+{% block content %}
+{% include page_template %}
+{% endblock content %}
+
+{% block scripts %}{{ block.super }}
+<script src="{{ STATIC_URL }}js/json2.js"></script>
+{% compress js %}
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/mturk/admin/feedback.coffee"></script>
+{% endcompress %}
+{% endblock %}

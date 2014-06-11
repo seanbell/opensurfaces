@@ -1,0 +1,70 @@
+{% extends "analytics/base.html" %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="hidden" id="csv-url" data-url="{{ csv_url }}">
+
+<div class="row chart-row">
+	<div class="span12">
+		<div id="time-s-chart">
+			<span class="chart-title">Time (s)</span>
+			<button type=button id="time-s-reset" class="reset btn" style="display:none;">reset</button>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+
+<div class="row chart-row">
+	<div class="span6">
+		<div id="doi-chart">
+			<span class="chart-title">Gloss Distinctness of Image</span>
+			<button type=button id="doi-reset" class="reset btn" style="display:none;">reset</button>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<div class="span6">
+		<div id="contrast-chart">
+			<span class="chart-title">Gloss Contrast</span>
+			<button type=button id="contrast-reset" class="reset btn" style="display:none;">reset</button>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+
+<div class="row chart-row">
+	<div class="span6">
+		<div id="color-correct-score-chart">
+			<span class="chart-title">Color CUBAM score</span>
+			<button type=button id="color-correct-score-reset" class="reset btn" style="display:none;">reset</button>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<div class="span6">
+		<div id="gloss-correct-score-chart">
+			<span class="chart-title">Gloss CUBAM score</span>
+			<button type=button id="gloss-correct-score-reset" class="reset btn" style="display:none;">reset</button>
+			<div class="clearfix"></div>
+		</div>
+		<p><span class="label">Note:</span> If a reflectance has a negative CUBAM score for color, it is rejected and its gloss quality is not measured.  These entries are assigned 0 gloss score, hence the spike near 0.</p>
+	</div>
+</div>
+
+<div class="row" style="margin-top:20px">
+	<div class="span12">
+		<div id="data-count">
+			<code><span class="filter-count"></span></code> selected out of <code><span class="total-count"></span></code> {{ across }}.
+			<button type=button id="reset-all" class="reset btn">reset all</button>
+		</div>
+	</div>
+</div>
+
+</div>
+{% endblock content %}
+
+{% block scripts %}{{ block.super }}
+{% load compress %}
+{% compress js %}
+	<script type="text/coffeescript" src="{{ STATIC_URL }}js/analytics/bsdf_wd.coffee"></script>
+{% endcompress %}
+{% endblock %}

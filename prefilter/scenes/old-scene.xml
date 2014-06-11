@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+Scene file used for mtsutil prefilter, which is now replaced
+by rendering a sphere with an orthographic camera
+-->
+
+<scene version="0.4.0">
+	<sensor type="orthographic">
+		<transform name="toWorld">
+			<lookAt origin="0, 0, 2" target="0,0,0" up="0, 1, 0"/>
+		</transform>
+
+		<sampler type="ldsampler">
+			<integer name="sampleCount" value="128"/>
+		</sampler>
+
+		<film type="ldrfilm">
+			<integer name="width" value="512"/>
+			<integer name="height" value="512"/>
+			<rfilter type="gaussian"/>
+			<boolean name="banner" value="false"/>
+		</film>
+	</sensor>
+
+	<emitter type="envmap" id="Area_002-light">
+		<string name="filename" value="/home/sbell/probes/ennis.exr"/>
+		<transform name="toWorld">
+			<rotate y="1" angle="100"/>
+		</transform>
+	</emitter>
+</scene>

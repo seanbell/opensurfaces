@@ -1,0 +1,11 @@
+<script type="text/javascript">
+window.mt_contents = {% include array_js with contents=contents %};
+{% if example_array_js %}
+	{% if examples_good %}
+		window.mt_examples_good = {% include example_array_js with contents=examples_good %};
+	{% endif %}
+	{% if examples_bad %}
+		window.mt_examples_bad = {% include example_array_js with contents=examples_bad %};
+	{% endif %}
+{% endif %}
+</script>

@@ -1,0 +1,12 @@
+{% load endless %}
+{% lazy_paginate entries %}
+<ul class="thumbnails">
+	{% for entry in entries %}
+		{% include "entry_li.html" with span="span3" %}
+		{% if forloop.counter|divisibleby:"4" %}
+		</ul>
+		<ul class="thumbnails">
+		{% endif %}
+	{% endfor %}
+</ul>
+{% show_more %}

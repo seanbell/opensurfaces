@@ -1,0 +1,12 @@
+{% load endless %}
+{% lazy_paginate entries_per_page entries %}
+<ul class="thumbnails">
+	{% for entry in entries %}
+		{% include "entry_li.html" %}
+		{% if forloop.counter|divisibleby:rowsize %}
+		</ul>
+		<ul class="thumbnails">
+	{% endif %}
+	{% endfor %}
+</ul>
+{% show_more %}

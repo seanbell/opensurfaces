@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+	<h1>Intrinsic Point Comparison Detail</h1>
+</div>
+
+<div class="row">
+	<div class="span9">
+		<div class="thumbnail">
+			{% include "intrinsic/comparison_display.svg" with large="True" %}
+		</div>
+	</div>
+	<div class="span3">
+		<div class="well">
+			<a href="{% url 'photo-detail' entry.photo_id %}" role="button" class="btn btn-block" target="_blank">View Photo</a>
+			<hr/>
+
+			<h3>Key</h3>
+			<p>Red point: darker</p>
+			<p>Green point: lighter</p>
+			<p>Blue point: equal</p>
+
+			<h3>Combined</h3>
+			<p>Darker point: {% if entry.point1_image_darker %}1{% else %}2{% endif %}
+			<p>Darker reflectance: {{ entry.darker }}</p>
+			<p>Darker method: {{ entry.darker_method }}</p>
+			<p>Equal score: {{ entry.reflectance_eq_score }}</p>
+			<p>Darker point darker score: {% if entry.darker == "E" %}not computed since the judgement is "E"{% else %}{{ entry.reflectance_dd_score }}{% endif %}</p>
+			{% if entry.darker_score %}
+			<div class="progress">
+				<div class="bar bar-success" style="width: {{ entry.darker_score_perc }}%">{{ entry.darker_score|floatformat:2 }}</div>
+			</div>
+			{% endif %}
+
+			<h3>Responses</h3>
+			{% if entry.responses %}
+				{% for r in entry.responses.all %}
+				<p{% if r.invalid %} class="muted"{% endif %}>darker: {{ r.darker }} (eq: {{ r.reflectance_eq }}, dd: {{ r.reflectance_dd }}), confidence: {{ r.confidence }}, worker: {{ r.user.mturk_worker_id }}{% if r.invalid %} (marked invalid){% endif %}<p>
+				{% endfor %}
+				<p><i>(0: guessing, 1: probably, 2: definitely)</i></p>
+			{% else %}
+				<p>There are no responses</p>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}

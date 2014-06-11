@@ -1,0 +1,24 @@
+{% load cache %}
+
+{% cache 300 intrinsic-photo entry.id %}
+	{% with entry.intrinsic_densities as intrinsic_densities %}
+		{% if intrinsic_densities %}
+			{% for min_separation, density in intrinsic_densities.iteritems %}
+			<div class="row-fluid" style="margin-bottom:20px">
+				<div class="span12">
+					<a href="{% url "photo-detail" entry.id %}" class="thumbnail">
+						<div class="overlay-wrapper">
+							{% include "photos/intrinsic_display.svg" with large="True" %}
+							<div class="overlay-container">
+								<p class="overlay-content">Point separation: {{ min_separation|floatformat:2 }}</p>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			{% endfor %}
+		{% else %}
+		<p>No intrinsic points are available.</p>
+		{% endif %}
+	{% endwith %}
+{% endcache %}

@@ -1,0 +1,23 @@
+{% comment %}
+	General modal dialog for modal instructions
+{% endcomment %}
+
+<div class="modal hide fade" id="modal-instructions" tabindex="-1" role="dialog" aria-labelledby="modal-instructions-label" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true">&times;</button>
+		<h3 id="modal-instructions-label">Instructions</h3>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid">
+			{% if instructions %}
+				{% include instructions %}
+			{% else %}
+				Error finding the instructions!
+			{% endif %}
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+	</div>
+</div>

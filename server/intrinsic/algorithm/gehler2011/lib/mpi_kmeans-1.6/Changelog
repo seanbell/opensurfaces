@@ -1,0 +1,12 @@
+Version 1.5
+	- The algorithm is now available in stand-alone as well
+	- Reordered the source files
+	- A new python wrapper (thanks to Thomas Wiecki)
+
+Version 1.2
+	- Allocating a lot less memory now, thanks to Flaviu Iepure for pointing out an allocation mistake 
+	- Cleaned up the code
+	- Added a simple test case function
+
+Version 1.1 
+	- Added a Python version (thanks to Christoph Lampert)

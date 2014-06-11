@@ -1,0 +1,13 @@
+<div class="thumbnail entry-thumb" data-id="{{ entry.id }}">
+	<a href="{% url 'intrinsic-comparison-detail' entry.comparison_id %}">
+		<div class="overlay-wrapper">
+			{% include "intrinsic/comparison_display.svg" %}
+			<div class="overlay-container">
+				{% if entry.invalid %}
+					<p class="overlay-content">INVALID</p>
+				{% endif %}
+				<p class="overlay-content">{{ entry.confidence }} c{% if entry.time_ms %} | {{ entry.time_s }} s{% endif %}</p>
+			</div>
+		</div>
+	</a>
+</div>

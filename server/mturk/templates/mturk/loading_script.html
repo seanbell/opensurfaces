@@ -1,0 +1,18 @@
+<script type="text/javascript">
+window.loading_count = 0;
+window.loading_start = function() {
+	$('#btn-submit').attr('disabled', 'disabled');
+	window.loading_count ++;
+	console.log('loading++ :' + loading_count);
+};
+window.loading_finish = function() {
+	if (window.loading_count > 0) {
+		window.loading_count --;
+		console.log('loading-- :' + loading_count);
+		if (window.loading_count == 0) {
+			$('#btn-submit').removeAttr('disabled');
+			window.start_time = Date.now();
+		}
+	}
+};
+</script>

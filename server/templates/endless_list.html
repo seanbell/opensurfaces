@@ -1,0 +1,25 @@
+{% extends base_template %}
+{% load cache %}
+
+{% block content %}
+{% if header_text %}
+<div class="page-header">
+	<h1>{{ header_text }}{% if subheader_text %} <small>{{ subheader_text }}</small>{% endif %}</h1>
+	{% if header_p_text %}<p>{{ header_p_text }}</p>{% endif %}
+</div>
+{% endif %}
+
+<div class="row-fluid" style="margin-bottom:10px">
+	<div class="page-header">
+		{% if header %}<h1>{{ header }}{% if header_small %} <small>{{ header_small }}</small>{% endif %}</h1>{% endif %}
+		{% if header_sub %}<p>{{ header_sub }}</p>{% endif %}
+		{% cache 300 count request.get_full_path %}
+		<p>There are {{ entries.count }} items.</p>
+		{% endcache %}
+	</div>
+</div>
+
+<div class="row-fluid">
+{% include page_template %}
+</div>
+{% endblock content %}

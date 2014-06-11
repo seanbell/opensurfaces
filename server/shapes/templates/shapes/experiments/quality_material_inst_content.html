@@ -1,0 +1,28 @@
+{% extends "mturk/experiments/filter_content_inst_content.html" %}
+
+{% block instructions_content_text %}
+<p>You will be shown a collection of images with objects outlined in red.  Click on the shapes that have a single material or texture.</p>
+
+<div class="if-not-webkit well" style="display:none; margin-top: 40px">
+	<p><span class="label label-important">Important:</span> If you
+	cannot see a red outline around the shape on the left, please try
+	using <a href="http://google.com/chrome">Google Chrome</a> instead
+	of Firefox.</p>
+</div>
+
+<p>A &quot;texture&quot; is any pattern on a surface.  Some example textures: wood, steel, brick, ceramic, plastic, brick, tile.  The surface of a mirror or window counts as a texture, even though you can see the objects inside the mirror.</p>
+
+<p><u>Do</u> select these:</p>
+<ul>
+	<li>A shape that has only one texture with nothing else inside the red shape.</li>
+</ul>
+
+<p>Do <u>not</u> select these:</p>
+<ul>
+	<li>A shape that has more than one material inside the red boundary.
+	<li>A single tile/brick inside a full brick wall.</li>
+	<li>A small shape inside a large white wall.</li>
+</ul>
+
+<p>If a shape contains some portion of another material or texture, please do not select it.  For example, if the open space inside a mug handle is not removed with a red line, do not select the shape.  Do not click on shapes that are far away from the boundary.</p>
+{% endblock %}

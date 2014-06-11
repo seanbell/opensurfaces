@@ -1,0 +1,24 @@
+{% extends "account/base.html" %}
+
+{% load url from future %}
+{% load bootstrap_tags %}
+
+{% block head_title %}Account{% endblock %}
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Account settings</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+    <form method="POST" action="{% url "account_settings" %}">
+		{% comment %}<legend>Account</legend>{% endcomment %}
+        {% csrf_token %}
+        {{ form|as_bootstrap }}
+        <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+    </form>
+{% endblock %}

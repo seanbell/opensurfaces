@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block head_title %}MTurk{% if slug %} ({{ slug }}){% endif %}{% endblock %}
+
+{% block css %}{{ block.super }}
+<style>body { padding-bottom: 60px; }</style>
+<link href="{{ STATIC_URL }}css/mturk/mturk.css" rel="stylesheet" />
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block subnav %}{% endblock %}
+
+{% block modals %}
+{% include "modal_instructions.html" %}
+{% include "modal_loading.html" %}
+{% include "modal_error.html" %}
+{% include "modal_areyousure.html" %}
+{% include "modal_give_up.html" %}
+{% include "modal_feedback.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+{% ifequal ask_for_feedback "true" %}
+	window.ask_for_feedback = true;
+	window.feedback_bonus = '${{ feedback_bonus|floatformat:2 }}';
+{% else %}
+	window.ask_for_feedback = false;
+	window.feedback_bonus = '$0.00';
+{% endifequal %}
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+<svg version="1.2" class="fix-aspect" data-aspect="{{ entry.aspect_ratio }}" viewBox="0 0 {{ entry.aspect_ratio }} 1" style="width:100%">
+	<image x="0" y="0" width="{{ entry.aspect_ratio }}" height="1" xlink:href="{% if large %}{{ entry.image_1024.url }}{% else %}{{ entry.image_512.url }}{% endif %}"/>
+	<g transform="scale({{ entry.aspect_ratio }},1)">
+	{% for shape in entry.valid_material_shapes %}
+		<path class="poly-display-segments nss c{% cycle 0 1 2 3 4 5 6 7 %}" d="{{ shape.segments_svg_path|safe }}"/>
+	{% endfor %}
+	</g>
+	<g class="photo-shape-label" transform="translate(0,{{ entry.font_adjustment_512 }})">
+	{% for shape in entry.valid_material_shapes %}
+		{% if shape.substance and not shape.substance.fail %}
+		<text class="text-substance" x="{{ shape.label_pos_x_scaled }}" y="{{ shape.label_pos_y }}" font-size="{{ entry.font_size_512 }}">{{ shape.substance.name }}</text>
+		{% endif %}
+		{% comment %}
+		{% if shape.name and not shape.name.fail %}
+		<text class="text-name" x="{{ shape.label_pos_x_scaled }}" y="{{ shape.label_pos_2_y_512 }}" font-size="{{ entry.font_size_512 }}">{{ shape.name.name }}</text>
+		{% endif %}
+		{% endcomment %}
+	{% endfor %}
+	</g>
+	<g transform="scale({{ entry.aspect_ratio }},1)">
+	{% for shape in entry.valid_material_shapes %}
+		<a xlink:href="{% url 'material-shape-detail' shape.id %}">
+			<path class="poly-display-triangles nss" d="{{ shape.triangles_svg_path|safe }}"/>
+		</a>
+	{% endfor %}
+	</g>
+</svg>

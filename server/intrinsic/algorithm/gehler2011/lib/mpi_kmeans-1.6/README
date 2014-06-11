@@ -1,0 +1,64 @@
+Readme file for the Kmeans software MPI Kmeans
+
+1. Installation
+===============
+
+  There are precompile binaries for the stand-alone (mpi_assign,mpi_kmeans) and 
+  the matlab version (*.mex*). You should first try if they work on your machine 
+  (32bit and 64bit version). If not you need to adapt the Makefile and type 
+  depending on your target
+
+  make standalone
+  make matlab
+  make python 
+
+  or simply 
+
+  make clean all
+
+  If you are fine with single precision or in need for more mem you can compile with -DINPUT_TYPE=1
+
+
+2. Usage
+========
+
+  a) Stand alone:
+	./mpi_kmeans --help
+    	./mpi_kmeans --k 2 --data example.txt --output clusters.txt
+
+    	./mpi_assign --help
+    	./mpi_assign --data example.txt --cluster clusters.txt --assignment assignment.txt
+
+  b) Matlab:
+    	Try "help mpi_kmeans" in a matlab shell. This will also give an example.
+
+  c) Python:
+	In a python shell type:
+
+	import py_kmeans
+	help(py_kmeans.kmeans)
+	
+	(a second, older python version is ./mpi_kmeans.py)
+
+
+3. References
+=============
+
+This k-means clustering code is a mex implementation of the ICML2003 paper 
+
+@misc{ elkan03using,
+  author = "C. Elkan",
+  title = "Using the triangle inequality to accelerate kMeans",
+  text = "C. Elkan. Using the triangle inequality to accelerate kMeans. In Proceedings
+    of the Twentieth International Conference on Machine Learning, 2003, pp.
+    147-153.",
+  year = "2003",
+  url = "citeseer.ist.psu.edu/elkan03using.html" 
+}
+
+4. Author
+=========
+
+See LICENSE-2.0.txt for licensing terms.
+
+(c) 2007-2009, Peter Gehler, peter.gehler@tuebingen.mpg.de

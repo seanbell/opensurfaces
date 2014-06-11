@@ -1,0 +1,19 @@
+{% comment %}
+    General modal dialog for error messages
+    Usage: show_modal_error(message) to show error as modal
+           hide_modal_error() to hide
+{% endcomment %}
+
+<div class="modal hide fade" id="modal-error" tabindex="-1" role="dialog" aria-labelledby="modal-error-label" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="modal-error-label">Error!</h3>
+    </div>
+    <div class="modal-body">
+        <div id="modal-error-message">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+    </div>
+</div>

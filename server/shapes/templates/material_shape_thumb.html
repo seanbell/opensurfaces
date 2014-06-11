@@ -1,0 +1,32 @@
+<div class="thumbnail entry-thumb" data-id="{{ entry.id }}">
+	<a href="{% url 'material-shape-detail' entry.id %}">
+		<div class="overlay-wrapper">
+			{% include "image_square.svg" with url=entry.image_square_300.url %}
+			<div class="overlay-container-base">
+				{% if entry.bsdf_wd %}
+					<img src="{{ entry.bsdf_wd.image_blob.url }}" alt="" width="48" height="48"/>
+				{% endif %}
+			</div>
+		</div>
+		<div class="overlay-wrapper">
+			{% include "shape_poly_display.svg" %}
+			<div class="overlay-container">
+				{% if entry.invalid %}
+					<p class="overlay-content">INVALID</p>
+				{% endif %}
+				<p class="overlay-content">{{ entry.num_vertices }} v |{% if entry.time_ms %} {{ entry.time_s }} s{% endif %}</p>
+				{% if entry.synthetic_slug %}
+					<p class="overlay-content">{{ entry.synthetic_slug }}</p>
+				{% endif %}
+			</div>
+			{% comment %}
+			<div class="overlay-btn-container">
+				<p class="overlay-btn-content vote-group" style="display:none">
+					<button class="btn btn-small vote-yes"><i class="icon-thumbs-up"></i></button>
+					<button class="btn btn-small vote-no"><i class="icon-thumbs-down"></i></button>
+				</p>
+			</div>
+			{% endcomment %}
+		</div>
+	</a>
+</div>

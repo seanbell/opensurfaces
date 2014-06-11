@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block navbar %} {% endblock %}
+
+{% block content %}
+<div class="error-splash center-block">
+	<h1>Sorry!</h1>
+	<p style="margin-top:20px">{{ message|safe }}</p>
+</div>
+{% endblock %}
+
+{% block footer %} {% endblock %}

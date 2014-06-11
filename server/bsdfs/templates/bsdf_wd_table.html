@@ -1,0 +1,19 @@
+<table class='table'>
+<thead>
+	<tr><th>Name</th><th>Value</th></tr>
+</thead>
+<tbody>
+	<tr><td>Metallic</td><td>{{ entry.metallic }}</td></tr>
+	<tr><td>Color</td><td><span class='color-swatch-rect' style='background:{{ entry.color }}'></span> {{ entry.color }}</td></tr>
+	<tr><td>Gloss <i>c</i></td><td>{{ entry.contrast|floatformat:3 }} ({{ entry.c_edits }} edits)</td></tr>
+	<tr><td>Gloss <i>d</i></td><td>{{ entry.d|floatformat:3 }} ({{ entry.d_edits }} edits)</td></tr>
+	<tr><td>Gloss <i>alpha</i></td><td>{{ entry.alpha|floatformat:3 }}</td></tr>
+	<tr><td><i>rho_s</i></td><td>{{ entry.rho_s }}</td></tr>
+	<tr><td><i>rho_d</i></td><td>{{ entry.rho_d }}</td></tr>
+	<tr><td>Time</td><td>{{ entry.time_s }} s</td></tr>
+	{% if entry.give_up %}
+	<tr><td>Give up?</td><td>{{ entry.give_up }}</td></tr>
+	<tr><td>Give up message</td><td>{{ entry.give_up_msg }}</td></tr>
+	{% endif %}
+</tbody>
+</table>

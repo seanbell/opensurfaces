@@ -1,0 +1,50 @@
+/* overlays on items */
+div.overlay-wrapper {
+    position:relative; /* important(so we can absolutely position the description div */
+}
+.overlay-container-base {
+    position:absolute; /* absolute position (so we can position it where we want)*/
+    bottom:0px; /* position will be on bottom */
+    right:0px;
+}
+div.overlay-container {
+	.overlay-container-base;
+	opacity: .8;
+	filter:alpha(opacity=80); /* IE opacity */
+    background-color:white;
+	-webkit-border-top-left-radius: 4px;
+	   -moz-border-top-left-radius: 4px;
+            border-top-left-radius: 4px;
+}
+p.overlay-content{
+	font-weight: bold;
+	color:#333333;
+    padding: 5px 5px 0px 5px;
+	margin: 0px;
+}
+div.overlay-content{
+	font-weight: bold;
+	color:#333333;
+    padding: 5px 5px 0px 5px;
+	margin: 0px;
+}
+.overlay-btn-container-base {
+    position:absolute; /* absolute position (so we can position it where we want)*/
+    bottom:0px; /* position will be on bottom */
+    left:0px;
+}
+div.overlay-btn-container {
+	.overlay-btn-container-base;
+	/*opacity: .8;*/
+	/*filter:alpha(opacity=80); [> IE opacity <]*/
+    /*background-color:white;*/
+	/*-webkit-border-top-right-radius: 4px;*/
+	   /*-moz-border-top-right-radius: 4px;*/
+            /*border-top-right-radius: 4px;*/
+}
+p.overlay-btn-content{
+	font-weight: bold;
+	color:#333333;
+    padding: 5px 5px 0px 0px;
+	margin: 0px;
+}

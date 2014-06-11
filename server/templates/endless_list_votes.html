@@ -1,0 +1,15 @@
+{% extends "endless_list.html" %}
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript" src="{{ STATIC_URL }}js/thumb_votes.js"></script>
+<script type="text/javascript">
+$(function () {
+	var on_endless_update = function() {
+		window.update_thumb_votes();
+	};
+	$(document).on('endless-update', on_endless_update);
+	on_endless_update();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "mturk/experiments/filter_content.html" %}
+
+{% block instructions_summary %}
+Click on the red shapes that contain a single material or texture.  Reject shapes that are far from the material boundary.
+{% endblock %}
+
+{% block instructions_extra %}
+<p>A &quot;texture&quot; is any pattern on a surface.  Some example textures:
+wood, steel, brick, ceramic, plastic, brick, tile.  A mirror or window counts
+as a texture, even though you can see the objects inside the mirror.</p>
+
+<p>If a shape contains some portion of another material or texture, reject it.
+For example, if the open space inside a mug handle is not removed with a red
+line, do not select the shape.</p>
+{% endblock %}
+
+{% block counter_name %}
+object(s) are labeled as having a single material or texture.
+{% endblock %}

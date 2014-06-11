@@ -1,0 +1,10 @@
+<svg version="1.2" class="fix-aspect" data-aspect="{{ entry.aspect_ratio }}" viewBox="0 0 {{ entry.aspect_ratio }} 1" style="width:100%">
+	<image x="0" y="0" width="{{ entry.aspect_ratio }}" height="1" xlink:href="{% if large %}{{ entry.image_1024.url }}{% else %}{{ entry.image_512.url }}{% endif %}"/>
+	{% for wb in entry.whitebalances.all %}
+		<g class="c{% cycle 0 1 2 3 4 5 6 7 8 %}">
+		{% for p in wb.get_points_aspect %}
+			<circle class="wb-display nss" cx="{{ p.0 }}" cy="{{ p.1 }}" r="0.008" />
+		{% endfor %}
+		</g>
+	{% endfor %}
+</svg>

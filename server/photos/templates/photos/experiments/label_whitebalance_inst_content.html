@@ -1,0 +1,93 @@
+{% load humanize %}
+
+<p>For this task you will click on {{ min_points|apnumber }} white or gray
+things in the image.  Click on items that <i>should</i> appear white or gray if
+placed under white lighting.  Avoid extremely bright or oversaturated spots
+(see below for example).</p>
+
+<p>By &quot;white or gray&quot;, we mean that the object would be colorless if
+placed under pure white lighting.  If a white object appears colored because of
+a yellow light, please still click on it.</p>
+
+<br/>
+<h2>Good Examples</h2>
+
+<div class="row-fluid">
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/wb1.jpg"/>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/wb8.jpg"/>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/wb9.jpg"/>
+		</div>
+	</div>
+</div>
+<div class="row-fluid" style="margin-top: 20px">
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/wb4.jpg"/>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/wb2.jpg"/>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/wb6.jpg"/>
+		</div>
+	</div>
+</div>
+<div class="row-fluid" style="margin-top: 20px">
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/wb7.jpg"/>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/wb5.jpg"/>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/wb3.jpg"/>
+		</div>
+	</div>
+</div>
+
+<br/>
+<h2>Bad Examples</h2>
+
+<div class="row-fluid">
+	<div class="span6">
+		<p>Avoid points that are bright and oversaturated.</p>
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/wb-bad1.jpg"/>
+		</div>
+	</div>
+	<div class="span6">
+		<p>Avoid colored things.</p>
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/wb-bad2.jpg"/>
+		</div>
+	</div>
+</div>
+
+<br/>
+<h2>Why are we doing this?</h2>
+
+<p>Our intention is to estimate the tint from the light source, but without
+directly looking at the light source.</p>
+
+<p>We are performing <i>whitebalancing</i>, a technique that corrects the color
+of lighting in photographs.  This experiment is part of ongoing research at
+Cornell University.</p>

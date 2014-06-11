@@ -1,0 +1,16 @@
+{% comment %}
+	Show a django form in a modal dialog
+{% endcomment %}
+
+<div class="modal hide fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form-label" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3 id="modal-form-label">Form</h3>
+	</div>
+	<div class="modal-body" id="modal-form-body">
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true" id="modal-form-no">Cancel</button>
+		<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="modal-form-yes">Submit</button>
+	</div>
+</div>

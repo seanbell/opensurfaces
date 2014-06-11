@@ -1,0 +1,8 @@
+{% load endless %}
+{% lazy_paginate 12 entries %}
+	{% for entry in entries %}
+		<ul class="thumbnails">
+		{% include "entry_li.html" with span="span9" %}
+		</ul>
+	{% endfor %}
+{% show_more %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Confirm Email" %}{% endblock %}
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Confirm Email</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="span12">
+            <form method="post" action="{% url "account_confirm_email" key=confirmation.key %}" class="form-horizontal">
+				{% comment %}<legend>{% trans "Confirm Email" %}</legend>{% endcomment %}
+                <fieldset>
+                    {% csrf_token %}
+                    <p>{% blocktrans with email=confirmation.email_address.email %}Confirm email address <b>{{ email }}</b>?{% endblocktrans %}</p>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">{% trans "Confirm" %}</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}

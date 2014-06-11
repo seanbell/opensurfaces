@@ -1,0 +1,13 @@
+<div class="thumbnail entry-thumb" data-id="{{ entry.id }}">
+	<div class="overlay-wrapper">
+		<a href="{% url 'material-shape-detail' entry.shape.id %}">
+			{% with entry.shape as entry %}
+				<img src="{{ entry.image_square_300.url }}" alt=""/>
+				{% include "shape_poly_display.svg" %}
+			{% endwith %}
+		</a>
+		<div class="overlay-container">
+			<p class="overlay-content">{{ entry.get_thumb_overlay }}{% if entry.time_ms %} | {{ entry.time_s }} s{% endif %}</p>
+		</div>
+	</div>
+</div>

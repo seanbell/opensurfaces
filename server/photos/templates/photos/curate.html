@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block css %}{{ block.super }}
+<style>
+	.curate-buttons {
+		margin-left: 30px;
+		margin-top: 5px;
+	}
+</style>
+{% endblock %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Curate Photos</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+	<p>There are {{ count }} remaining photos.</p>
+	{% include "grid.html" with span="span3" rowsize="4" thumb_template="photos/curate_thumb.html" %}
+	<button id='btn-done' type="button" class="btn btn-primary">DONE</button>
+{% endblock %}
+
+{% block scripts %}{{ block.super }}
+{% load compress %}
+{% compress js %}
+	<script type="text/coffeescript" src="{{ STATIC_URL }}js/photos/curate.coffee"></script>
+{% endcompress %}
+{% endblock %}

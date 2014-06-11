@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Surface rectification</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link href="css/bootstrap-2.1.1-spacelab.min.css" rel="stylesheet">
+		<style type="text/css">
+			canvas { pointer-events:none; z-index:10; }
+			body {
+				overflow	: hidden;
+				padding		: 0;
+				margin		: 0;
+				color		: #222;
+				background-color: #fff;
+				font-family	: arial;
+				font-size	: 100%;
+			}
+			#loading {
+				color: #fff;
+				background-color: rgba( 0, 0, 0, 0.5 );
+				margin: 0px; padding: 10px;
+				text-align:center;
+				top: 0px; left: 0px;
+				height: 100%;
+				position: relative;
+				z-index:1000;
+			}
+			#container {
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+				background-position: center;
+				background-size: cover;
+				background-color: #fff;
+				padding: 0px; margin: 0px;
+				overflow: hidden;
+				text-align: center;
+				top: 0px; left: 0px;
+				width: 100%; height: 100%;
+				position: absolute;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="loading">
+			<h1>Loading...</h1>
+			<div class="progress progress-striped active">
+				<div class="bar" style="width: 100%;"></div>
+			</div>
+		</div>
+		<div id="container"></div>
+		<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" src="js/three.min.js"></script>
+		<script type="text/javascript" src="js/Detector.js"></script>
+
+<!-- Render code -->
+<script type="text/javascript">
+	if ( ! Detector.webgl ) {
+		Detector.addGetWebGLMessage();
+		$('#loading').hide();
+		parent.on_no_web_gl();
+	}
+
+	$(function() {
+		// load renderer
+		init();
+		render();
+		preloadImages();
+	});
+
+	// render params
+	var container, loader;
+	var camera, scene, renderer;
+	var mesh, geometry;
+
+	// rotation with mouse
+	var isMouseDown = false, mouseX = 0, mouseY = 0, mouseRight = false;
+
+	// number of items left to load
+	var loadingCount = 0;
+
+	function getParameterByName(name) {
+		name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+		var regexS = "[\\?&]" + name + "=([^&#]*)";
+		var regex = new RegExp(regexS);
+		var results = regex.exec(window.location.search);
+		if(results == null)
+			return "";
+		else
+			return decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+
+	function loadingStart() {
+		$('#loading').show();
+		loadingCount ++;
+		if (parent !== undefined && parent.loading_start !== undefined) {
+			parent.loading_start();
+		}
+	}
+
+	function loadingFinish() {
+		loadingCount --;
+		if (loadingCount == 0) { $('#loading').hide();
+		}
+		render();
+		if (parent !== undefined && parent.loading_finish !== undefined) {
+			parent.loading_finish();
+		}
+	}
+
+	function getScreenshot() {
+		renderer.clear();
+		renderer.render(scene, camera);
+		return renderer.domElement.toDataURL();
+	}
+
+	function preloadImages() {
+		if (parent.mt_contents != null) {
+			window.preloaded_images = [];
+			for (var i = 0; i < parent.mt_contents.length; i++) {
+				var shape = parent.mt_contents[i];
+				var image_bbox_obj = new Image();
+				image_bbox_obj.crossOrigin = '';
+				image_bbox_obj.src = shape.image_bbox + "?origin=" + window.location.host;
+				window.preloaded_images.push(image_bbox_obj);
+			}
+		}
+	}
+
+	function init() {
+		container = $('#container').get(0);
+		scene = new THREE.Scene();
+		scene.add( new THREE.AmbientLight( 0xffffff ) );
+
+		// init renderer
+		camera = new IdentityCamera(window.innerWidth / window.innerHeight);
+		renderer = new THREE.WebGLRenderer({
+			antialias: true, preserveDrawingBuffer: true});
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.autoClear = false;
+		container.appendChild(renderer.domElement);
+		loader = new THREE.BinaryLoader(true);
+
+		// init listeners
+		window.addEventListener('resize', onWindowResize, false);
+		$(window).on('contextmenu', function() { return false; });
+		$(window).on('mousedown', onDocumentMouseDown);
+		$(window).on('mouseup mouseout', onDocumentMouseUp);
+		$(window).on('mousemove', onDocumentMouseMove);
+
+		// only consider loaded if webgl is working
+		if (Detector.webgl) {
+			if (parent !== undefined && parent.loading_finish !== undefined) {
+				parent.loading_finish();
+			}
+
+			if (parent !== undefined && parent.on_rectify_ready !== undefined) {
+				parent.on_rectify_ready();
+			}
+		}
+	}
+
+	function setShape(image_bbox, poly, dims, uvnb, focal_pixels) {
+		loadingStart();
+		window.poly = poly;
+
+		var texture_placeholder = THREE.ImageUtils.generateDataTexture(
+			1, 1, new THREE.Color(0x777777)
+		);
+
+		var material = new THREE.MeshBasicMaterial({
+			map: texture_placeholder,
+			side: THREE.DoubleSide,
+			overdraw: true
+		});
+
+		loadingStart();
+		var texture = THREE.ImageUtils.loadTexture(
+			image_bbox, undefined, function() {
+				material.map = texture;
+				loadingFinish();
+			}
+		);
+		texture.anisotropy = 16;
+
+		geometry = new THREE.Geometry();
+		var g = geometry;
+		g.dynamic = true;
+		var uvs = [];
+
+		aabb = poly.get_aabb();
+		for (var i = 0; i < poly.vertices.length; i++) {
+			var v = poly.vertices[i];
+			g.vertices.push(new THREE.Vector3(v.x, v.y, 1));
+			var uv = aabb.normalize_pt(v)
+			uvs.push(new THREE.Vector2(uv.x, uv.y));
+		}
+
+		camera.geometry = g;
+
+		for (var i = 0; i < poly.triangles.length; i++) {
+			var t = poly.triangles[i];
+			g.faces.push(new THREE.Face3(t[0], t[1], t[2]));
+			g.faceVertexUvs[0].push([
+				uvs[t[0]].clone(), uvs[t[1]].clone(), uvs[t[2]].clone()
+			]);
+		}
+
+		//console.log(g);
+		g.computeCentroids();
+		g.computeFaceNormals();
+		g.computeBoundingSphere();
+		g.computeBoundingBox();
+
+		if (mesh != null) {
+			scene.remove(mesh);
+		}
+		mesh = new THREE.Mesh(g, material);
+		scene.add(mesh);
+		//render();
+
+		setProjection(uvnb, focal_pixels);
+		loadingFinish();
+	}
+
+	// encode the desired rectification into the camera projection matrix
+	function setProjection(uvnb, focal_pixels) {
+		if (window.poly != null) {
+			var M = new THREE.Matrix4();
+			var ue = uvnb.elements;
+			var Me = M.elements;
+
+			Me[0] =  ue[0] * focal_pixels; // u
+			Me[1] =  ue[1] * focal_pixels;
+			Me[2] = -ue[2];
+			Me[3] = 0;
+
+			Me[4] =  ue[4] * focal_pixels; // v
+			Me[5] =  ue[5] * focal_pixels;
+			Me[6] = -ue[6];
+			Me[7] = 0;
+
+			Me[ 8] =  ue[12] * focal_pixels; // b
+			Me[ 9] =  ue[13] * focal_pixels;
+			Me[10] = -ue[14];
+			Me[11] = 0;
+
+			Me[12] = 0;
+			Me[13] = 0;
+			Me[14] = 0;
+			Me[15] = 1;
+
+			var Minv = new THREE.Matrix3();
+			Minv.getInverse(M);
+
+			var g = geometry;
+			var verts = window.poly.vertices;
+			var max_x = Number.NEGATIVE_INFINITY;
+			var max_y = Number.NEGATIVE_INFINITY;
+			var min_x = Number.POSITIVE_INFINITY;
+			var min_y = Number.POSITIVE_INFINITY;
+			for (var i = 0; i < verts.length; i++) {
+				var v = g.vertices[i];
+				v.set(verts[i].x, verts[i].y, 1);
+				Minv.multiplyVector3(v);
+				v.x /= v.z;
+				v.y /= v.z;
+
+				max_x = Math.max(max_x, v.x);
+				max_y = Math.max(max_y, v.y);
+
+				min_x = Math.min(min_x, v.x);
+				min_y = Math.min(min_y, v.y);
+			}
+
+			// scale and shift so that the rectified texture exactly fits
+			// within the view bbox
+			var scale = 2 / Math.max(max_x - min_x, (max_y - min_y) * camera.aspect);
+			var shift_x = -0.5 * (min_x + max_x) * scale;
+			var shift_y = -0.5 * (min_y + max_y) * scale;
+
+			for (var i = 0; i < verts.length; i++) {
+				var v = g.vertices[i];
+				v.x = v.x * scale + shift_x;
+				v.y = v.y * scale + shift_y;
+			}
+
+			// un-project so that the projection has something to do
+			for (var i = 0; i < verts.length; i++) {
+				var v = g.vertices[i];
+				v.x *= v.z;
+				v.y *= v.z;
+			}
+
+			g.verticesNeedUpdate = true;
+			render();
+		}
+	}
+
+	function onWindowResize() {
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		render();
+	}
+
+	function onDocumentMouseDown(event) {
+		isMouseDown = true;
+		mouseX = event.clientX;
+		mouseY = event.clientY;
+		mouseRight = (event.which != 1);
+	}
+
+	function onDocumentMouseUp(event) {
+		isMouseDown = false;
+	}
+
+	function onDocumentMouseMove(event) {
+		if (isMouseDown) {
+			delta = {x: event.clientX - mouseX, y: event.clientY - mouseY}
+			mouseX = event.clientX;
+			mouseY = event.clientY;
+			parent.on_shape_drag(delta, mouseRight);
+		}
+	}
+
+	function render() {
+		renderer.clear();
+		renderer.render(scene, camera);
+	}
+
+	IdentityCamera = function(aspect) {
+		THREE.Camera.call(this);
+		this.aspect = aspect;
+		this.updateProjectionMatrix();
+	}
+	IdentityCamera.prototype = Object.create(THREE.Camera.prototype);
+	IdentityCamera.prototype.updateProjectionMatrix = function() {
+		this.projectionMatrix.set(
+			1, 0, 0, 0,
+			0, this.aspect, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 1, 0
+		)
+	};
+
+</script>
+</body>
+</html>

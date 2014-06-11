@@ -1,0 +1,51 @@
+{% extends "mturk/base_fixed.html" %}
+{% load humanize %}
+{% load compress %}
+
+{% block css %}{{ block.super }}
+<link href="{{ STATIC_URL }}css/intrinsic/mturk.css" rel="stylesheet" type="text/css"/>
+<style>
+	#mt-top-nohover {
+		padding: 0;
+	}
+</style>
+
+{% endblock %}
+
+{% block content %}
+<div id="mt-top-nohover">
+	<div id="mt-instructions">
+		<div class="btn-group">
+			<button type="button" id='btn-back' class="btn btn-info" disabled="disabled">Back</button>&nbsp;
+			<button type="button" id='btn-next' class="btn btn-primary" disabled="disabled">Next</button>&nbsp;
+		</div>&nbsp;
+		<button type="button" id='btn-submit' class="btn btn-primary" disabled="disabled" style="display:none">Start the task</button>
+	</div>
+</div>
+<div id="mt-container"></div>
+<div id="mt-done" style="display:none; padding: 20px">
+	<h1>Done!</h1>
+	<p>Thank you for completing the tutorial.  Once you begin the task, you can click the &quot;Instructions&quot; button to see the instructions again.</p>
+	<p>Click &quot;Start the task&quot; to begin your task.</p>
+</div>
+{% endblock content %}
+
+{% block modals %}{{ block.super }}
+{% endblock modals %}
+
+{% block scripts %}{{ block.super }}
+{% include "mturk/content_json_script.html" %}
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/d3.v3.min.js"></script>
+{% compress js %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/array_remove.js"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/util.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/modals.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/active_timer.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/svg_photo_zoom_ui.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/mturk/submit.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/intrinsic/experiments/intrinsic_opacity_ui.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/intrinsic/experiments/intrinsic_opacity_tut.coffee"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/intrinsic/experiments/intrinsic_opacity_tut_content.js"></script>
+{% endcompress %}
+{% endblock %}

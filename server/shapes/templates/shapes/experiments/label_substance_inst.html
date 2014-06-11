@@ -1,0 +1,20 @@
+{% extends "mturk/base_responsive.html" %}
+{% load humanize %}
+
+{% block content %}
+<div class="alert alert-success">
+	<h3>Note</h3>
+	<p>Laminate floors that are designed to look like tile or wood should be
+	labeled as &quot;Tile&quot; or &quot;Wood&quot; respectively.  The same
+	applies to fake granite countertops.</p>
+</div>
+
+<div class="page-header">
+	<h1>Instructions</h1>
+</div>
+
+<div class="page-header">
+	<h2>In this task, you will select the <u>material</u> of an object in an image.</h2>
+</div>
+{% include instructions %}
+{% endblock content %}

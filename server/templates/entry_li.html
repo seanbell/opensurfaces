@@ -1,0 +1,20 @@
+{% if entry.content %}
+	{% with entry.content as entry_content %}
+		{% with entry_content.get_thumb_template as thumb_template %}
+			<li class="{{ span }} entry" {{ entry_content.get_entry_attr|safe }}>
+			{% include thumb_template with entry=entry_content %}
+			{% if thumb_template_extra %}{% include thumb_template_extra %}{% endif %}
+			</li>
+		{% endwith %}
+	{% endwith %}
+{% else %}
+	<li class="{{ span }} entry" {{ entry.get_entry_attr|safe }}>
+	{% if thumb_template %}
+		{% include thumb_template %}
+	{% else %}
+		{% with entry.get_thumb_template as thumb_template %}
+		{% include thumb_template %}
+		{% endwith %}
+	{% endif %}
+	</li>
+{% endif %}

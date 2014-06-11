@@ -1,0 +1,8 @@
+<script type="text/javascript">
+window.mt_photos = [
+{% for c in contents %} {
+	id:     {{ c.id }},
+	url:   "{{ c.image_2048.url }}",
+},
+{% endfor %} ];
+</script>

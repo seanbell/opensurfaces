@@ -1,0 +1,16 @@
+<a href="{% url 'bsdf-detail' "wd" entry.id %}" class="thumbnail pop admin-score-thumbnail" rel="popover" data-placement="bottom" data-trigger="hover" data-html="true" data-content="{% include "bsdf_wd_table.html" %}" data-id="{{ entry.id }}">
+	<div class="overlay-wrapper">
+		{% include "image_square.svg" with url=entry.image_blob.url %}
+		{% include "shape_poly_display.svg" with entry=entry.shape %}
+		<div class="overlay-container">
+			{% if entry.give_up %}
+			<p class="overlay-content">{{ entry.give_up_msg }}</p>
+			{% else %}
+			<p class="overlay-content">{{ entry.time_s }} s | {{ entry.edit_nnz }} e
+			{% if entry.color_correct_score %} | color: {{ entry.color_correct_score|floatformat:"2" }}{% endif %}
+			{% if entry.gloss_correct_score %} | gloss: {{ entry.gloss_correct_score|floatformat:"2" }}{% endif %}
+			</p>
+			{% endif %}
+		</div>
+	</div>
+</a>

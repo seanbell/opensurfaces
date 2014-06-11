@@ -1,0 +1,19 @@
+{% load humanize %}
+<div class="thumbnail admin-score-thumbnail" data-admin-score="{{ entry.admin_score }}" data-id="{{ entry.id }}">
+	<div class="overlay-wrapper">
+		<img src="{{ entry.image_rectified_square_512.url }}" alt=""/>
+		<div id="pd-{{ entry.id }}" class="pd"></div>
+		<div id="nd-{{ entry.id }}" class="nd"></div>
+		<div class="overlay-container">
+			<p class="overlay-content">{{ entry.phi_degrees|floatformat:1 }} &deg; | {{ entry.time_s }} s</p>
+			{% if entry.mturk_assignment.hit.sandbox %}<p class="overlay-content">(SANDBOX)</p>{% endif %}
+			<p class="overlay-content"><span class="score-display"></span></p>
+		</div>
+	</div>
+</div>
+<div style="text-align:center; margin-top: 5px">
+	<a href="{{ entry.image_rectified.url }}" class="btn btn-primary" role="button" target="_blank">Full Res</a>
+	&nbsp;
+	<a href="{% url 'material-shape-detail' entry.shape_id %}" class="btn btn-primary" role="button" target="_blank">View shape</a>
+</div>
+<script> if (window.s == null) window.s = {}; var t = {% include "material_shape_entry.js" with c=entry.shape %}; t.uvnb = {{ entry.uvnb }}; window.s[{{ entry.id}}] = t;</script>

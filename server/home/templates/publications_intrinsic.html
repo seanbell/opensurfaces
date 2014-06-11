@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Publications</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<div class="span12">
+		<div class="well">
+			<div class="row-fluid">
+				<div class="span2">
+					<a href="{{ STATIC_URL }}siggraph2014/siggraph2014-preprint.pdf">
+						<div class="thumbnail">
+							<img src="{{ STATIC_URL }}img/siggraph2014-preprint-thumb.png" alt=""/>
+						</div>
+					</a>
+				</div>
+				<div class="span10">
+						<h3>Intrinsic Images in the Wild</h3>
+						<p><a href="http://seanbell.ca" target="_blank">Sean Bell</a>,
+						<a href="http://www.cs.cornell.edu/~kb/" target="_blank">Kavita Bala</a>,
+						<a href="http://www.cs.cornell.edu/~snavely/" target="_blank">Noah Snavely</a>
+						<br/><a href="http://rgb.cs.cornell.edu" target="_blank">Cornell University</a></p>
+						<p><i>ACM Transactions on Graphics (SIGGRAPH 2014), to appear</i></p>
+						<p>
+							<a class="btn" href="http://labelmaterial.s3.amazonaws.com/release/siggraph2014-intrinsic.pdf">Paper (44MB PDF)</a>&nbsp;
+							<a class="btn" href="http://labelmaterial.s3.amazonaws.com/release/siggraph2014-supplemental.pdf">Supplemental (27MB PDF)</a>&nbsp;
+							<a class="btn" href="#" disabled="disabled">Slides</a>&nbsp;
+						</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="span6">
+		<p><i>Abstract:</i></p>
+			<p>Intrinsic image decomposition separates an image into a reflectance
+			layer and a shading layer. Automatic intrinsic image decomposition
+			remains a significant challenge, particularly for real-world scenes.
+			Advances on this longstanding problem have been spurred by public
+			datasets of ground truth data, such as the MIT Intrinsic Images
+			dataset. However, the difficulty of acquiring ground truth data has
+			meant that such datasets cover a small range of materials and objects.
+			In contrast, real-world scenes contain a rich range of shapes and
+			materials, lit by complex illumination.</p>
+
+			<p>In this paper we
+			introduce <i>Intrinsic Images in the Wild</i>, a large-scale, public
+			dataset for evaluating intrinsic image decompositions of indoor scenes.
+			We create this benchmark through millions of crowdsourced annotations
+			of relative comparisons of material properties at pairs of points in
+			each scene. Crowdsourcing enables a scalable approach to acquiring a
+			large database, and uses the ability of humans to judge material
+			comparisons, despite variations in illumination. Given our database, we
+			develop a dense CRF-based intrinsic image algorithm for images in the
+			wild that outperforms a range of state-of-the-art intrinsic image
+			algorithms. Intrinsic image decomposition remains a challenging
+			problem; we release our code and database publicly to support future
+			research on this problem, available online at <a
+			href="http://intrinsic.cs.cornell.edu/">http://intrinsic.cs.cornell.edu/</a>.</p>
+	</div>
+	<div class="span6">
+		<p><i>Video:</i></p>
+		<div class="thumbnail" style="height:315px">
+			<iframe src="http://player.vimeo.com/video/94701085?title=0&amp;byline=0&amp;portrait=0" width="100%" height="100%" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+		</div>
+	</div>
+</div>
+
+<div class="row" style="margin-top: 12px">
+	<div class="span12">
+		<p><i>BibTeX:</i></p>
+<pre>@article{bell14intrinsic,
+	author = "Sean Bell and Kavita Bala and Noah Snavely",
+	title = "Intrinsic Images in the Wild",
+	journal = "ACM Trans. on Graphics (SIGGRAPH)",
+	volume = "33",
+	number = "4",
+	year = "2014",
+}</pre>
+	</div>
+</div>
+
+<hr/>
+<a id="download"></a>
+<div class="row">
+	<div class="span12">
+		<h3>Code and Data</h3>
+		<p><i>Dataset:</i> We include all collected data as well as a Python implementation of our WHDR metric.</p>
+		<p>
+		<a class="btn" href="http://labelmaterial.s3.amazonaws.com/release/iiw-dataset-release-0.zip"><i class="icon-download"></i> Full dataset (release 0, 1.5G)</a>&nbsp;
+			<a class="btn" href="http://labelmaterial.s3.amazonaws.com/release/iiw-dataset-json-only-release-0.zip"><i class="icon-download"></i> Judgement data only (release 0, 97M)</a>
+		</p>
+		<p><i>Code:</i> Coming soon.</p>
+	</div>
+</div>
+
+<hr/>
+<a id="tasks"></a>
+<div class="row">
+	<div class="span12">
+		<h3>MTurk Tasks</h3>
+		<p>We include previews of our instructions, tutorials, and tasks that were shown to online workers.</p>
+		<div class="row-fluid">
+			<div class="span6">
+				<h4>Flag transparent/mirror points</h4>
+				<p><i>Preview:</i>&nbsp;
+					<a class="btn" href="{% url "mturk-admin-preview-task" 53 "inst" %}" target="_blank">Intructions</a>&nbsp;
+					<a class="btn" href="{% url "mturk-admin-preview-task" 53 "tut" %}" target="_blank">Tutorial</a>&nbsp;
+					<a class="btn" href="{% url "mturk-admin-preview-task" 53 "task" %}" target="_blank">Task</a>
+				</p>
+				<a class="thumbnail" href="{% url "mturk-admin-preview-task" 53 "task" %}" target="_blank">
+					<img src="{{ STATIC_URL }}img/opacity_ui.png" />
+				</a>
+			</div>
+			<div class="span6">
+				<h4>Compare surface reflectance</h4>
+				<p><i>Preview:</i>&nbsp;
+					<a class="btn" href="{% url "mturk-admin-preview-task" 52 "inst" %}" target="_blank">Intructions</a>&nbsp;
+					<a class="btn" href="{% url "mturk-admin-preview-task" 52 "tut" %}" target="_blank">Tutorial</a>&nbsp;
+					<a class="btn" href="{% url "mturk-admin-preview-task" 52 "task" %}" target="_blank">Task</a>
+				</p>
+				<a class="thumbnail" href="{% url "mturk-admin-preview-task" 53 "task" %}" target="_blank">
+					<img src="{{ STATIC_URL }}img/compare_ui.png" />
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<hr/>
+<a id="acks"></a>
+<h3>Acknowledgements</h3>
+	<p>We would like to thank Kevin Matzen for his invaluable help in putting
+	together our submission.  This work was supported in part by a NSERC PGS-D
+	scholarship, the National Science Foundation (grants IIS-1149393,
+	IIS-1011919, IIS-1161645), and by the Intel Science and Technology Center
+	for Visual Computing.  In the supplemental material, we acknowledge the
+	Flickr users who released their images under Creative Commons licenses.</p>
+
+	<p>Header background pattern: courtesy of <a href="http://subtlepatterns.com/">Subtle Patterns</a>.</p>
+{% endblock %}

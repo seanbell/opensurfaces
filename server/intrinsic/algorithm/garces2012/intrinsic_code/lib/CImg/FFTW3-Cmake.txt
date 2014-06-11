@@ -1,0 +1,43 @@
+
+if (FFTW3_INCLUDE_DIR)
+	# Already in cache, be silent
+	set(FFTW3_FIND_QUIETLY TRUE)
+endif (FFTW3_INCLUDE_DIR)
+
+find_path(FFTW3_INCLUDE_DIR fftw3.h
+	/opt/local/include
+	/usr/local/include
+	/usr/include
+)
+
+set(FFTW3_NAMES fftw3)
+	find_library(FFTW3_LIBRARY
+	  NAMES ${FFTW3_NAMES}
+	  PATHS /usr/lib /usr/local/lib /opt/local/lib
+	)
+	
+if (FFTW3_INCLUDE_DIR AND FFTW3_LIBRARY)
+	set(FFTW3_FOUND TRUE)
+	set( FFTW3_LIBRARIES ${FFTW3_LIBRARY} )
+else (FFTW3_INCLUDE_DIR AND FFTW3_LIBRARY)
+	set(FFTW3_FOUND FALSE)
+	set(FFTW3_LIBRARIES)
+endif (FFTW3_INCLUDE_DIR AND FFTW3_LIBRARY)
+	
+if (FFTW3_FOUND)
+	if (NOT FFTW3_FIND_QUIETLY)
+		message(STATUS "Found Fftw3: ${FFTW3_LIBRARY}")
+	endif (NOT FFTW3_FIND_QUIETLY)
+else (FFTW3_FOUND)
+	if (FFTW3_FIND_REQUIRED)
+		message(STATUS "Looked for Fftw3 libraries named ${FFTW3_NAMES}.")
+		message(STATUS "Include file detected: [${FFTW3_INCLUDE_DIR}].")
+		message(STATUS "Lib file detected: [${FFTW3_LIBRARY}].")
+		message(FATAL_ERROR "=========> Could NOT find Fftw3 library")
+	endif (FFTW3_FIND_REQUIRED)
+endif (FFTW3_FOUND)
+	
+mark_as_advanced(
+	FFTW3_LIBRARY
+	FFTW3_INCLUDE_DIR
+)

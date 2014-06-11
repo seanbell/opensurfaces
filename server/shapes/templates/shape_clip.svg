@@ -1,0 +1,8 @@
+<svg version="1.1" width="entry.bbox_aspect_ratio" height="1">
+<g transform="scale({{ entry.bbox_aspect_ratio }},1)">
+	<clipPath id="clip-{{ entry.id }}">
+		<path transform="{{ entry.bbox_svg_transform }}" d="{{ entry.triangles_svg_path }}"/>
+	</clipPath>
+	<image clip-path="url(#clip-{{ entry.id }})" x="0" y="0" width="1" height="1" xlink:href="{{ entry.image_bbox_512.url }}"/>
+</g>
+</svg>

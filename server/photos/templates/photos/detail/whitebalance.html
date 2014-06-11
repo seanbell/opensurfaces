@@ -1,0 +1,26 @@
+<h2 style="margin-top:30px">Whitebalance points</h2>
+{% if photo.whitebalances.all %}
+<p>Users were asked to click on points that are white or gray.</p>
+<p>Each color corresponds to one user.</p>
+<div class="row">
+	<div class="span9">
+		<div class="thumbnail">
+			{% include "photos/whitebalance_display.svg" with entry=photo large="True" %}
+		</div>
+	</div>
+	<div class="span3">
+		<div class="well">
+			<b>Median chroma</b>
+			<ul>
+			{% for wb in photo.whitebalances.all %}
+			<li>{% if wb.chroma_median %}{{ wb.chroma_median|floatformat:3 }}{% else %}no white points{% endif %} ({{ wb.time_s }} s)</li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+{% else %}
+<p>No white points are available.</p>
+{% endif %}
+
+

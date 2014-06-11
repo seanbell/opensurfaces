@@ -1,0 +1,26 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block head_title %}Delete Account{% endblock %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Delete Account</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+    <h1>Are you sure?</h1>
+
+    <p>If you delete your account, your personal information will be <b>expunged within {{ ACCOUNT_DELETION_EXPUNGE_HOURS }} hours</b>.</p>
+
+    <form method="post" action="{% url 'account_delete' %}" autocapitalize="off">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete My Account</button>
+    </form>
+
+{% endblock %}

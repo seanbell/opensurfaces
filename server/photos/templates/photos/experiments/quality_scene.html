@@ -1,0 +1,98 @@
+{% extends "mturk/base_responsive.html" %}
+{% load humanize %}
+{% load compress %}
+
+{% block css %}{{ block.super }}
+<style>
+	#mt-top-padding { height: 40px; }
+	#mt-top-flat { padding: 2px 10px 2px 10px; }
+	#mt-objects { margin-top: 20px; }
+	#mt-bottom { text-align: center; }
+	#hdr-type { display:inline; margin-right: 50px; }
+	#hdr-color { margin-bottom: 0px; }
+	body { padding: 0px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="mt-top">
+	<div id="mt-instructions">
+		<span>Instructions: Select the images that belong to their assigned category.  Please exclude rotated photos, black-and-white photos, toy models, and scenes under construction.</span>
+		{% comment %}
+		<span class="pull-right">
+			<a href="#modal-instructions" role="button" class="btn" data-toggle="modal">Examples</a>&nbsp;
+		</span>
+		{% endcomment %}
+	</div>
+</div>
+<div id="mt-top-padding"></div>
+
+<div id="mt-container">
+	<div class="container">
+		{% for scene in scenes %}
+		<div class="page-header">
+			<h2>Category: {{ scene.name }}</h2>
+			<p>Click on the photographs that are upright and part of a {{ scene.name }}{% if scene.description %} -- {{ scene.description }}{% endif %}.</p>
+			<p>Exclude rotated photos, black-and-white photos, toy models, and scenes under construction.</p>
+			<p>If you cannot tell, don't select the photo.  Please do not guess.</p>
+		    <p>Occasionally there might be adult or disturbing content.  Please do not select these images.</p>
+		</div>
+		<div class="row">
+			<div class="span12">
+				<ul class="thumbnails">
+				{% for c in scene.photos %}
+					<div class="span4">
+						<div class="thumbnail" id="thumbnail-{{ c.id }}">
+							<div class="overlay-wrapper">
+								<img src="{{ c.image_512.url }}" alt=""/>
+								<div class="overlay-container">
+									<p class="overlay-content"><span id="not-{{ c.id }}">not</span> {{ scene.name }}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% if forloop.counter|divisibleby:"3" %}
+					</ul>
+					<ul class="thumbnails">
+					{% endif %}
+				{% endfor %}
+				</ul>
+			</div>
+		</div>
+		{% endfor %}
+
+		<div class="row">
+			<div class="span12">
+				<p>Reminder: please do not select images that are rotated, under construction, or not color photographs.</p>
+				<p>Many users perform each HIT; we will reject your HIT if too many answers are inconsistent.</p>
+			</div>
+		</div>
+
+		<div class="row" id="mt-bottom">
+			<div class="span12">
+				<div class="well">
+					<span style="margin-right:20px"><code><span id="num-selected">0</span></code> photo(s) selected.</span>
+					<button type="button" id='btn-submit' class="btn btn-primary" disabled="disabled">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+
+{% block modals %}{{ block.super }}
+{% endblock modals %}
+
+
+{% block scripts %}{{ block.super }}
+{% include "photos/experiments/photos_content_script.html" %}
+
+{% compress js %}
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/util.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/modals.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/common/active_timer.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/mturk/submit.coffee"></script>
+<script type="text/coffeescript" src="{{ STATIC_URL }}js/photos/experiments/quality_scene.coffee"></script>
+{% endcompress %}
+{% endblock %}

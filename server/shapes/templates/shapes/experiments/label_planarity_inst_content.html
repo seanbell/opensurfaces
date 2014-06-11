@@ -1,0 +1,50 @@
+{% extends "mturk/experiments/filter_content_inst_content.html" %}
+
+{% block instructions_content_text %}
+<div class="alert alert-success">
+	<h3>Note</h3>
+	<p>Planar is NOT the same as flat.  It is a related but different concept.  Please read the instructions below to see the difference.</p>
+</div>
+
+<p>You will be shown a collection of images with objects outlined in red.
+Click on the objects that are <i>planar</i> -- regions with a single flat
+surface.</p>
+
+<p>Planar shapes can have some variation, such as patterns on wood, or grooves
+between bricks, or fuzz on a carpet.  For example, a brick or tile wall is
+still considered planar.</p>
+
+<p>However, two very different planar surfaces (such as two perpendicular walls
+in the same red shape) do not count and should be rejected.</p>
+
+<br/>
+<h2>Examples (side view)</h2>
+<p>To explain what &quot;planar&quot; means, consider these examples.  They are
+<i>side views</i> of objects.</p>
+<div class="row-fluid" style="margin-top:20px">
+	<div class="span3">
+		<div class="thumbnail item-selected">
+			<img src="{{ STATIC_URL }}img/mturk/planar.png" alt=""/>
+			<p class="caption">planar -- the surface is flat</p>
+		</div>
+	</div>
+	<div class="span3">
+		<div class="thumbnail item-selected">
+			<img src="{{ STATIC_URL }}img/mturk/planar2.png" alt=""/>
+			<p class="caption">planar -- the surface is approximately flat</p>
+		</div>
+	</div>
+	<div class="span3">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/nonplanar.png" alt=""/>
+			<p class="caption">NOT planar -- the surface is curved</p>
+		</div>
+	</div>
+	<div class="span3">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/nonplanar2.png" alt=""/>
+			<p class="caption">NOT planar -- there are two different flat surfaces</p>
+		</div>
+	</div>
+</div>
+{% endblock %}

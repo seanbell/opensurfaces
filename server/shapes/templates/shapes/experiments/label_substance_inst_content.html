@@ -1,0 +1,99 @@
+{% load humanize %}
+
+<p>Select the name that best describes the material of the highlighted portion.
+If you make a mistake, click the &quot;Go back&quot; button to change your
+answer.  To better see the highlighted shape, you can drag the image with the
+mouse or zoom in using the &quot;Zoom in&quot; button.</p>
+
+<p>If you cannot determine the material, please <u>do not guess</u>.
+Instead, select one of the options at the bottom of the list:</p>
+<dl class="dl-horizontal" style="margin-left: 40px">
+	<dt>Not on list</dt> <dd>You know the material but it is not on the
+	list.</dd> <dt>More than one material</dt> <dd>There is more than one
+	material highlighted by the red shape.</dd> <dt>I can't tell</dt> <dd>The
+	shape is too small or you do not know the material.</dd>
+</dl>
+
+<br/>
+<h3>Should I guess if I am unsure?</h3>
+<p>No.  Please choose &quot;I can't tell&quot;.  We understand that many images
+are ambiguous.</p>
+
+<h3>What do I choose for painted walls and ceilings?</h3>
+<p>For solid color painted walls, please select &quot;Painted&quot; since it is
+impossible to know what is below the paint.  If the wall is decorated with
+wallpaper, select &quot;Wallpaper&quot;.</p>
+
+<h3>What if the laminate looks like tile, granite, or wood?</h3>
+If a countertop or floor <i>looks</i> like granite, but you think it is
+actually laminate, select &quot;Granite&quot; anyway.  The same applies to
+other surfaces -- e.g. if it is designed to look like wood or tile, select
+&quot;Wood&quot; or &quot;Tile&quot; respectively.</p>
+
+<h3>What if the wood has varnish?</h3>
+<p>Finished wood and wood with varnish should be labeled &quot;Wood&quot;.  If
+the outermost layer is solid opaque paint (e.g. white paint), select
+&quot;Painted&quot;.  Otherwise, select &quot;Wood&quot;.</p>
+
+<h3>What if there is glass/mirror in front?</h3>
+<p>Please label the <i>closest</i> surface.  If there is glass in front, select
+&quot;Glass&quot;.  If the shape is a reflection inside a mirror, select
+&quot;Mirror&quot;.</p>
+
+<h3>What do I choose for paintings/posters?</h3>
+<p>If you can tell that there is glass in front, select &quot;Glass&quot;.  For
+oil/latex/acrylic paintings, select &quot;Painted&quot;.  For posters, select
+&quot;Paper&quot;.  If there is any ambiguity, please select &quot;I can't
+tell&quot; (we would rather that you select this instead of guess).</p>
+
+<h3>What about marble tile?</h3>
+<p>If it is arranged in a regular grid pattern, please select &quot;Tile&quot;</p>
+
+<h3>What about painted wood?</h3>
+<p>If the outermost layer is solid opaque paint (e.g. white paint), select
+&quot;Painted&quot;.  Otherwise, select &quot;Wood&quot;.</p>
+
+
+<br/>
+<h2>Material definitions</h2>
+<div class="row-fluid">
+{% for d in descriptions %}
+	<div class="span4">
+		<h3>{{ d.name }}</h3>
+		<div class="thumbnail">
+			{% include "shape_poly_display.svg" with entry=d.representative_shape %}
+			<p class="caption">{{ d.description }}</p>
+		</div>
+	</div>
+	{% if forloop.counter|divisibleby:3 %}
+	</div>
+	<br/>
+	<div class="row-fluid">
+	{% endif %}
+{% endfor %}
+</div>
+<br/>
+<br/>
+
+{% comment %}
+<div class="row-fluid">
+	<div class="span6">
+		<h2>How do I distinguish granite and marble?</h2>
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/mturk/granite-vs-marble.jpg" alt="" />
+			<p class="caption">LEFT: granite.  RIGHT: marble.<br/>Granite has a
+			random texture, while marble has swirly lines.  Note that
+			countertops in the US tend to made out of granite rather than
+			marble, since granite is stronger, scratches less, and remains
+			shiny for longer.</p>
+		</div>
+	</div>
+	<div class="span6">
+	</div>
+</div>
+{% endcomment %}
+
+<h2>Why are we doing this?</h2>
+<p>We are building a database of materials from images on the web.
+This is part of ongoing research at Cornell University.  Thank you for
+participating!</p>

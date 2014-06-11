@@ -1,0 +1,47 @@
+{% with entry.photo as photo %}
+<div class="thumbnail entry-thumb" data-id="{{ entry.id }}">
+	<a href="{% url 'material-shape-detail' entry.id %}">
+		<div class="row-fluid">
+			<div class="span2">
+				<p class="caption">
+				{% if entry.substance %}{{ entry.substance }}{% else %}Unknown substance{% endif %},<br/>
+				{% if entry.name %}{{ entry.name }}{% else %}Unknown name{% endif %},<br/>
+				{% if photo.scene_category_correct %}{{ photo.scene_category.name_capitalized }}{% else %}Unknown scene{% endif %},<br/>
+				{{ entry.num_vertices }} vertices
+				</p>
+			</div>
+			<div class="span3">
+				{% include "image_square.svg" with url=entry.image_square_300.url %}
+			</div>
+			<div class="span3">
+				{% include "shape_poly_display.svg" %}
+			</div>
+			<div class="span2">
+			{% if entry.photo.whitebalanced %}
+				{% if entry.bsdf_wd %}
+				{% with entry.bsdf_wd as b %}
+					{% include "image_square.svg" with url=b.image_blob.url %}
+					<p class="caption">
+					Gloss c,d:<br/>
+					{{ b.c|floatformat:3 }}, {{ b.d|floatformat:3 }}<br/>
+					Color: {{ b.color }}<br/>
+					</p>
+				{% endwith %}
+				{% endif %}
+			{% else %}
+				<p class="caption">Not whitebalanced</p>
+			{% endif %}
+			</div>
+			<div class="span2">
+			{% if entry.planar %}
+				{% if entry.rectified_normal %}
+					{% include "rectified_normal_display.svg" with entry=entry.rectified_normal %}
+				{% endif %}
+			{% else %}
+				<p class="caption">Not planar</p>
+			{% endif %}
+			</div>
+		</div>
+	</a>
+</div>
+{% endwith %}

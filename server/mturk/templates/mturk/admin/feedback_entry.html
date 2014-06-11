@@ -1,0 +1,21 @@
+<div class="row">
+	<div class="span12">
+		<h4>{{ entry.hit.hit_type.title }}</h4>
+	</div>
+	<div class="span6">
+		<div class="feedback-json" style="display:none">{{ entry.feedback }}</div>
+		{% comment %}
+		<div>
+			<a href="{% url 'mturk-admin-preview-task' entry.hit.hit_type.experiment_id "task" entry.hit_id %}" role="button" class="btn" target="_blank">Preview HIT</a>
+		</div>
+		{% endcomment %}
+	</div>
+	<div class="span3">
+		{% if entry.hit.sandbox %}
+		<p><span class="label label-important">SANDBOX</span></p>
+		{% endif %}
+
+		{% include "mturk/admin/assignment_entry_info.html" %}
+	</div>
+</div>
+<hr/>

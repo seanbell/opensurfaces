@@ -1,0 +1,10 @@
+<script type="text/javascript">
+$(function() {
+	for (var i = 0; i < window.mt_contents.length; i ++) {
+		var p = window.mt_contents[i].photo;
+		p.photo_obj = new Image();
+		p.photo_obj.crossOrigin = '';
+		p.photo_obj.src = p.url + "?origin=" + window.location.host;
+	}
+});
+</script>

@@ -1,0 +1,100 @@
+{% load humanize %}
+
+<table class='table table-hover home-table-stats'>
+<thead>
+	<tr><th></th><th style="text-align:right">Good</th><th style="text-align:right">All</th></tr>
+</thead>
+<tbody>
+	{% if num_scenes_all %}
+	<tr>
+		<td>Labeled Scenes</td>
+		<td style="text-align:right">{{ num_scenes_good|intcomma }}</td>
+		<td style="text-align:right">{{ num_scenes_all|intcomma }}</td>
+	</tr>
+	{% endif %}
+	{% if num_whitebalanced_all %}
+	<tr>
+		<td>Whitebalanced Photos</td>
+		<td style="text-align:right">{{ num_whitebalanced_good|intcomma }}</td>
+		<td style="text-align:right">{{ num_whitebalanced_all|intcomma }}</td>
+	</tr>
+	{% endif %}
+	{% if num_shapes_all %}
+	<tr>
+		<td>Segmentations</td>
+		<td style="text-align:right">{{ num_shapes_good|intcomma }}</td>
+		<td style="text-align:right">{{ num_shapes_all|intcomma }}</td>
+	</tr>
+	{% endif %}
+	{% if num_planar_all %}
+	<tr>
+		<td>Planar Segmentations</td>
+		<td style="text-align:right">{{ num_planar_good|intcomma }}</td>
+		<td style="text-align:right">{{ num_planar_all|intcomma }}</td>
+	</tr>
+	{% endif %}
+	{% if num_substances_all %}
+	<tr>
+		<td>Named Materials</td>
+		<td style="text-align:right">{{ num_substances_good|intcomma }}</td>
+		<td style="text-align:right">{{ num_substances_all|intcomma }}</td>
+	</tr>
+	{% endif %}
+	{% if num_names_all %}
+	<tr>
+		<td>Named Objects</td>
+		<td style="text-align:right">{{ num_names_good|intcomma }}</td>
+		<td style="text-align:right">{{ num_names_all|intcomma }}</td>
+	</tr>
+	{% endif %}
+	{% if num_textures_all %}
+	<tr>
+		<td>Rectified Textures</td>
+		<td style="text-align:right">{{ num_textures_good|intcomma }}</td>
+		<td style="text-align:right">{{ num_textures_all|intcomma }}</td>
+	</tr>
+	{% endif %}
+	{% if num_bsdfs_all %}
+	<tr>
+		<td>Reflectances</td>
+		<td style="text-align:right">{{ num_bsdfs_good|intcomma }}</td>
+		<td style="text-align:right">{{ num_bsdfs_all|intcomma }}</td>
+	</tr>
+	{% endif %}
+	{% if num_judgements_all %}
+	<tr>
+		<td>Reflectance Judgements</td>
+		<td style="text-align:right">N/A</td>
+		<td style="text-align:right">{{ num_judgements_all|intcomma }}</td>
+	</tr>
+	{% endif %}
+	{% if num_assignments_all %}
+	<tr>
+		<td>MTurk Assignments</td>
+		<td style="text-align:right">{{ num_assignments_good|intcomma }}</td>
+		<td style="text-align:right">{{ num_assignments_all|intcomma }}</td>
+	</tr>
+	{% endif %}
+	{% if num_users_all %}
+	<tr>
+		<td>MTurk Users</td>
+		<td style="text-align:right">{{ num_users_good|intcomma }}</td>
+		<td style="text-align:right">{{ num_users_all|intcomma }}</td>
+	</tr>
+	{% endif %}
+	{% if num_hours_all %}
+	<tr>
+		<td>Hours of Work</td>
+		<td style="text-align:right">N/A</td>
+		<td style="text-align:right">{{ num_hours_all|intcomma }}</td>
+	</tr>
+	{% endif %}
+	{% if num_submitted_all %}
+	<tr>
+		<td>Submitted Items</td>
+		<td style="text-align:right">N/A</td>
+		<td style="text-align:right">{{ num_submitted_all|intcomma }}</td>
+	</tr>
+	{% endif %}
+</tbody>
+</table>

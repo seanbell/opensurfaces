@@ -1,0 +1,17 @@
+<div class="row" style="margin-top:20px;">
+	<div class="span12">
+		<ul class="thumbnails">
+			{% for c in contents %}
+			<li class="span2">
+				<div class="thumbnail">
+					<img src="{{ c.image_square_300.url }}" alt=""/>
+				</div>
+			</li>
+			{% if forloop.counter|divisibleby:"6" %}
+			</ul>
+			<ul class="thumbnails">
+			{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
+</div>

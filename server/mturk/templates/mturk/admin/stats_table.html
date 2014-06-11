@@ -1,0 +1,75 @@
+{% if category %}
+<div class="row">
+	<div class="span9">
+		<h4>Aggregations over assignments</h4>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Min</th>
+					<th>Mean</th>
+					<th>Max</th>
+					<th>Stdev</th>
+					<th>Sum</th>
+					<th>Count</th>
+				</tr>
+			</thead>
+			{% for name, v in category.aggregations %}
+			<tr>
+				<td>{{ name }}</td>
+				{% ifequal v.unit "$" %}
+					<td>${{ v.min|floatformat:2 }}</td>
+					<td>${{ v.avg|floatformat:3 }}</td>
+					<td>${{ v.max|floatformat:2 }}</td>
+					<td>${{ v.std|floatformat:4 }}</td>
+					<td>${{ v.sum|floatformat:2 }}</td>
+					<td>{{ v.count }}</td>
+				{% else %}
+					<td>{{ v.min|floatformat:"-3" }} {{ v.unit }}</td>
+					<td>{{ v.avg|floatformat:"-3" }} {{ v.unit }}</td>
+					<td>{{ v.max|floatformat:"-3" }} {{ v.unit }}</td>
+					<td>{{ v.std|floatformat:"-3" }} {{ v.unit }}</td>
+					<td>{{ v.sum|floatformat:0 }} {{ v.unit }}</td>
+					<td>{{ v.count }}</td>
+				{% endifequal %}
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+
+<div class="row" style="margin-top:20px;">
+	<div class="span3">
+		<h4>HITs</h4>
+		<table class="table table-hover">
+			<thead><tr><th>Name</th><th>Count</th></tr></thead>
+			{% for k, v in category.counts.hit %}
+			<tr><td>{{ k }}</td><td>{{ v|floatformat:"-2" }}</td></tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div class="span3">
+		<h4>Assignments</h4>
+		<table class="table table-hover">
+			<thead><tr><th>Name</th><th>Count</th></tr></thead>
+			{% for k, v in category.counts.asst %}
+			<tr><td>{{ k }}</td><td>{{ v|floatformat:"-2" }}</td></tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div class="span3">
+		<h4>Other</h4>
+		<table class="table table-hover">
+			<thead><tr><th>Name</th><th>Count</th></tr></thead>
+			{% for k, v in category.counts.other %}
+			<tr><td>{{ k }}</td><td>{{ v|floatformat:"-2" }}</td></tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+<p class="last-updated">Last updated: {{ category.now }}</p>
+{% else %}
+<div class="progress progress-striped active">
+	<div class="bar" style="width: 100%;">Loading...</div>
+</div>
+{% endif %}

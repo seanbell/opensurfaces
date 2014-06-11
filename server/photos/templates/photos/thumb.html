@@ -1,0 +1,16 @@
+<a href="{% url 'photo-detail' entry.id %}" class="thumbnail tool" rel="tooltip" data-original-title="{{ entry.valid_material_shapes.count }} material segmentations">
+	<div class="overlay-wrapper">
+		<div class="hover-toggle">
+			<img class="show-on-mouseout" src="{{ entry.image_square_300.url }}" alt=""/>
+			<svg class="show-on-mouseover" style="display:none">
+				<image x="0" y="0" width="100%" height="100%" xlink:href="{{ entry.image_512.url }}"/>
+			</svg>
+		</div>
+		{% if entry.scene_category %}
+		<div class="overlay-container">
+			{# <p class="overlay-content">{{ entry.num_shapes }} <i class="icon-leaf"></i></p> #}
+			<p class="overlay-content">{{ entry.scene_category.name }}</p>
+		</div>
+		{% endif %}
+	</div>
+</a>

@@ -1,0 +1,209 @@
+svg {
+	max-height: 100%;
+}
+
+/* on IE, this becomes stroke-width: 0.2% */
+.nss {
+	vector-effect: non-scaling-stroke;
+}
+
+/* d3 chargs */
+.bar rect, rect.bar {
+	fill: #914646;
+	shape-rendering: crispEdges;
+}
+
+.bar text {
+	fill: #fff;
+	font: 10px sans-serif;
+}
+
+.axis text {
+	font: 10px sans-serif;
+}
+
+.axis path, .axis line {
+	fill: none;
+	stroke: #111;
+	shape-rendering: crispEdges;
+}
+
+.poly-display-segments {
+	stroke: #f00;
+	stroke-width: 2px;
+	/*stroke-opacity: 0.8;*/
+}
+
+.poly-display-triangles {
+	stroke: none;
+	fill: #fff;
+	fill-opacity: 0;
+}
+
+.poly-display-triangles:hover {
+	fill-opacity: 0.3;
+}
+
+.wb-display {
+	fill: none;
+	stroke-width: 2px;
+}
+
+.wb-display:hover {
+	stroke-width: 4px;
+}
+
+.vl-display {
+	stroke-width: 2px;
+	stroke-opacity: 0.8;
+	stroke-linecap: round;
+}
+
+.vl-display:hover {
+	cursor: pointer;
+}
+
+.vlp-display {
+	stroke-width: 1.5px;
+	stroke-opacity: 0.6;
+	stroke-linecap: round;
+}
+
+/* Inrinsic Images */
+
+.int-display {
+	fill: none;
+	stroke-width: 2px;
+}
+
+.int-display0 {
+	fill: none;
+	stroke-width: 3px;
+	stroke: #000;
+}
+
+.int-display1 {
+	fill: none;
+	stroke-width: 1.5px;
+	stroke: #fff;
+}
+
+/* mirror or transparent */
+.int-mot0 {
+	fill: none;
+	stroke-width: 4px;
+	stroke: #f00;
+}
+
+/* mirror or transparent */
+.int-mot1 {
+	fill: none;
+	stroke-width: 2px;
+	stroke: #fff;
+}
+
+.int-vec {
+	fill: #000;
+	stroke-width: 1px;
+	stroke: #fff;
+	opacity: 0.7;
+}
+
+.int-darker {
+	stroke-width: 4px;
+	stroke: #d62728;
+}
+
+.int-unk {
+	fill: none;
+	stroke: #fff;
+	stroke-width: 5px;
+	stroke-dasharray: 10,10;
+	stroke-opacity: 0.7;
+}
+
+.int-lighter {
+	stroke-width: 2px;
+	stroke: #2ca02c;
+}
+
+.int-equal {
+	stroke-width: 2px;
+	stroke: #1f77b4;
+}
+
+.int-text {
+	font-size: 0.015px;
+	text-anchor: middle;
+	fill: #000;
+	stroke: #fff;
+	stroke-width: 0.0005px;
+}
+
+.int-opaque {
+	fill: none;
+	stroke-width: 1px;
+	stroke: #fff;
+}
+
+.int-not-opaque {
+	fill: none;
+	stroke-width: 2px;
+	stroke: #f00;
+}
+
+/* cycle colors */
+.c0 { stroke: #d62728 }
+.c1 { stroke: #2ca02c }
+.c2 { stroke: #1f77b4 }
+.c3 { stroke: #ff7f0e }
+.c4 { stroke: #17becf }
+.c5 { stroke: #bcbd22 }
+.c6 { stroke: #ffd9c3 }
+.c7 { stroke: #e377c2 }
+.c8 { stroke: #9467bd }
+
+/* normal display */
+.normal-display-disc {
+	stroke: #000;
+	stroke-width: 2px;
+	stroke-opacity: 0.8;
+	stroke-linejoin: round;
+	fill: #3c77cc;
+	fill-opacity: 0.5;
+}
+
+.normal-display-grid {
+	stroke: #0f0;
+	stroke-width: 2px;
+	/*stroke-opacity: 0.8;*/
+}
+
+.normal-display-axes {
+	stroke: #000;
+	stroke-width: 2px;
+	/*stroke-opacity: 0.8;*/
+}
+
+.normal-display-pin {
+	stroke: #00f;
+	stroke-width: 3px;
+	/*stroke-opacity: 0.8;*/
+}
+
+/* photo material labels */
+.photo-shape-label > text {
+	text-anchor: middle;
+}
+
+.photo-shape-label > .text-substance {
+	fill: #ffff77;
+}
+
+.photo-shape-label > .text-name {
+	fill: #77ffff;
+}
+
+.photo-shape-label {
+	text-shadow: black 0.1em 0.1em 0.25em;
+}

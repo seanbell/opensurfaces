@@ -1,0 +1,24 @@
+{% extends "mturk/experiments/filter_content.html" %}
+
+{% block instructions_summary %}
+Click on the shapes that are correctly rectified.
+{% endblock %}
+
+{% block instructions_extra %}
+<p>For this task, &quot;rectified&quot; means:</p>
+<ul>
+	<li>the blue arrow points away from the surface,</li>
+	<li>the green grid are parallel to edges in the surface, and</li>
+	<li>tile, brick, and wood patterns should be
+	<span style="color:#f00"><u>perfectly</u> aligned and the same size</span>
+	throughout the image on the right</li>
+</ul>
+
+<p>If a shape is <i>almost</i> rectified, don't select it.  If you
+cannot decide on the correct answer, click the button &quot;I can't
+tell&quot; -- please don't guess.</p>
+{% endblock %}
+
+{% block counter_name %}
+image(s) are selected as facing forward.
+{% endblock %}

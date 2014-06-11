@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load compress %}
+{% load cache %}
+
+{% block content %}
+{% cache 600 material-shape-detail shape.id %}
+<div class="page-header">
+	<h1>Material Segmentation Detail</h1>
+</div>
+
+<div class="row">
+	<div class="span9">
+		<div class="thumbnail">
+			{% include "shape_poly_display.svg" with entry=shape large="True" %}
+		</div>
+
+		<div style="margin-top:20px;">
+			<h3>Rectified Textures</h3>
+		</div>
+		{% if shape.planar %}
+			{% include "grid.html" with span="span4" rowsize="3" entries=rectified_normals thumb_template="rectified_normal_thumb.html" %}
+		{% else %}
+			<p>The shape is not labeled as planar, so the surface was not rectified.</p>
+		{% endif %}
+
+		<div style="margin-top:20px;">
+			<h3>Reflectances</h3>
+		</div>
+		{% if shape.photo.whitebalanced %}
+			{% include "grid.html" with span="span4" rowsize="3" entries=bsdfs_wd thumb_template="bsdf_wd_thumb.html" %}
+		{% else %}
+			<p>The photo is not whitebalanced, so the reflectance was not matched.</p>
+		{% endif %}
+	</div>
+
+	<div class="span3">
+		<div class="well">
+			<div class="row-fluid">
+				<div class="span6">
+					<a href="{{ shape.image_crop.url }}" role="button" class="btn btn-block" target="_blank"><i class="icon-resize-full"></i> <br/> Full resolution</a>
+				</div>
+				<div class="span6">
+					<a href="{% url 'photo-detail' shape.photo_id %}" role="button" class="btn btn-block" target="_blank"><i class="icon-picture"></i> <br/> View Photo</a>
+				</div>
+			</div>
+			<hr/>
+			<p><b>User:</b> {{ shape.user }}</p>
+			{% if shape.time_ms %}
+			<p><b>Time:</b> {{ shape.time_s }} s</p>
+			{% endif %}
+			<p><b>Added:</b> {{ shape.added }}</p>
+			<p><b>Vertex count:</b> {{ shape.num_vertices }}</p>
+			<p><b>Normalized area:</b> {{ shape.area|floatformat:5 }}</p>
+			<p><b>Pixel area:</b> {{ shape.area_pixels|floatformat:0 }}</p>
+			{% if shape.mturk_assignment %}
+				<p><b>Status:</b> {{ shape.mturk_assignment.status_str }}</p>
+				{% if shape.mturk_assignment.bonus %}
+				{% endif %}
+			{% endif %}
+			<p><b>Correct:</b> {{ shape.correct }}</p>
+			<p><b>Planar:</b> {{ shape.planar }}</p>
+			<p><b>Whitebalanced: </b>{{ shape.photo.whitebalanced }}</p>
+			<p><b>Scene: </b>
+				{% if shape.photo.scene_category_correct %}
+				<a href="{% url 'photo-by-category' shape.photo.scene_category_id %}">{{ shape.photo.scene_category.name }}</a>
+				{% else %}
+					unknown
+				{% endif %}
+			</p>
+			{% include "license_inline.html" with license=shape.photo.license %}
+			<hr/>
+			{% for v in votes %}
+			{% include "votes_bar.html" with bar=v %}
+			<hr/>
+			{% endfor %}
+			<p><b>Dominant colors:</b></p>
+			{% if shape.dominant_rgb0 %}
+				<p>
+					<span class='color-swatch-square' style='background:{{ shape.dominant_rgb0 }}; margin-left: 5px; margin-bottom: -4px;'></span>
+					{% if shape.dominant_rgb1 %}<span class='color-swatch-square' style='background:{{ shape.dominant_rgb1 }}; margin-left: 5px; margin-bottom: -4px'></span>{% endif %}
+					{% if shape.dominant_rgb2 %}<span class='color-swatch-square' style='background:{{ shape.dominant_rgb2 }}; margin-left: 5px; margin-bottom: -4px'></span>{% endif %}
+					{% if shape.dominant_rgb3 %}<span class='color-swatch-square' style='background:{{ shape.dominant_rgb3 }}; margin-left: 5px; margin-bottom: -4px'></span>{% endif %}
+				</p>
+			{% else %}
+				<p>To be computed...</p>
+			{% endif %}
+			<hr/>
+			<p><b>Planar:</b> {{ shape.planar }}</p>
+			<p>
+				<b>Material names:</b>
+				<ul>
+				{% for f in substances %}
+					<li>{{ f.substance.name }} ({{ f.time_s }} s)</li>
+				{% empty %}
+					<p>None</p>
+				{% endfor %}
+				</ul>
+				{% ifequal shape.substance_entropy None %}
+				{% else %}
+				<p>Material name: {{ shape.substance }}</p>
+				<p>Entropy: {{ shape.substance_entropy|floatformat:3 }}</p>
+				{% endifequal %}
+			</p>
+			<hr/>
+			<p>
+				<b>Object names:</b>
+				<ul>
+				{% for f in names %}
+					<li>{{ f.name.name }} ({{ f.time_s }} s)</li>
+				{% empty %}
+					<p>None</p>
+				{% endfor %}
+				</ul>
+				{% ifequal shape.name_entropy None %}
+				{% else %}
+				<p>Object name: {{ shape.name }}</p>
+				<p>Entropy: {{ shape.name_entropy|floatformat:3 }}</p>
+				{% endifequal %}
+			</p>
+		</div>
+	</div>
+</div>
+
+
+{% if similar_shapes %}
+<div class="row-fluid" style="margin-top:20px">
+	<h3>Similar Shapes</h3>
+	{% include "grid.html" with span="span2" rowsize="6" entries=similar_shapes thumb_template="material_shape_thumb.html" %}
+</div>
+{% endif %}
+
+{% endcache %}
+{% endblock content %}
+
+{% block scripts %}
+{% include "entry_scripts.html" %}
+{% endblock %}

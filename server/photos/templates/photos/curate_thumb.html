@@ -1,0 +1,16 @@
+<a href="{% url 'photo-detail' entry.id %}" class="thumbnail">
+	<div class="overlay-wrapper">
+		<img src="{{ entry.image_512.url }}" alt=""/>
+		<div class="overlay-container">
+			{# <p class="overlay-content">{{ entry.num_shapes }} <i class="icon-leaf"></i></p> #}
+			<p class="overlay-content">{{ entry.scene_category.name }}</p>
+		</div>
+	</div>
+</a>
+
+<div class="btn-group curate-buttons" style="display:none">
+	<button type="button" class="btn btn-primary{% if entry.inappropriate %} active{% endif %}" data-attr="inappropriate"><i class="icon-tag"></i> I</button>
+	<button type="button" class="btn btn-primary{% if entry.nonperspective %} active{% endif %}" data-attr="nonperspective"><i class="icon-circle"></i> N</button>
+	<button type="button" class="btn btn-primary{% if entry.stylized %} active{% endif %}" data-attr="stylized"><i class="icon-picture"></i> S</button>
+	<button type="button" class="btn btn-primary{% if entry.rotated %} active{% endif %}" data-attr="rotated"><i class="icon-refresh"></i> R</button>
+</div>

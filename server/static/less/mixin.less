@@ -1,0 +1,17 @@
+/* pattern mixin */
+.pattern-overlay(@img, @opacity: .5) {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: url(@img) repeat center center;
+  opacity: @opacity;
+}
+
+/* helpers */
+.hidden {
+	display: none;
+}
+.cursor-pointer {
+	cursor: pointer;
+}

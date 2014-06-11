@@ -1,0 +1,13 @@
+{% with entry.test_content.content as entry_content %}
+	{% with entry_content.get_thumb_template as thumb_template %}
+		<div style="margin-bottom:10px">
+			{% if entry.correct %}
+				<span class="label label-success">Correct</span>
+			{% else %}
+				<span class="label label-important">Incorrect</span>
+			{% endif %}
+			<span style="margin-left:10px">Response: "{{ entry.response }}"</span>
+		</div>
+		{% include thumb_template with entry=entry_content %}
+	{% endwith %}
+{% endwith %}

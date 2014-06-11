@@ -1,0 +1,89 @@
+body {
+	padding: 0px;
+	overflow: hidden;
+}
+
+#mt-controls {
+	background-color: #EDA126;
+	padding: 5px;
+	margin: 0px;
+}
+
+.pointer-overlay {
+	fill: none;
+	pointer-events: all;
+}
+
+.point-circle {
+	fill: none;
+	stroke-width: 1px;
+}
+
+.point-line0 {
+	stroke: #000;
+	stroke-width: 3px;
+}
+
+.point-line1 {
+	stroke: #fff;
+	stroke-width: 1px;
+}
+
+.point-label-bg {
+	stroke: #000;
+	stroke-width: 0.5px;
+}
+
+.point-label {
+	text-anchor: middle;
+	font-family: "Muli","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 12px;
+	fill: #fff;
+}
+
+rect.message {
+	fill: #000;
+}
+
+text.message {
+	font-family: "Muli","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 20px;
+	fill: #fff;
+	text-shadow: 1px 1px #333;
+}
+
+.opaque .inner-point-circle {
+	fill: none;
+	stroke-width: 2px;
+	stroke: #fff;
+}
+
+.not-opaque .inner-point-circle {
+	fill: none;
+	stroke-width: 2px;
+	stroke: #000;
+}
+
+.opaque .outer-point-circle {
+	fill: none;
+	stroke-width: 2px;
+	stroke: #000;
+}
+
+.not-opaque .outer-point-circle {
+	fill: none;
+	stroke-width: 5px;
+	stroke: #ffa700;
+}
+
+.tut-error .inner-point-circle {
+	fill: none;
+	stroke: #000;
+	stroke-width: 2px;
+}
+
+.tut-error .outer-point-circle {
+	fill: none;
+	stroke: #f00;
+	stroke-width: 5px;
+}

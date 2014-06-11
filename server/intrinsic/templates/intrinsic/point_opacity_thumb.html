@@ -1,0 +1,14 @@
+<div class="thumbnail entry-thumb" data-id="{{ entry.id }}">
+	<a href="{% url 'photo-detail' entry.point.photo_id %}">
+		<div class="overlay-wrapper">
+			{% include "intrinsic/point_display.svg" %}
+			<div class="overlay-container">
+				{% if entry.invalid %}
+					<p class="overlay-content">INVALID</p>
+				{% endif %}
+				<p class="overlay-content">{% if entry.opaque %}opaque{% else %}m. or t.{%endif %}{% if entry.time_ms %} | {{ entry.time_s }} s{% endif %}</p>
+			</div>
+		</div>
+	</a>
+</div>
+

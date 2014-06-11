@@ -1,0 +1,39 @@
+<div class="accordion" id="intrinsic-judgements-legend">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#intrinsic-judgements-legend" href="#intrinsic-judgements-legend1">
+        Show legend
+      </a>
+    </div>
+    <div id="intrinsic-judgements-legend1" class="accordion-body collapse">
+      <div class="accordion-inner">
+		<div class="row-fluid">
+			<div class="span5">
+				<p>Our user interface for collecting annotations shows the user
+				an image and asks them, for a particular pair of pixels
+				(indicated with crosshairs and labeled Points 1 and 2), which
+				of the two points has a darker surface color. The user can then
+				select one of three options: Point 1, Point 2, and About the
+				same. We ask users to specify their confidence in their
+				assessment as Guessing, Probably, or Definitely, as was done by
+				[Branson et al. 2010].</p>
+
+				<p>We aggregate judgements from 5 users for each pair of points
+				and use the CUBAM machine learning model [Welinder et al. 2010]
+				to model two forms of bias.</p>
+
+				<p>See our <a href="{% url "publications" "intrinsic" %}" target="_blank">publication</a> for more details.</p>
+			</div>
+			<div class="span4">
+				<img src='/static/img/compare_ui.png'/>
+				<p>Our user interface</p>
+			</div>
+			<div class="span3">
+				<img src='/static/img/intrinsic-judgements-legend.png'/>
+			</div>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block css %}{{ block.super }}
+{% include "d3_css.html" %}
+{% endblock %}
+
+{% block css_responsive %}
+{% endblock %}
+
+{% block header %}
+<div class="jumbotron subhead" id="overview">
+	<div class="container">
+		<h1>Statistics</h1>
+	</div>
+</div>
+{% endblock %}
+
+{% block subnav %}
+<div class="container">
+<div id="subnav">
+	<ul class="nav nav-pills">
+		<li {% ifequal subnav "material-shapes" %}class="active"{% endifequal %}>
+			<a href="{% url 'analytics-material-shapes' %}">Shapes</a>
+		</li>
+
+		<li {% ifequal subnav "bsdf-wd" %}class="active"{% endifequal %}>
+			<a href="{% url 'analytics-bsdf-wd' %}">Reflectances</a>
+		</li>
+
+		<li {% ifequal subnav "rectified-normal" %}class="active"{% endifequal %}>
+			<a href="{% url 'analytics-rectified-normal' %}">Textures</a>
+		</li>
+	</ul>
+</div>
+</div>
+<div id="subnav-after"></div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+	<h1>Statistics <small>across {{ across }}.</small></h1>
+	<p>These histograms are fully interactive; click and drag on a chart to filter along that dimension.  Click &quot;reset&quot; to remove the filter.</p>
+	<p>Please try using Google Chrome if they do not display properly.</p>
+</div>
+
+<div id="loading">
+	<div class="progress progress-striped active">
+		<div class="bar" style="width: 100%;">Loading...</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}{{ block.super }}
+{% include "d3_scripts.html" %}
+{% endblock %}
