@@ -442,8 +442,9 @@ class IntrinsicPointComparison(EmptyModelBase):
             'point2': self.point2.get_entry_dict(include_photo=False),
         }
 
-    def svg_path(self, radius=0.015):
+    def svg_path(self):
         """ Return the svg path attribute """
+        radius = self.photo.intrinsic_circle_size()
         p1 = np.array([self.point1.x * self.photo.aspect_ratio, self.point1.y])
         p2 = np.array([self.point2.x * self.photo.aspect_ratio, self.point2.y])
         if self.darker == '1':

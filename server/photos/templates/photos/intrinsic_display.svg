@@ -9,13 +9,15 @@
 			{% endif %}
 		</a>
 	{% endfor %}
-	{% for ip in density.points %}
-		{% if ip.opaque %}
-			<circle class="int-display0 nss" cx="{{ ip.x_aspect }}" cy="{{ ip.y }}" r="0.015" />
-			<circle class="int-display1 nss" cx="{{ ip.x_aspect }}" cy="{{ ip.y }}" r="0.015" />
-		{% else %}
-			<circle class="int-mot0 nss" cx="{{ ip.x_aspect }}" cy="{{ ip.y }}" r="0.015" />
-			<circle class="int-mot1 nss" cx="{{ ip.x_aspect }}" cy="{{ ip.y }}" r="0.015" />
-		{% endif %}
-	{% endfor %}
+	{% with r=entry.intrinsic_circle_size %}
+		{% for ip in density.points %}
+			{% if ip.opaque %}
+				<circle class="int-display0 nss" cx="{{ ip.x_aspect }}" cy="{{ ip.y }}" r="{{ r }}" />
+				<circle class="int-display1 nss" cx="{{ ip.x_aspect }}" cy="{{ ip.y }}" r="{{ r }}" />
+			{% else %}
+				<circle class="int-mot0 nss" cx="{{ ip.x_aspect }}" cy="{{ ip.y }}" r="{{ r }}" />
+				<circle class="int-mot1 nss" cx="{{ ip.x_aspect }}" cy="{{ ip.y }}" r="{{ r }}" />
+			{% endif %}
+		{% endfor %}
+	{% endwith %}
 </svg>

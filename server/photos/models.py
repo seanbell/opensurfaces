@@ -493,6 +493,9 @@ class Photo(UserBase):
             .filter(algorithm__iiw_best=True) \
             .order_by('mean_error', 'runtime')
 
+    def intrinsic_circle_size(self):
+        return self.aspect_ratio * 0.01
+
 
 ##
 ## Photo Labels
