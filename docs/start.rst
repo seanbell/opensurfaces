@@ -4,6 +4,10 @@ Getting Started
 This page walks you through installing a copy of the OpenSurfaces server on an
 Ubuntu Linux machine.  I have only tested Ubuntu 12.04.
 
+If not using Ubuntu, you can install a virtual machine using `VirtualBox
+<https://www.virtualbox.org/>`_ and install an `Ubuntu 12.04
+<http://releases.ubuntu.com/12.04/>`_ image.
+
 Installing the server
 ---------------------
 
