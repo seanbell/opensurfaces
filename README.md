@@ -19,8 +19,7 @@ work.
 **Windows**:
 If you're on Windows, install [VirtualBox](https://www.virtualbox.org/) and
 run Ubuntu 12.04 as a virtual machine.  Some of the required packages for
-OpenSurfaces don't have Windows versions, so it's not worth the effort to try
-and port this to Windows.
+OpenSurfaces don't have Windows versions, so I wouldn't even try porting this.
 
 **Mac**:
 This might run on Mac OSX.  The core django code should run, but you may need
