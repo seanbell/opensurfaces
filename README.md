@@ -10,6 +10,6 @@ Documentation is available at: http://opensurfaces.cs.cornell.edu/docs/
 If you are on Ubuntu 12.04 or later, you can run `install_all.sh` to install
 all components (will use ~15G disk space).
 
-If you're on Windows and want to run the code, install
-(VirtualBox)[https://www.virtualbox.org/] and install Ubuntu 12.04 as a virtual
-machine since some of the required packages don't have Windows versions.
+If you're on Windows, install (VirtualBox)[https://www.virtualbox.org/] and
+install Ubuntu 12.04 as a virtual machine since some of the required packages
+don't have Windows versions.
