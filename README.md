@@ -7,21 +7,52 @@ properties, including material, texture and contextual information.
 
 Documentation is available at: http://opensurfaces.cs.cornell.edu/docs/
 
+## Citation
+
+If you use our code, please cite our paper:
+
+    Sean Bell, Paul Upchurch, Noah Snavely, Kavita Bala
+    OpenSurfaces: A Richly Annotated Catalog of Surface Appearance
+    ACM Transactions on Graphics (SIGGRAPH 2013)
+
+    @article{bell13opensurfaces,
+		author = "Sean Bell and Paul Upchurch and Noah Snavely and Kavita Bala",
+		title = "Open{S}urfaces: A Richly Annotated Catalog of Surface Appearance",
+		journal = "ACM Trans. on Graphics (SIGGRAPH)",
+		volume = "32",
+		number = "4",
+		year = "2013",
+	}
+
+and if you use the Intrinsic Images code, please also cite:
+
+    Sean Bell, Kavita Bala, Noah Snavely
+    Intrinsic Images in the Wild
+    ACM Transactions on Graphics (SIGGRAPH 2014)
+
+    @article{bell14intrinsic,
+		author = "Sean Bell and Kavita Bala and Noah Snavely",
+		title = "Intrinsic Images in the Wild",
+		journal = "ACM Trans. on Graphics (SIGGRAPH)",
+		volume = "33",
+		number = "4",
+		year = "2014",
+	}
+
+It's nice to see how many people are using our code; please "star" this project
+on GitHub or report any bugs using the
+[issue tracker](https://github.com/seanbell/opensurfaces/issues).
+
+## Installing
+
 **Ubuntu**:
 If you are on Ubuntu 12.04 or later, you can run `install_all.sh` to install
 all components (will use ~15G disk space).
 
-**Other systems**:
-You will need to rewrite the installer (all files in `install/`) to use local
-paths and package names specific to your distribution, but otherwise it should
-work.
+**Other operating systems**:
+I suggest installing [VirtualBox](https://www.virtualbox.org/) and running
+Ubuntu 12.04 as a virtual machine.  There's a lot of components and it would be
+difficult to port to other operating systems.
 
-**Windows**:
-If you're on Windows, install [VirtualBox](https://www.virtualbox.org/) and
-run Ubuntu 12.04 as a virtual machine.  Some of the required packages for
-OpenSurfaces don't have Windows versions, so I wouldn't even try porting this.
-
-**Mac**:
-This might run on Mac OSX.  The core django code should run, but you may need
-to find replacements for some components and rewrite some of the Bash code in
-`scripts/`.
+For other Linux distributions, you can probably get it to run by rewriting all
+of the install scripts in the `scripts/install` directory.
