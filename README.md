@@ -40,7 +40,7 @@ and if you use the Intrinsic Images code, please also cite:
 	}
 
 It's nice to see how many people are using our code; please "star" this project
-on GitHub or report any bugs using the
+on GitHub and report any bugs using the
 [issue tracker](https://github.com/seanbell/opensurfaces/issues).
 
 ## Installing
