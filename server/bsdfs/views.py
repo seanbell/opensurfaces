@@ -55,7 +55,9 @@ def bsdf_all(request, v, template='endless_list.html', extra_context=None):
         raise Http404
 
     entries = get_model('bsdfs', 'ShapeBsdfLabel_' + v).objects.all() \
-        .filter(time_ms__isnull=False, shape__photo__inappropriate=False) \
+        .filter(time_ms__isnull=False,
+                shape__photo__synthetic=False,
+                shape__photo__inappropriate=False) \
         .order_by('-id')
 
     context = dict_union({
@@ -79,6 +81,7 @@ def bsdf_good(request, v, template='endless_list.html', extra_context=None):
 
     entries = get_model('bsdfs', 'ShapeBsdfLabel_' + v).objects.all() \
         .filter(color_correct=True, gloss_correct=True,
+                shape__photo__synthetic=False,
                 shape__photo__inappropriate=False,
                 shape__bsdf_wd_id=F('id')) \
 
@@ -116,7 +119,7 @@ def bsdf_bad(request, v, template='endless_list.html', extra_context=None):
         raise Http404
 
     entries = get_model('bsdfs', 'ShapeBsdfLabel_' + v).objects \
-        .filter(shape__photo__inappropriate=False) \
+        .filter(shape__photo__inappropriate=False, shape__photo__synthetic=False) \
         .exclude(color_correct=True) \
         .exclude(gloss_correct=True) \
         .extra(
@@ -151,7 +154,7 @@ def bsdf_failed(request, v, template='endless_list.html', extra_context=None):
 
     bsdf_model = get_model('bsdfs', 'ShapeBsdfLabel_' + v)
     entries = bsdf_model.objects \
-        .filter(give_up=True, shape__photo__inappropriate=False) \
+        .filter(give_up=True, shape__photo__inappropriate=False, shape__photo__synthetic=False) \
         .order_by('-id')
 
     if 'publishable' in request.GET:
