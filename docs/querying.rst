@@ -11,7 +11,7 @@ To try some of these queries interactively, start a Python shell:
 
 .. code-block:: bash
 
-    ./scripts/django_shell.py
+    ./scripts/django_shell.sh
 
 and then perform one of the below example queries to obtain a Django `QuerySet
 <https://docs.djangoproject.com/en/1.6/ref/models/querysets/>`_.
