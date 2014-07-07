@@ -37,9 +37,10 @@ echo ""
 echo "$0: clear cached python files"
 sudo find . -type f -name '*.pyc' -exec rm {} \;
 
-echo ""
-echo "$0: fix permissions"
-$DIR/fix_permissions.sh $LOCAL_USER
+# commenting out since the data directory can get big and this takes ages.
+#echo ""
+#echo "$0: fix permissions"
+#$DIR/fix_permissions.sh $LOCAL_USER
 
 echo ""
 if [[ -f /etc/supervisor/conf.d/$PROJECT_NAME.conf ]]; then
