@@ -193,7 +193,7 @@ prompt_var(
     no_whitespace=True,
     regex='[0-9]+.[0.9]+',
     message='''
-PostgreSQL version to be installed (leave as default if you don't know what this s).
+PostgreSQL version to be installed (leave as default if you don't know what this is).
 ''')
 
 prompt_var(
