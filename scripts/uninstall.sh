@@ -17,9 +17,6 @@ read -r -p "Are you sure? [y/N] " response
 response=${response,,}    # tolower
 if [[ $response =~ ^(y)$ ]]; then
 
-	# get sudo permission in advance
-	sudo -v
-
 	echo ""
 	read -r -p "Back up database? [Y/n] " response
 	if [[ $response =~ ^(n)$ ]]; then

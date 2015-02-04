@@ -13,9 +13,6 @@ cd "$REPO_DIR"
 
 echo "Installing Ubuntu packages..."
 
-# increase sudo timeout
-sudo -v
-
 # install ubuntu packages
 sudo apt-get update -y
 sudo apt-get install -y $(cat $DIR/install/requirements-ubuntu.txt)

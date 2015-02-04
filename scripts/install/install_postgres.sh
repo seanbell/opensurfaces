@@ -13,9 +13,6 @@ cd "$REPO_DIR"
 
 echo "Setting up PostgreSQL ($PSQL_VERSION)..."
 
-# increase sudo timeout
-sudo -v
-
 ## Generate random passwords
 
 DB_PASS=$(< /dev/urandom tr -dc A-Z-a-z-0-9 | head -c16)
@@ -153,18 +150,12 @@ sudo tail $HBA_CONF
 # restart postgres with new settings
 sudo service postgresql restart
 
-# increase sudo timeout
-sudo -v
-
 # load initial database data
 echo "Loading initial data..."
 if [[ ! -s "$PSQL_DUMP_FILE" ]]; then
 	echo "Downloading data: $PSQL_DUMP_URL --> $PSQL_DUMP_FILE..."
 	wget $PSQL_DUMP_URL -O "$PSQL_DUMP_FILE"
 fi
-
-# increase sudo timeout
-sudo -v
 
 if [[ -s "$PSQL_DUMP_FILE" ]]; then
 	gunzip -c "$PSQL_DUMP_FILE" | psql -p $DB_PORT $DB_NAME $DB_USER
