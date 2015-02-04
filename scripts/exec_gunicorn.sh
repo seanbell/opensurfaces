@@ -12,9 +12,8 @@
 DIR="$( builtin cd "$( dirname "$( readlink -f "${BASH_SOURCE[0]}" )" )" && pwd )"
 source $DIR/load_config.sh
 
-NAME="labelmaterial"                              # Name of the application
 SOCKFILE=$REPO_DIR/run/gunicorn.sock              # we will communicte using this unix socket
-NUM_WORKERS=4                                     # how many worker processes should Gunicorn spawn
+NUM_WORKERS=8                                     # how many worker processes should Gunicorn spawn
 DJANGO_SETTINGS_MODULE=config.settings            # which settings file should Django use
 DJANGO_WSGI=config.wsgi                           # which settings file should Django use
 
@@ -35,7 +34,7 @@ rm -f $SOCKFILE
 # - programs meant to be run under supervisor should not daemonize
 #   themselves (do not use --daemon)
 exec gunicorn ${DJANGO_WSGI}:application \
-  --name $NAME \
+  --name $PROJECT_NAME \
   --workers $NUM_WORKERS \
   --user=$SERVER_USER \
   --group=$SERVER_GROUP \
