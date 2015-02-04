@@ -69,5 +69,5 @@ django-forms-bootstrap>=2.0.3,<2.1
 
 # scientific computing (base libraries)
 cython>=0.19.2,<1.0
-numpy>=1.8.0,<1.9
-scipy>=0.13.2,<0.14
+numpy>=1.9.1,<1.10
+scipy>=0.15.1,<0.16
