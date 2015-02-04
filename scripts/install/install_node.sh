@@ -41,6 +41,6 @@ if [[ ! -f /usr/bin/node ]] && [[ -f /usr/bin/nodejs ]]; then
 fi
 
 echo "Install coffeescript"
-sudo npm install -g coffee-script
+sudo npm install -g 'coffee-script@1.8.0'
 echo "Install less"
-sudo npm install -g less
+sudo npm install -g 'less@1.7.5'

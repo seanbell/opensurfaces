@@ -60,6 +60,7 @@
 {% endcache %}
 		{% include "mturk/admin/assignment_entry_info.html" %}
 
+		{% comment %}
 		<hr/>
 		<div class="admin-actions" data-assignment="{{ entry.id }}">
 			<textarea rows="3" class="span3 feedback-approve" type="text" placeholder="Thank you!"></textarea>
@@ -78,6 +79,7 @@
 			<button class="btn action-review" data-action="approve">Approve (un-reject)
 			{% endif %}
 		</div>
+		{% endcomment %}
 
 		<hr/>
 		<p><a href="{% url 'mturk-admin-preview-task' entry.hit.hit_type.experiment_id "task" entry.hit_id %}" role="button" class="btn btn-block" target="_blank">View this task</a></p>
