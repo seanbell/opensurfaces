@@ -7,6 +7,15 @@ DIR="$( builtin cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 source $DIR/load_config.sh
 cd "$REPO_DIR"
 
+echo "Fix freetype"
+
+if [[ ${VERSION%%.*} -ge 14 ]]; then
+	# Ubuntu 14.04
+	if [[ -d /usr/include/freetype2 ]] && [[ ! -d /usr/include/freetype ]]; then
+		sudo ln -s /usr/include/freetype2 /usr/include/freetype
+	fi
+fi
+
 echo "Install Python packages..."
 
 # detect whether we need sudo for pip
