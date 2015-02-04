@@ -3,13 +3,14 @@
 # Sets up the scripts/config.sh file
 #
 
-import re
-import os
-import sys
 import glob
-import string
-import socket
+import os
+import platform
+import re
 import readline
+import socket
+import string
+import sys
 
 # script directory
 DIR = os.path.dirname(os.path.abspath(__file__))
@@ -178,6 +179,22 @@ for f in 'BACKUP_DIR', 'DATA_DIR', 'DB_DIR':
         new_dir = '$REPO_DIR/' + variables[f]
         print "%s: %s --> %s" % (f, variables[f], new_dir)
         variables[f] = new_dir
+
+
+dist_name, dist_version, dist_id = platform.linux_distribution()
+default_psql_version = '9.3'
+if dist_name == 'Ubuntu' and dist_version == '12.04':
+    default_psql_version = '9.1'
+
+
+prompt_var(
+    'PSQL_VERSION',
+    default=default_psql_version,
+    no_whitespace=True,
+    regex='[0-9]+.[0.9]+',
+    message='''
+PostgreSQL version to be installed (leave as default if you don't know what this s).
+''')
 
 prompt_var(
     'ADMIN_EMAIL',
