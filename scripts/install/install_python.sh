@@ -51,6 +51,7 @@ python get-pip.py
 cd "$REPO_DIR"
 
 echo "Installing setup packages (locally)..."
+pip install "pip>=1.5.6,<1.6"
 pip install --upgrade setuptools
 pip install --upgrade distribute
 pip install --upgrade versiontools
