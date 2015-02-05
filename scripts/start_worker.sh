@@ -22,7 +22,7 @@ fi
 
 if [[ $queue == "celery" ]]; then
 	# note: -B set
-	celery_cmd="source $VENV_DIR/bin/activate; builtin cd $SRC_DIR; celery worker -B -A $queue -Q celery --loglevel=info --concurrency=$concurrency --maxtasksperchild=1024"
+	celery_cmd="builtin cd $SRC_DIR; $VENV_DIR/bin/celery worker -B -A $queue -Q celery --loglevel=info --concurrency=$concurrency --maxtasksperchild=1024"
 
 	set -x
 	if [[ "$USER" == "$SERVER_USER" ]]; then
@@ -34,7 +34,7 @@ if [[ $queue == "celery" ]]; then
 	fi
 else
 	# note: -B not set
-	celery_cmd="source $VENV_DIR/bin/activate; builtin cd $SRC_DIR; celery worker -A config -Q $queue --loglevel=info --concurrency=$concurrency --maxtasksperchild=1"
+	celery_cmd="builtin cd $SRC_DIR; $VENV_DIR/bin/celery worker -A config -Q $queue --loglevel=info --concurrency=$concurrency --maxtasksperchild=1"
 	if [[ "$USER" == "$SERVER_USER" ]]; then
 		bash -c "$celery_cmd"
 	else
