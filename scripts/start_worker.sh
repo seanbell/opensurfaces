@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 #
 # Start a celery worker
+# Usage: ./start_worker.sh [concurrency=2] [queue=celery]
+#
+#  example: ./start_worker.sh 2
+#  example: ./start_worker.sh 2 local_server
 #
 
 DIR="$( builtin cd "$( dirname "$( readlink -f "${BASH_SOURCE[0]}" )" )" && pwd )"
@@ -11,19 +15,29 @@ if [ $# -ge 1 ]; then
 	concurrency=$1
 fi
 
-user=$SERVER_USER
-if [ $# -ge 2 ]; then
-	user=$2
+queue=celery
+if [ $# -ge 1 ]; then
+	queue=$2
 fi
 
-# TODO: run as a background process with a higher log level
-celery_cmd="source $VENV_DIR/bin/activate; builtin cd $SRC_DIR; celery worker -B -A config -Q celery --loglevel=info --concurrency=$concurrency --maxtasksperchild=1024"
+if [[ $queue == "celery" ]]; then
+	# note: -B set
+	celery_cmd="source $VENV_DIR/bin/activate; builtin cd $SRC_DIR; celery worker -B -A $queue -Q celery --loglevel=info --concurrency=$concurrency --maxtasksperchild=1024"
 
-set -x
-if [[ $USER == $user ]]; then
-	rm -f $SRC_DIR/celerybeat-schedule
-	"$celery_cmd"
+	set -x
+	if [[ "$USER" == "$SERVER_USER" ]]; then
+		rm -f $SRC_DIR/celerybeat-schedule
+		bash -c "$celery_cmd"
+	else
+		sudo rm -f $SRC_DIR/celerybeat-schedule
+		sudo -u $SERVER_USER bash -c "$celery_cmd"
+	fi
 else
-	sudo rm -f $SRC_DIR/celerybeat-schedule
-	sudo -u $user bash -c "$celery_cmd"
+	# note: -B not set
+	celery_cmd="source $VENV_DIR/bin/activate; builtin cd $SRC_DIR; celery worker -A config -Q $queue --loglevel=info --concurrency=$concurrency --maxtasksperchild=1"
+	if [[ "$USER" == "$SERVER_USER" ]]; then
+		bash -c "$celery_cmd"
+	else
+		sudo -u $SERVER_USER bash -c "$celery_cmd"
+	fi
 fi

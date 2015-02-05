@@ -413,6 +413,7 @@ CELERY_ROUTES = {
     'mturk.tasks.intrinsic_decomposition_task': {'queue': 'intrinsic'},
     'mturk.tasks.intrinsic_decomposition_task_matlab': {'queue': 'matlab'},
     'intrinsic.tasks.import_ec2_task': {'queue': 'ec2'},
+    'photo.tasks.add_photo_task': {'queue': 'local_server'},
 }
 
 if MTURK_PIPELINE_ENABLE:

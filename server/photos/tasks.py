@@ -1,25 +1,31 @@
-import os
-import math
 import json
+import math
+import os
 import shutil
-import tempfile
 import subprocess
+import tempfile
+
 import numpy as np
 from celery import shared_task
+from django.db.models import Q, Sum
 from PIL import Image, ImageDraw
 
-from imagekit.utils import open_image, save_image
-from pilkit.utils import extension_to_format
-from pilkit.processors import ResizeToFit
-
-from django.db.models import Sum, Q
-
-from photos.models import FlickrUser, Photo
-from licenses.models import License
-from common.geom import homo_line, unit_to_sphere, sphere_to_unit, normalized_cross, abs_dot
-from common.utils import progress_bar
+from common.geom import (abs_dot, homo_line, normalized_cross, sphere_to_unit,
+                         unit_to_sphere)
 from common.http import download
+from common.utils import progress_bar
+from imagekit.utils import open_image, save_image
+from licenses.models import License
+from photos.add import add_photo
+from photos.models import FlickrUser, Photo
+from pilkit.processors import ResizeToFit
+from pilkit.utils import extension_to_format
 from pyquery import PyQuery as pq
+
+
+@shared_task(queue='local_server')
+def add_photo_task(*args, **kwargs):
+    add_photo(*args, **kwargs)
 
 
 @shared_task

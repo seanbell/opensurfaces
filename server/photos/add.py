@@ -1,5 +1,6 @@
 import os
 
+from PIL import Image
 from django.core.files.images import ImageFile
 from django.db import transaction
 
@@ -10,7 +11,7 @@ from photos.utils import get_exif, get_fov
 from common.utils import md5sum, get_content_tuple
 
 
-def add_photo(path, must_have_fov=False, must_have_exif=False, **args):
+def add_photo(path, must_have_fov=False, must_have_exif=False, delete_original=False, **args):
     """ Add a photo to the database """
 
     if not os.path.exists(path):
@@ -32,6 +33,8 @@ def add_photo(path, must_have_fov=False, must_have_exif=False, **args):
         for d in duplicates[1:]:
             d.delete()
     if duplicate:
+        if delete_original:
+            os.remove(path)
         raise ValueError("Duplicate photo import: '%s'" % path)
 
     # parse exif
@@ -53,19 +56,28 @@ def add_photo(path, must_have_fov=False, must_have_exif=False, **args):
 
     photo = None
 
+    # dimensions
+    orig_width, orig_height = Image.open(path).size
+    print 'Dims: %sx%s' % (orig_width, orig_height)
+
     # use a transaction so that it is only committed to the database
     # after save() returns.  otherwise, there's a small time betwee
     # when the photo is added and it has an image attached.
     with transaction.atomic():
         with open(path, 'rb') as f:
-            print 'Uploading photo...'
             photo = Photo.objects.create(
                 image_orig=ImageFile(f),
+                orig_width=orig_width,
+                orig_height=orig_height,
                 md5=md5,
                 **args
             )
+            print 'Uploaded image %s to (photo_id: %s url: %s)' % (path, photo.id, photo.image_orig.url)
 
     from mturk.tasks import add_pending_objects_task
     add_pending_objects_task.delay([get_content_tuple(photo)])
+
+    if delete_original:
+        os.remove(path)
 
     return photo
