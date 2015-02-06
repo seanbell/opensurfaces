@@ -51,9 +51,13 @@ def update_index_context_task():
         'num_users_good': MtAssignment.objects.filter(hit__sandbox=False, status__isnull=False, worker__blocked=False).distinct('worker').count(),
         'num_users_all': MtAssignment.objects.filter(hit__sandbox=False, status__isnull=False).distinct('worker').count(),
 
-        'num_hours_all': MtAssignment.objects.filter(hit__sandbox=False).aggregate(s=Sum('time_ms'))['s'] / 3600000,
+        'num_hours_all': _fix_none(MtAssignment.objects.filter(hit__sandbox=False).aggregate(s=Sum('time_ms'))['s']) / 3600000,
     }
 
     if settings.ENABLE_CACHING:
         get_cache('persistent').set('home.index_context', data, timeout=None)
     return data
+
+
+def _fix_none(x):
+    return x if x else 0
