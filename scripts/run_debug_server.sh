@@ -25,4 +25,4 @@ echo "setting DEBUG=True in $SRC_DIR/config/settings_local.py"
 # start the private webserver
 bash "$DIR/collect_static.sh"
 builtin cd "$SRC_DIR"
-sudo -u $SERVER_USER ./manage.py runserver localhost:$port
+sudo -u $SERVER_USER ./manage.py runserver 0.0.0.0:$port
