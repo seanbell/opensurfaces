@@ -40,6 +40,7 @@ class Command(BaseCommand):
                     add_photo_task.delay(
                         path=path,
                         user=admin_user,
+                        scene_category=None,
                         must_have_exif=False,
                         must_have_fov=False,
                         delete_original=True,
