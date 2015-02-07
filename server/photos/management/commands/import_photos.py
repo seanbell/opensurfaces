@@ -1,4 +1,5 @@
 import os
+from optparse import make_option
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
@@ -9,11 +10,23 @@ from photos.tasks import add_photo_task
 
 class Command(BaseCommand):
     args = '<photo_directory>'
-    help = 'Imports photos and deletes the original'
+    help = 'Imports a directory of photos and optionally deletes the originals'
+
+    option_list = BaseCommand.option_list + (
+        make_option(
+            '--delete',
+            action='store_true',
+            dest='delete',
+            default=False,
+            help='Delete photos after they are visited'),
+    )
 
     def handle(self, *args, **options):
         if len(args) < 0:
-            print "Usage: ./manage.py import_delete_photos <photo_directory>"
+            print "Usage: ./manage.py import_photos [--delete] <photo_directory>"
+            return
+
+        delete_original = bool(options['delete'])
 
         admin_user = User.objects.get_or_create(username='admin')[0].profile
 
@@ -43,7 +56,7 @@ class Command(BaseCommand):
                         scene_category=None,
                         must_have_exif=False,
                         must_have_fov=False,
-                        delete_original=True,
+                        delete_original=delete_original,
                     )
 
             print 'Queued %d photos from %s' % (num_added, root)
