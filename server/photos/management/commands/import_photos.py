@@ -44,7 +44,7 @@ class Command(BaseCommand):
             files = sorted(files, key=sort_key, reverse=True)
 
             print 'Processing files...'
-            num_added = 0
+            num_jobs = 0
             for filename in progress_bar(files):
                 filename_base, filename_ext = os.path.splitext(filename)
                 if filename_ext.lower() == ".jpg":
@@ -58,5 +58,9 @@ class Command(BaseCommand):
                         must_have_fov=False,
                         delete_original=delete_original,
                     )
+                    num_jobs += 1
 
-            print 'Queued %d photos from %s' % (num_added, root)
+            print 'Queued %d photos from %s' % (num_jobs, root)
+
+            print "NOTE: make sure the 'local_server' worker is running"
+            print "

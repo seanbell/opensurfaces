@@ -18,7 +18,7 @@ from photos.models import Photo, PhotoSceneCategory
 PHOTO_FILTERS = {
     'all': {
         'name': 'Raw input',
-        'filter': Photo.DEFAULT_FILTERS
+        #'filter': Photo.DEFAULT_FILTERS
     },
 
     'wb': {
