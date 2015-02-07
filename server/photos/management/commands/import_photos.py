@@ -60,7 +60,8 @@ class Command(BaseCommand):
                     )
                     num_jobs += 1
 
-            print 'Queued %d photos from %s' % (num_jobs, root)
-
-            print "NOTE: make sure the 'local_server' worker is running"
-            print "
+            print "Found %d photos from %s; they will be processed on the queue 'local_server'" % (num_jobs, root)
+            print "NOTE: make sure the 'local_server' worker is running.  To do this, run:"
+            print "    ../scripts/start_worker.sh <concurrency> local_server"
+            print "where <concurrency> is the number of simultaneous processes to import photos."
+            print "(you can kill the 'local_server' worker after it is done)"
