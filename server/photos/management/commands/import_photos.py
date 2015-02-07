@@ -22,7 +22,7 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
-        if len(args) < 0:
+        if len(args) < 1:
             print "Usage: ./manage.py import_photos [--delete] <photo_directory>"
             return
 
