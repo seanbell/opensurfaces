@@ -2,10 +2,6 @@
 <div id="debug-overlay">
 	<span class="label label-important pull-right">DEBUG: True</span>
 	<br/>
-	{% if ENABLE_CACHING %}
-	<span class="label label-important pull-right">ENABLE_CACHING: True</span>
-	{% else %}
-	<span class="label pull-right">ENABLE_CACHING: False</span>
-	{% endif %}
+	<span class="label label-important pull-right">ENABLE_CACHING: {{ ENABLE_CACHING }}</span>
 </div>
 {% endif %}
