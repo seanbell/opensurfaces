@@ -28,7 +28,7 @@ class Command(BaseCommand):
 
         delete_original = bool(options['delete'])
 
-        admin_user = User.objects.get_or_create(username='admin')[0].profile
+        admin_user = User.objects.get_or_create(username='admin')[0].get_profile()
 
         print 'Visiting: %s' % args[0]
         for root, dirs, files in os.walk(args[0]):
