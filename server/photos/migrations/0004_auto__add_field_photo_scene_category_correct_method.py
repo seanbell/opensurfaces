@@ -8,145 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'IntrinsicPoint'
-        db.create_table(u'intrinsic_intrinsicpoint', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('photo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='intrinsic_points', to=orm['photos.Photo'])),
-            ('x', self.gf('django.db.models.fields.FloatField')()),
-            ('y', self.gf('django.db.models.fields.FloatField')()),
-            ('sRGB', self.gf('django.db.models.fields.CharField')(max_length=6)),
-            ('min_separation', self.gf('django.db.models.fields.DecimalField')(default='0.07', max_digits=7, decimal_places=5)),
-            ('opaque', self.gf('django.db.models.fields.NullBooleanField')(null=True, blank=True)),
-            ('opaque_score', self.gf('django.db.models.fields.FloatField')(db_index=True, null=True, blank=True)),
-            ('opaque_method', self.gf('django.db.models.fields.CharField')(max_length=1, null=True, blank=True)),
-        ))
-        db.send_create_signal(u'intrinsic', ['IntrinsicPoint'])
-
-        # Adding model 'IntrinsicPointOpacityResponse'
-        db.create_table(u'intrinsic_intrinsicpointopacityresponse', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('added', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['accounts.UserProfile'])),
-            ('mturk_assignment', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['mturk.MtAssignment'])),
-            ('sandbox', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('invalid', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('quality_method', self.gf('django.db.models.fields.CharField')(max_length=1, null=True, blank=True)),
-            ('time_ms', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
-            ('time_active_ms', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
-            ('reward', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=8, decimal_places=4, blank=True)),
-            ('point', self.gf('django.db.models.fields.related.ForeignKey')(related_name='opacities', to=orm['intrinsic.IntrinsicPoint'])),
-            ('opaque', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('zoom', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-        ))
-        db.send_create_signal(u'intrinsic', ['IntrinsicPointOpacityResponse'])
-
-        # Adding model 'IntrinsicPointComparison'
-        db.create_table(u'intrinsic_intrinsicpointcomparison', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('photo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='intrinsic_comparisons', to=orm['photos.Photo'])),
-            ('point1', self.gf('django.db.models.fields.related.ForeignKey')(related_name='comparison_point1', to=orm['intrinsic.IntrinsicPoint'])),
-            ('point2', self.gf('django.db.models.fields.related.ForeignKey')(related_name='comparison_point2', to=orm['intrinsic.IntrinsicPoint'])),
-            ('point1_image_darker', self.gf('django.db.models.fields.NullBooleanField')(null=True, blank=True)),
-            ('darker', self.gf('django.db.models.fields.CharField')(max_length=1, null=True, blank=True)),
-            ('darker_score', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('darker_method', self.gf('django.db.models.fields.CharField')(max_length=1, null=True, blank=True)),
-            ('reflectance_eq', self.gf('django.db.models.fields.NullBooleanField')(null=True, blank=True)),
-            ('reflectance_eq_score', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('reflectance_dd', self.gf('django.db.models.fields.NullBooleanField')(null=True, blank=True)),
-            ('reflectance_dd_score', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-        ))
-        db.send_create_signal(u'intrinsic', ['IntrinsicPointComparison'])
-
-        # Adding unique constraint on 'IntrinsicPointComparison', fields ['point1', 'point2']
-        db.create_unique(u'intrinsic_intrinsicpointcomparison', ['point1_id', 'point2_id'])
-
-        # Adding model 'IntrinsicPointComparisonResponse'
-        db.create_table(u'intrinsic_intrinsicpointcomparisonresponse', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('added', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['accounts.UserProfile'])),
-            ('mturk_assignment', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['mturk.MtAssignment'])),
-            ('sandbox', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('invalid', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('quality_method', self.gf('django.db.models.fields.CharField')(max_length=1, null=True, blank=True)),
-            ('time_ms', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
-            ('time_active_ms', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
-            ('reward', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=8, decimal_places=4, blank=True)),
-            ('comparison', self.gf('django.db.models.fields.related.ForeignKey')(related_name='responses', to=orm['intrinsic.IntrinsicPointComparison'])),
-            ('darker', self.gf('django.db.models.fields.CharField')(max_length=1)),
-            ('confidence', self.gf('django.db.models.fields.IntegerField')()),
-            ('reflectance_eq', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('reflectance_dd', self.gf('django.db.models.fields.NullBooleanField')(null=True, blank=True)),
-        ))
-        db.send_create_signal(u'intrinsic', ['IntrinsicPointComparisonResponse'])
-
-        # Adding model 'IntrinsicImagesAlgorithm'
-        db.create_table(u'intrinsic_intrinsicimagesalgorithm', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('slug', self.gf('django.db.models.fields.CharField')(max_length=128)),
-            ('parameters', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('baseline', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('active', self.gf('django.db.models.fields.BooleanField')(default=True)),
-        ))
-        db.send_create_signal(u'intrinsic', ['IntrinsicImagesAlgorithm'])
-
-        # Adding unique constraint on 'IntrinsicImagesAlgorithm', fields ['slug', 'parameters']
-        db.create_unique(u'intrinsic_intrinsicimagesalgorithm', ['slug', 'parameters'])
-
-        # Adding model 'IntrinsicImagesDecomposition'
-        db.create_table(u'intrinsic_intrinsicimagesdecomposition', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('photo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='intrinsic_images_decompositions', to=orm['photos.Photo'])),
-            ('algorithm', self.gf('django.db.models.fields.related.ForeignKey')(related_name='intrinsic_images_decompositions', to=orm['intrinsic.IntrinsicImagesAlgorithm'])),
-            ('runtime', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('reflectance_image', self.gf('django.db.models.fields.files.ImageField')(max_length=255, null=True, blank=True)),
-            ('shading_image', self.gf('django.db.models.fields.files.ImageField')(max_length=255, null=True, blank=True)),
-            ('mean_error', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('mean_dense_error', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('mean_sparse_error', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('mean_eq_error', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('mean_neq_error', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('mean_sum_error', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('num', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('num_dense', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('num_sparse', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('num_eq', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('num_neq', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('error_comparison_thresh', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-        ))
-        db.send_create_signal(u'intrinsic', ['IntrinsicImagesDecomposition'])
-
-        # Adding unique constraint on 'IntrinsicImagesDecomposition', fields ['photo', 'algorithm']
-        db.create_unique(u'intrinsic_intrinsicimagesdecomposition', ['photo_id', 'algorithm_id'])
+        # Adding field 'Photo.scene_category_correct_method'
+        db.add_column(u'photos_photo', 'scene_category_correct_method',
+                      self.gf('django.db.models.fields.CharField')(max_length=1, null=True, blank=True),
+                      keep_default=False)
 
 
     def backwards(self, orm):
-        # Removing unique constraint on 'IntrinsicImagesDecomposition', fields ['photo', 'algorithm']
-        db.delete_unique(u'intrinsic_intrinsicimagesdecomposition', ['photo_id', 'algorithm_id'])
-
-        # Removing unique constraint on 'IntrinsicImagesAlgorithm', fields ['slug', 'parameters']
-        db.delete_unique(u'intrinsic_intrinsicimagesalgorithm', ['slug', 'parameters'])
-
-        # Removing unique constraint on 'IntrinsicPointComparison', fields ['point1', 'point2']
-        db.delete_unique(u'intrinsic_intrinsicpointcomparison', ['point1_id', 'point2_id'])
-
-        # Deleting model 'IntrinsicPoint'
-        db.delete_table(u'intrinsic_intrinsicpoint')
-
-        # Deleting model 'IntrinsicPointOpacityResponse'
-        db.delete_table(u'intrinsic_intrinsicpointopacityresponse')
-
-        # Deleting model 'IntrinsicPointComparison'
-        db.delete_table(u'intrinsic_intrinsicpointcomparison')
-
-        # Deleting model 'IntrinsicPointComparisonResponse'
-        db.delete_table(u'intrinsic_intrinsicpointcomparisonresponse')
-
-        # Deleting model 'IntrinsicImagesAlgorithm'
-        db.delete_table(u'intrinsic_intrinsicimagesalgorithm')
-
-        # Deleting model 'IntrinsicImagesDecomposition'
-        db.delete_table(u'intrinsic_intrinsicimagesdecomposition')
+        # Deleting field 'Photo.scene_category_correct_method'
+        db.delete_column(u'photos_photo', 'scene_category_correct_method')
 
 
     models = {
@@ -194,96 +64,6 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'intrinsic.intrinsicimagesalgorithm': {
-            'Meta': {'unique_together': "(('slug', 'parameters'),)", 'object_name': 'IntrinsicImagesAlgorithm'},
-            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'baseline': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'parameters': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'slug': ('django.db.models.fields.CharField', [], {'max_length': '128'})
-        },
-        u'intrinsic.intrinsicimagesdecomposition': {
-            'Meta': {'ordering': "['mean_error', '-id']", 'unique_together': "(('photo', 'algorithm'),)", 'object_name': 'IntrinsicImagesDecomposition'},
-            'algorithm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'intrinsic_images_decompositions'", 'to': u"orm['intrinsic.IntrinsicImagesAlgorithm']"}),
-            'error_comparison_thresh': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'mean_dense_error': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            'mean_eq_error': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            'mean_error': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            'mean_neq_error': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            'mean_sparse_error': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            'mean_sum_error': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            'num': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'num_dense': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'num_eq': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'num_neq': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'num_sparse': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'photo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'intrinsic_images_decompositions'", 'to': u"orm['photos.Photo']"}),
-            'reflectance_image': ('django.db.models.fields.files.ImageField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'runtime': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            'shading_image': ('django.db.models.fields.files.ImageField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
-        },
-        u'intrinsic.intrinsicpoint': {
-            'Meta': {'ordering': "['-id']", 'object_name': 'IntrinsicPoint'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'min_separation': ('django.db.models.fields.DecimalField', [], {'default': "'0.07'", 'max_digits': '7', 'decimal_places': '5'}),
-            'opaque': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
-            'opaque_method': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'}),
-            'opaque_score': ('django.db.models.fields.FloatField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'photo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'intrinsic_points'", 'to': u"orm['photos.Photo']"}),
-            'sRGB': ('django.db.models.fields.CharField', [], {'max_length': '6'}),
-            'x': ('django.db.models.fields.FloatField', [], {}),
-            'y': ('django.db.models.fields.FloatField', [], {})
-        },
-        u'intrinsic.intrinsicpointcomparison': {
-            'Meta': {'ordering': "['photo', '-darker_score']", 'unique_together': "(('point1', 'point2'),)", 'object_name': 'IntrinsicPointComparison'},
-            'darker': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'}),
-            'darker_method': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'}),
-            'darker_score': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'photo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'intrinsic_comparisons'", 'to': u"orm['photos.Photo']"}),
-            'point1': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'comparison_point1'", 'to': u"orm['intrinsic.IntrinsicPoint']"}),
-            'point1_image_darker': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
-            'point2': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'comparison_point2'", 'to': u"orm['intrinsic.IntrinsicPoint']"}),
-            'reflectance_dd': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
-            'reflectance_dd_score': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            'reflectance_eq': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
-            'reflectance_eq_score': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'})
-        },
-        u'intrinsic.intrinsicpointcomparisonresponse': {
-            'Meta': {'ordering': "['-time_ms']", 'object_name': 'IntrinsicPointComparisonResponse'},
-            'added': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'comparison': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'responses'", 'to': u"orm['intrinsic.IntrinsicPointComparison']"}),
-            'confidence': ('django.db.models.fields.IntegerField', [], {}),
-            'darker': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'invalid': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'mturk_assignment': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['mturk.MtAssignment']"}),
-            'quality_method': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'}),
-            'reflectance_dd': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
-            'reflectance_eq': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'reward': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '8', 'decimal_places': '4', 'blank': 'True'}),
-            'sandbox': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'time_active_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'time_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['accounts.UserProfile']"})
-        },
-        u'intrinsic.intrinsicpointopacityresponse': {
-            'Meta': {'ordering': "['-time_ms']", 'object_name': 'IntrinsicPointOpacityResponse'},
-            'added': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'invalid': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'mturk_assignment': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['mturk.MtAssignment']"}),
-            'opaque': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'point': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'opacities'", 'to': u"orm['intrinsic.IntrinsicPoint']"}),
-            'quality_method': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'}),
-            'reward': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '8', 'decimal_places': '4', 'blank': 'True'}),
-            'sandbox': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'time_active_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'time_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['accounts.UserProfile']"}),
-            'zoom': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'})
         },
         u'licenses.license': {
             'Meta': {'object_name': 'License'},
@@ -457,12 +237,15 @@ class Migration(SchemaMigration):
             'num_intrinsic_points': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'num_shapes': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'num_vertices': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'orig_height': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
+            'orig_width': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
             'rotated': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
             'scene_category': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'photos'", 'null': 'True', 'to': u"orm['photos.PhotoSceneCategory']"}),
             'scene_category_correct': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'scene_category_correct_method': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'}),
             'scene_category_correct_score': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            'special': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'stylized': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'synthetic': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['accounts.UserProfile']"}),
             'vanishing_length': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'vanishing_lines': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
@@ -481,7 +264,40 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '127'}),
             'parent': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['photos.PhotoSceneCategory']", 'null': 'True', 'blank': 'True'})
+        },
+        u'photos.photoscenequalitylabel': {
+            'Meta': {'ordering': "['photo', '-time_ms']", 'object_name': 'PhotoSceneQualityLabel'},
+            'added': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'correct': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'invalid': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'mturk_assignment': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['mturk.MtAssignment']"}),
+            'photo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'scene_qualities'", 'to': u"orm['photos.Photo']"}),
+            'quality_method': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'}),
+            'reward': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '8', 'decimal_places': '4', 'blank': 'True'}),
+            'sandbox': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'time_active_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'time_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['accounts.UserProfile']"})
+        },
+        u'photos.photowhitebalancelabel': {
+            'Meta': {'ordering': "['photo', '-time_ms']", 'object_name': 'PhotoWhitebalanceLabel'},
+            'added': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'chroma_median': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'invalid': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'mturk_assignment': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['mturk.MtAssignment']"}),
+            'num_points': ('django.db.models.fields.IntegerField', [], {}),
+            'photo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'whitebalances'", 'to': u"orm['photos.Photo']"}),
+            'points': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'quality_method': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'}),
+            'reward': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '8', 'decimal_places': '4', 'blank': 'True'}),
+            'sandbox': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'time_active_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'time_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['accounts.UserProfile']"}),
+            'whitebalanced': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         }
     }
 
-    complete_apps = ['intrinsic']
+    complete_apps = ['photos']

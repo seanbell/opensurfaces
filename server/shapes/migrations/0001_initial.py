@@ -68,10 +68,12 @@ class Migration(SchemaMigration):
             ('num_segments', self.gf('django.db.models.fields.IntegerField')()),
             ('area', self.gf('django.db.models.fields.FloatField')()),
             ('pixel_area', self.gf('django.db.models.fields.IntegerField')(null=True, db_index=True)),
-            ('synthetic', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('synthetic_slug', self.gf('django.db.models.fields.CharField')(max_length=32, blank=True)),
+            ('special', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('special_slug', self.gf('django.db.models.fields.CharField')(max_length=32, blank=True)),
             ('correct', self.gf('django.db.models.fields.NullBooleanField')(null=True, blank=True)),
             ('correct_score', self.gf('django.db.models.fields.FloatField')(db_index=True, null=True, blank=True)),
+            ('nice', self.gf('django.db.models.fields.NullBooleanField')(null=True, blank=True)),
+            ('nice_score', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
             ('planar', self.gf('django.db.models.fields.NullBooleanField')(null=True, blank=True)),
             ('planar_score', self.gf('django.db.models.fields.FloatField')(db_index=True, null=True, blank=True)),
             ('planar_method', self.gf('django.db.models.fields.CharField')(max_length=1, null=True, blank=True)),
@@ -205,6 +207,25 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'shapes', ['MaterialShapeQuality'])
 
+        # Adding model 'MaterialShapeNicenessLabel'
+        db.create_table(u'shapes_materialshapenicenesslabel', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('added', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['accounts.UserProfile'])),
+            ('mturk_assignment', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['mturk.MtAssignment'])),
+            ('sandbox', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('invalid', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('quality_method', self.gf('django.db.models.fields.CharField')(max_length=1, null=True, blank=True)),
+            ('time_ms', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
+            ('time_active_ms', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
+            ('reward', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=8, decimal_places=4, blank=True)),
+            ('admin_score', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('shape', self.gf('django.db.models.fields.related.ForeignKey')(related_name='nicenesses', to=orm['shapes.MaterialShape'])),
+            ('nice', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('canttell', self.gf('django.db.models.fields.NullBooleanField')(null=True, blank=True)),
+        ))
+        db.send_create_signal(u'shapes', ['MaterialShapeNicenessLabel'])
+
 
     def backwards(self, orm):
         # Deleting model 'ShapeName'
@@ -239,6 +260,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'MaterialShapeQuality'
         db.delete_table(u'shapes_materialshapequality')
+
+        # Deleting model 'MaterialShapeNicenessLabel'
+        db.delete_table(u'shapes_materialshapenicenesslabel')
 
 
     models = {
@@ -504,21 +528,13 @@ class Migration(SchemaMigration):
         u'photos.flickruser': {
             'Meta': {'ordering': "['-id']", 'object_name': 'FlickrUser'},
             'blacklisted': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'display_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
-            'family_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
-            'given_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'sub_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
-            'username': ('django.db.models.fields.CharField', [], {'max_length': '127'}),
-            'website_name': ('django.db.models.fields.CharField', [], {'max_length': '1023', 'blank': 'True'}),
-            'website_url': ('django.db.models.fields.URLField', [], {'max_length': '1023', 'blank': 'True'})
+            'username': ('django.db.models.fields.CharField', [], {'max_length': '127'})
         },
         u'photos.photo': {
             'Meta': {'ordering': "['aspect_ratio', '-id']", 'object_name': 'Photo'},
             'added': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'aspect_ratio': ('django.db.models.fields.FloatField', [], {'null': 'True'}),
-            'attribution_name': ('django.db.models.fields.CharField', [], {'max_length': '127', 'blank': 'True'}),
-            'attribution_url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'exif': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'flickr_id': ('django.db.models.fields.CharField', [], {'max_length': '64', 'null': 'True', 'blank': 'True'}),
@@ -527,8 +543,6 @@ class Migration(SchemaMigration):
             'fov': ('django.db.models.fields.FloatField', [], {'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image_orig': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
-            'in_iiw_dataset': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'in_iiw_dense_dataset': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'inappropriate': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
             'license': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'photos'", 'null': 'True', 'to': u"orm['licenses.License']"}),
             'light_stack': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'photos'", 'null': 'True', 'to': u"orm['photos.PhotoLightStack']"}),
@@ -539,15 +553,12 @@ class Migration(SchemaMigration):
             'num_intrinsic_points': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'num_shapes': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'num_vertices': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'orig_height': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
-            'orig_width': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
             'rotated': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
             'scene_category': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'photos'", 'null': 'True', 'to': u"orm['photos.PhotoSceneCategory']"}),
             'scene_category_correct': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
-            'scene_category_correct_method': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'}),
             'scene_category_correct_score': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
+            'special': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'stylized': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
-            'synthetic': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['accounts.UserProfile']"}),
             'vanishing_length': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'vanishing_lines': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
@@ -593,6 +604,8 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['shapes.ShapeName']", 'null': 'True', 'blank': 'True'}),
             'name_entropy': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'name_score': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
+            'nice': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'nice_score': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'num_segments': ('django.db.models.fields.IntegerField', [], {}),
             'num_triangles': ('django.db.models.fields.IntegerField', [], {}),
             'num_vertices': ('django.db.models.fields.IntegerField', [], {'db_index': 'True'}),
@@ -609,12 +622,12 @@ class Migration(SchemaMigration):
             'reward': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '8', 'decimal_places': '4', 'blank': 'True'}),
             'sandbox': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'segments': ('django.db.models.fields.TextField', [], {}),
+            'special': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'special_slug': ('django.db.models.fields.CharField', [], {'max_length': '32', 'blank': 'True'}),
             'submitted_shapes': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'material_shapes'", 'symmetrical': 'False', 'to': u"orm['shapes.SubmittedShape']"}),
             'substance': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['shapes.ShapeSubstance']", 'null': 'True', 'blank': 'True'}),
             'substance_entropy': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'substance_score': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            'synthetic': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'synthetic_slug': ('django.db.models.fields.CharField', [], {'max_length': '32', 'blank': 'True'}),
             'time_active_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
             'time_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
             'triangles': ('django.db.models.fields.TextField', [], {}),
@@ -633,6 +646,23 @@ class Migration(SchemaMigration):
             'reward': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '8', 'decimal_places': '4', 'blank': 'True'}),
             'sandbox': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'shape': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'names'", 'to': u"orm['shapes.MaterialShape']"}),
+            'time_active_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'time_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['accounts.UserProfile']"})
+        },
+        u'shapes.materialshapenicenesslabel': {
+            'Meta': {'object_name': 'MaterialShapeNicenessLabel'},
+            'added': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'admin_score': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'canttell': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'invalid': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'mturk_assignment': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['mturk.MtAssignment']"}),
+            'nice': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'quality_method': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'}),
+            'reward': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '8', 'decimal_places': '4', 'blank': 'True'}),
+            'sandbox': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'shape': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'nicenesses'", 'to': u"orm['shapes.MaterialShape']"}),
             'time_active_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
             'time_ms': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['accounts.UserProfile']"})
