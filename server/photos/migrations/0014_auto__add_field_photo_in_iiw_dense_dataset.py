@@ -21,11 +21,11 @@ class Migration(SchemaMigration):
             .update(in_iiw_dense_dataset=False)
 
         dense_photo_ids = list(
-            orm['intrinsic.IntrinsicPointComparison'].objects \
-            .filter(point1__min_separation__lt=0.05) \
-            .order_by('photo') \
-            .distinct('photo') \
-            .values_list('photo_id', flat=True)
+            orm['intrinsic.IntrinsicPointComparison'].objects
+            .filter(point1__min_separation__lt=0.05)
+            .order_by()
+            .distinct('photo')
+            .values_list('photo__id', flat=True)
         )
 
         if dense_photo_ids:
