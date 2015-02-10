@@ -7,6 +7,10 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ("intrinsic", "0001_initial"),
+    )
+
     def forwards(self, orm):
         # Adding field 'Photo.in_iiw_dense_dataset'
         db.add_column(u'photos_photo', 'in_iiw_dense_dataset',
