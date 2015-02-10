@@ -10,3 +10,4 @@ set -x -e
 builtin cd $SRC_DIR
 sudo -u $SERVER_USER ./manage.py syncdb
 sudo -u $SERVER_USER ./manage.py migrate
+sudo -u $SERVER_USER ./manage.py createcachetable
