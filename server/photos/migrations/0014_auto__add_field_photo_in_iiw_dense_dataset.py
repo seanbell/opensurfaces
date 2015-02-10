@@ -16,19 +16,16 @@ class Migration(SchemaMigration):
         orm['photos.Photo'].objects.all() \
             .update(in_iiw_dense_dataset=False)
 
-        dense_photo_ids = list(
-            orm['intrinsic.IntrinsicPointComparison'].objects
-            .filter(point1__min_separation__lt=0.05)
-            .order_by('photo')
-            .distinct('photo')
+        dense_photo_ids = orm['intrinsic.IntrinsicPointComparison'].objects \
+            .filter(point1__min_separation__lt=0.05) \
+            .order_by('photo') \
+            .distinct('photo') \
             .values_list('photo_id', flat=True)
-        )
 
-        if dense_photo_ids:
-            orm['photos.Photo'].objects \
-                .filter(in_iiw_dataset=True) \
-                .filter(id__in=dense_photo_ids) \
-                .update(in_iiw_dense_dataset=True)
+        orm['photos.Photo'].objects \
+            .filter(in_iiw_dataset=True) \
+            .filter(id__in=dense_photo_ids) \
+            .update(in_iiw_dense_dataset=True)
 
     def backwards(self, orm):
         # Deleting field 'Photo.in_iiw_dense_dataset'
