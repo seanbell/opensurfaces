@@ -34,11 +34,12 @@ source "$VENV_DIR/bin/activate"
 ##########################################
 # Below here is local to the virtualenv
 
-echo "Installing newest pip (>= 1.5) locally..."
+echo "Installing pip 1.5 locally..."
 mkdir -p opt/pip
 cd opt/pip
 wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py -O get-pip.py
 python get-pip.py
+pip install 'pip>=1.5,<1.6'
 cd "$REPO_DIR"
 
 echo "Installing setup packages (locally)..."
