@@ -8,9 +8,6 @@ DIR="$( builtin cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 source $DIR/load_config.sh
 cd "$REPO_DIR"
 
-# increase sudo timeout
-sudo -v
-
 echo "Creating directories..."
 sudo mkdir -p $DATA_DIR/media
 sudo mkdir -p $DATA_DIR/static

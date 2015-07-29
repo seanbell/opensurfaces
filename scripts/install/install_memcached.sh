@@ -6,9 +6,6 @@ DIR="$( builtin cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 source $DIR/load_config.sh
 cd "$REPO_DIR"
 
-# increase sudo timeout
-sudo -v
-
 echo "Setting up memcached..."
 
 sed -r 's|^-m .*$|-m 256|g' /etc/memcached.conf | \
