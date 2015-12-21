@@ -8,7 +8,6 @@ celery>=3.1.9,<3.2
 # scientific computing
 scikit-image>=0.9.3,<0.10
 openexr>=1.2.0
-pyleargist>=2.0.5,<2.1
 numconv>=2.1.1,<2.2
 colormath>=1.0.8,<1.1
 pypng>=0.0.16,<0.1
