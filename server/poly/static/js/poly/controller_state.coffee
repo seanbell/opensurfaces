@@ -8,7 +8,7 @@ class ControllerState
     @photo_id = args.photo_id if args.photo_id?
 
     # action log and undo/redo
-    @undoredo = new UndoRedo(ui, args)
+    @undoredo = new UndoRedo(@ui, args)
     @log = new ActionLog()
     @log.action($.extend(true, {name:'init'}, args))
 
@@ -38,7 +38,7 @@ class ControllerState
     @btn_zoom_reset = if args.btn_zoom_reset? then args.btn_zoom_reset else '#btn-zoom-reset'
 
     # gui elements
-    @stage_ui = new StageUI(ui, args)
+    @stage_ui = new StageUI(@ui, args)
     @closed_polys = []  # PolygonUI elements
     @open_poly = null
     @sel_poly = null
