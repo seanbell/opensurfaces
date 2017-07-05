@@ -149,6 +149,16 @@ git fetch --all
 git reset --hard r54
 cd "$REPO_DIR"
 
+# install django-endless-pagination (it has been removed from pip)
+echo ""
+echo "Downloading django-endless-pagination"
+[[ -d opt/django-endless-pagination ]] || git clone https://github.com/frankban/django-endless-pagination.git opt/django-endless-pagination
+cd opt/django-endless-pagination
+git fetch --all
+git reset --hard v1.1
+python setup.py install
+cd "$REPO_DIR"
+
 # unfortunately, something downgrades our installation of celery, so we need to
 # re-upgrade it here (function defined above)
 _install_python_packages
