@@ -37,7 +37,7 @@ source "$VENV_DIR/bin/activate"
 echo "Installing pip 1.5 locally..."
 mkdir -p opt/pip
 cd opt/pip
-wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py -O get-pip.py
+wget https://bootstrap.pypa.io/get-pip.py -O get-pip.py
 python get-pip.py
 pip install 'pip>=1.5,<1.6'
 cd "$REPO_DIR"
