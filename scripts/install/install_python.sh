@@ -47,19 +47,16 @@ pip install --upgrade setuptools
 pip install --upgrade distribute
 pip install --upgrade versiontools
 
-python -m pip list | grep 'PIL (1.1.7)' &> /dev/null
-if [[ $? -ne 0 ]]; then
-	# PIL 1.1.7 from source (it is not available in pip)
-	echo "Installing PIL 1.1.7 locally..."
-	mkdir -p opt/PIL
-	cd opt/PIL
-	wget http://effbot.org/downloads/Imaging-1.1.7.tar.gz
-	tar xvf Imaging-1.1.7.tar.gz
-	cd Imaging-1.1.7/
-	python setup.py build
-	python setup.py install
-	cd "$REPO_DIR"
-fi
+# PIL 1.1.7 from source (it is not available in pip)
+echo "Installing PIL 1.1.7 locally..."
+mkdir -p opt/PIL
+cd opt/PIL
+wget http://effbot.org/downloads/Imaging-1.1.7.tar.gz
+tar xvf Imaging-1.1.7.tar.gz
+cd Imaging-1.1.7/
+python setup.py build
+python setup.py install
+cd "$REPO_DIR"
 
 _install_python_packages() {
 	echo "Installing python packages (locally) in a particular order..."
