@@ -46,12 +46,12 @@ on GitHub and report any bugs using the
 ## Installing
 
 **Ubuntu**:
-If you are on Ubuntu 12.04 or later, you can run `install_all.sh` to install
+If you are on Ubuntu 12.04.5 or later, you can run `install_all.sh` to install
 all components (will use ~15G disk space).
 
 **Other operating systems**:
 I suggest installing [VirtualBox](https://www.virtualbox.org/) and running
-Ubuntu 12.04 as a virtual machine.  There's a lot of components and it would be
+Ubuntu 12.04.5 as a virtual machine.  There's a lot of components and it would be
 difficult to port to other operating systems.
 
 For other Linux distributions, you can probably get it to run by rewriting all
