@@ -37,7 +37,7 @@ source "$VENV_DIR/bin/activate"
 echo "Installing pip 1.5 locally..."
 mkdir -p opt/pip
 cd opt/pip
-wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py -O get-pip.py
+wget https://bootstrap.pypa.io/get-pip.py -O get-pip.py
 python get-pip.py
 pip install 'pip>=1.5,<1.6'
 cd "$REPO_DIR"
@@ -46,6 +46,17 @@ echo "Installing setup packages (locally)..."
 pip install --upgrade setuptools
 pip install --upgrade distribute
 pip install --upgrade versiontools
+
+# PIL 1.1.7 from source (it is not available in pip)
+echo "Installing PIL 1.1.7 locally..."
+mkdir -p opt/PIL
+cd opt/PIL
+wget http://effbot.org/downloads/Imaging-1.1.7.tar.gz
+tar xvf Imaging-1.1.7.tar.gz
+cd Imaging-1.1.7/
+python setup.py build
+python setup.py install
+cd "$REPO_DIR"
 
 _install_python_packages() {
 	echo "Installing python packages (locally) in a particular order..."
@@ -133,6 +144,16 @@ echo "Downloading three.js"
 cd opt/three.js
 git fetch --all
 git reset --hard r54
+cd "$REPO_DIR"
+
+# install django-endless-pagination (it has been removed from pip)
+echo ""
+echo "Downloading django-endless-pagination"
+[[ -d opt/django-endless-pagination ]] || git clone https://github.com/frankban/django-endless-pagination.git opt/django-endless-pagination
+cd opt/django-endless-pagination
+git fetch --all
+git reset --hard v1.1
+python setup.py install
 cd "$REPO_DIR"
 
 # unfortunately, something downgrades our installation of celery, so we need to

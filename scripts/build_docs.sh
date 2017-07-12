@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Build the docs (vieable publicly at http://SERVER_NAME/docs).
+# Build the docs (viewable publicly at http://SERVER_NAME/docs).
 #
 # You can view them in docs/_build/html/
 #

@@ -72,7 +72,7 @@ DATA_DIR=$REPO_DIR/data
 # scripts/restore_database.sh.
 BACKUP_DIR=$REPO_DIR/backup
 
-# This file contains the most recent backup, and is is the version restored by
+# This file contains the most recent backup, and is the version restored by
 # ./restore_database.sh.
 PSQL_DUMP_FILE=$BACKUP_DIR/pg_dump.sql.gz
 
