@@ -167,7 +167,7 @@ class OpenSurfacesStorage(Storage):
         if self.readonly:
             raise IOError("Cannot write to read-only http storage")
         else:
-            self.local.save(name, content)
+            return self.local.save(name, content)
 
 
 class ReducedRedundancyS3BotoStorage(S3BotoStorage):
