@@ -18,10 +18,10 @@ fi
 echo "GLOBAL_PIP=$GLOBAL_PIP"
 
 echo "Upgrading versiontools..."
-$GLOBAL_PIP install --upgrade versiontools
+$GLOBAL_PIP install --index-url=https://pypi.python.org/simple/ --upgrade versiontools
 
 echo "Upgrading virtualenv..."
-$GLOBAL_PIP install --upgrade virtualenv
+$GLOBAL_PIP install --index-url=https://pypi.python.org/simple/ --upgrade virtualenv
 
 if [[ ! -d "$VENV_DIR" ]]; then
 	echo "Create virtualenv (with python2.7)..."
