@@ -409,8 +409,9 @@ def update_shape_image_crop(shape, save=True):
     """ Update the cropped image for a shape """
 
     # compute masked image
+    photo = shape.photo.__class__.objects.get(id=shape.photo.id)
     image_crop, image_bbox = mask_complex_polygon(
-        image=open_image(shape.photo.image_orig),
+        image=open_image(photo.image_orig),
         vertices=shape.vertices,
         triangles=shape.triangles)
 
@@ -426,7 +427,8 @@ def update_shape_image_pbox(shape, padding=0.25, save=True):
     """ Update the pbox image for a shape """
 
     # load image
-    image = open_image(shape.photo.image_orig)
+    photo = shape.photo.__class__.objects.get(id=shape.photo.id)
+    image = open_image(photo.image_orig)
     w, h = image.size
 
     # compute bbox
@@ -677,7 +679,8 @@ def create_shape_image_sample(shape, sample_width=256, sample_height=256):
     if ShapeImageSample.objects.filter(shape=shape).exists():
         return
 
-    image = open_image(shape.photo.image_2048)
+    photo = shape.photo.__class__.objects.get(id=shape.photo.id)
+    image = open_image(photo.image_2048)
     image_width, image_height = image.size
 
     triangles = parse_triangles(shape.triangles)

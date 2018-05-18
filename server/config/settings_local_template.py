@@ -85,6 +85,9 @@ MTURK_MIN_BALANCE = 10
 # debugging the POST submission.
 MTURK_ACCEPT_SANDBOX_HITS = False
 
+# If True, automatically grant MTurk qualifications
+MTURK_CONFIGURE_QUALIFICATIONS = False
+
 # AWS MTurk keys
 if MTURK_SANDBOX:
     # Sandbox account

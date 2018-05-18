@@ -121,7 +121,8 @@ def rectify_shape_from_uvnb(shape, rectified_normal, max_dim=None):
     M_ij_to_pq = linalg.inv(M_pq_to_ij)
     M_ij_to_pq /= M_ij_to_pq[2, 2]  # NORMALIZE!
     data = M_ij_to_pq.ravel().tolist()[0]
-    image = open_image(shape.photo.image_orig)
+    photo = shape.photo.__class__.objects.get(id=shape.photo.id)
+    image = open_image(photo.image_orig)
     rectified = image.transform(size=size, method=Image.PERSPECTIVE,
                                 data=data, resample=Image.BICUBIC)
 
