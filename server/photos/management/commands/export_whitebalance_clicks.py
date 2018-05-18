@@ -20,7 +20,8 @@ class Command(BaseCommand):
 
         out = []
         for label in progress.bar(qset):
-            pil = open_image(label.photo.image_300)
+            photo = label.photo.__class__.objects.get(id=label.photo.id)
+            pil = open_image(photo.image_300)
             points_list = label.points.split(',')
             for idx in xrange(label.num_points):
                 x = float(points_list[idx * 2]) * pil.size[0]
