@@ -19,7 +19,7 @@ from common.utils import save_obj_attr_image, get_content_tuple
 @shared_task
 def fill_in_bbox_task(shape):
     """ Helper to fill in the potentially empty image_bbox field """
-.
+
     photo = shape.photo.__class__.objects.get(id=shape.photo.id)
     image_bbox = mask_complex_polygon(
         image=open_image(photo.image_orig),
