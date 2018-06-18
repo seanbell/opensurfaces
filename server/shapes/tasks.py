@@ -146,18 +146,21 @@ def triangulate_submitted_shapes_impl(
             # use the average time of the submitted shapes
             time_ms = sum(time_ms_list) / float(len(time_ms_list))
 
-            # auto-grant high quality for users with qualifications
+            # when correct is NULL a HIT will check the quality
             quality_method = None
             correct = None
-            if pixel_area >= 12000:
-                from mturk.models import MtQualificationAssignment
-                try:
-                    correct = bool(MtQualificationAssignment.objects.get(
-                        worker=user, qualification__slug="mat_seg").value)
-                    if correct:
-                        quality_method = 'Q'
-                except MtQualificationAssignment.DoesNotExist:
-                    correct = False
+
+            # code like this can be used with pre-qualified workers
+            # to automatically assign quality
+            #if pixel_area >= 12000:
+            #    from mturk.models import MtQualificationAssignment
+            #    try:
+            #        correct = bool(MtQualificationAssignment.objects.get(
+            #            worker=user, qualification__slug="mat_seg").value)
+            #        if correct:
+            #            quality_method = 'Q'
+            #    except MtQualificationAssignment.DoesNotExist:
+            #        correct = False
 
             new_obj, created = shape_model.objects.get_or_create(
                 photo=photo,
