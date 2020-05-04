@@ -8,7 +8,7 @@ It includes features such as:
 
   * API: abstraction of the MTurk API into clean python functions.
 
-  * Admin interface: view submissions are they arrive, worker feedback,
+  * Admin interface: view submissions as they arrive, worker feedback,
     assignment statistics, experiment lists, scheduling info, task/tutorial
     previews.
 
